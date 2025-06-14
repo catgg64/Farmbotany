@@ -1,6 +1,8 @@
 import pygame
 from floutwitch import Floutwitch
-from tilemanager import TileData, setup_tile_data, position_to_tile_value, tile_value_to_position, draw_tilemap, setup_surfaces
+from tilemanager import (TileData, setup_tile_data, position_to_tile_value,
+                        tile_value_to_position, draw_tilemap, setup_surfaces
+                        , initialize_tilemap, update_tile_map, check_collision_in_all_tiles)
 from inventorymanager import (setup_item_surfaces, setup_inventory, draw_inventory, ItemData, setup_item_surfaces,
                               position_to_slot_value, Slot, initialize_inventory, update_inventory,
                               check_point_collision_with_all_slots, update_clicked_slot, check_for_clicked_slot_interaction)
@@ -31,13 +33,15 @@ clicked_slot_data = ItemData("1", 0)
 clicked_slot_data_list = [clicked_slot_data]
 clicked_slot_list = []
 clicked_slot = Slot(clicked_slot_data.id, 1, clicked_slot_data.quantity, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], clicked_slot_list, 64)
-#initialize_inventory(clicked_slot_data_list, clicked_slot_list, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 64, 64, 0)
 
 tiles_world = []
 tiles_world = setup_tile_data(10, 10)
 tiles_world[0].id = "3"
 tiles_world[0].sub_id = "2"
 tile_size = 64
+tile_slot_list = []
+
+initialize_tilemap(tiles_world, 10, tile_size, viewport.pos_x, viewport.pos_y, tile_slot_list)
 
 inventory = []
 inventory = setup_inventory(12)
@@ -56,7 +60,7 @@ floutwitch = Floutwitch(0, 0)
 setup_surfaces(tile_size)
 
 def main():
-    global running, screen, x, spacement, viewportx, viewporty
+    global running, screen, x, spacement, viewportx, viewporty, tile_slot_list
     mouse_just_clicked = False
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,7 +79,7 @@ def main():
 
     viewport.update(viewportx, viewporty)
 
-    draw_tilemap(tiles_world, 10, screen, tile_size, viewport.pos_x, viewport.pos_y)
+    update_tile_map(tiles_world, tile_slot_list, screen, 10, tile_size, viewport.pos_x, viewport.pos_y)
 
     floutwitch.draw(screen, viewport)
     floutwitch.move(keys)

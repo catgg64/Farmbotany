@@ -72,6 +72,40 @@ class TileData:
         self.id = id
         self.sub_id = sub_id
 
+class Tile:
+    # At first initializes the slot.
+    def __init__(self, pos_x, pos_y, id, sub_id, tile_size, slot_list):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.id = id
+        self.sub_id = sub_id
+        self.tile_size = tile_size
+        self.rect = pygame.Rect(pos_x, pos_y, tile_size, tile_size)
+        slot_list.append(self)
+
+    # Then it updates (draws it every frame).
+    def update(self, id, sub_id, screen, pos_x, pos_y):
+        if id != "3":
+            tile_data = tiles[id][0]
+            screen.blit(tile_data["surface"], (pos_x, pos_y))
+        if sub_id != "3":
+            tile_data = tiles[sub_id][0]
+            screen.blit(tile_data["surface"], (pos_x, pos_y))
+
+    # Pretty self explanatory, right?
+    def update_id_and_sub_id(self, id, sub_id):
+        self.id = id
+        self.sub_id = sub_id
+
+
+    def is_colliding_with_point_if_so_give_the_id_and_sub_id(self, point):
+        if self.rect.collidepoint(point):
+            return [self.id, self.sub_id]
+        else:
+            return None
+
+
+
 def setup_tile_data(width, length):
     return [TileData("1", "1") for _ in range(width * length)]  # Use valid ID "1"
 
@@ -106,3 +140,22 @@ def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
         screen.blit(tile_data["surface"], (offset_x + pos[0], offset_y + pos[1]))
 
         drawn_tiles += 1
+
+# Instantiates all the slots.
+def initialize_tilemap(tile_list, width, tile_size, offset_x, offset_y, tile_slot_list):
+    for index, tile in enumerate(tile_list):
+        tile_data = tiles[tile.id][0]
+        pos = tile_value_to_position(index, width, tile_size)
+        Tile(offset_x + pos[0], offset_y + pos[1], tile.id, tile.sub_id, tile_size, tile_slot_list)
+
+# Updates all the slots.
+def update_tile_map(tile_list, tile_slot_list, screen, width, tile_size, offset_x, offset_y):
+    for index, tile in enumerate(tile_list):
+        pos = tile_value_to_position(index, width, tile_size)
+        tile_slot_list[index].update(tile.id, tile.sub_id, screen, offset_x + pos[0], offset_y + pos[1])
+
+def check_collision_in_all_tiles(point, tile_slot_list):
+    for tile in tile_slot_list:
+        if tile.is_colliding_with_point_if_so_give_the_id_and_sub_id(point):
+            return tile.is_colliding_with_point_if_so_give_the_id_and_sub_id(point)
+    return None
