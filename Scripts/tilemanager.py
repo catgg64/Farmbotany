@@ -87,7 +87,7 @@ def tile_value_to_position(tile_value, width, tile_size):
     y = (tile_value // width) * tile_size
     return (x, y)
 
-def draw_tilemap(tile_list, width, screen, tile_size):
+def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
     drawn_tiles = 0
     for index, tile in enumerate(tile_list):
         if tile.id not in tiles:
@@ -96,8 +96,8 @@ def draw_tilemap(tile_list, width, screen, tile_size):
         tile_data = tiles[tile.id][0]
         sub_id_tile_data = tiles[tile.sub_id][0]
         pos = tile_value_to_position(index, width, tile_size)
-        screen.blit(sub_id_tile_data["surface"], pos)
-        screen.blit(tile_data["surface"], pos)
+        screen.blit(sub_id_tile_data["surface"], (offset_x + pos[0], offset_y + pos[1]))
+        screen.blit(tile_data["surface"], (offset_x + pos[0], offset_y + pos[1]))
 
         drawn_tiles += 1
         # Debug: Print first few tile positions

@@ -14,22 +14,22 @@ class Floutwitch():
         self.is_walking = False
         self.needs_reverse = False
 
-    def draw(self, screen):
-        screen.blit(self.image, self.rect,)
+    def draw(self, screen, viewport):
+        screen.blit(self.image, ((viewport.pos_x - self.rect.x) + 350, (viewport.pos_y - self.rect.y) + 150))
         #pygame.draw.rect(screen, "blue", self.rect)
 
     def move(self, keys):
         if keys[pygame.K_w]:
-            self.rect.y -= self.speed
-            self.is_walking = True
-        if keys[pygame.K_s]:
             self.rect.y += self.speed
             self.is_walking = True
+        if keys[pygame.K_s]:
+            self.rect.y -= self.speed
+            self.is_walking = True
         if keys[pygame.K_a]:
-            self.rect.x -= self.speed
+            self.rect.x += self.speed
             self.is_walking = True
             self.needs_reverse = False
         if keys[pygame.K_d]:
-            self.rect.x += self.speed
+            self.rect.x -= self.speed
             self.is_walking = True
             self.needs_reverse = True
