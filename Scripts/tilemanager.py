@@ -2,9 +2,9 @@ import pygame
 import os
 
 tiles = {
-    "1": [{"name": "grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16}],
-    "2": [{"name": "dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16}],
-    "3": [{"name": "empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16}]
+    "1": [{"name": "grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True}],
+    "2": [{"name": "dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True}],
+    "3": [{"name": "empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True}]
 }
 #
 # class TileData:
@@ -39,7 +39,7 @@ tiles = {
 #             rect = pygame.Rect([tiles[tile.id][0]["rect_x"], tiles[tile.id][0]["rect_y"], tiles[tile.id][0]["size_x"], tiles[tile.id][0]["size_y"]])
 #             screen.blit(pygame.image.load(tiles[tile.id][0]["texture"]).subsurface(rect), tile_value_to_position(tile_list.index(tile), width, tile_size))
 #
-#
+
 def setup_surfaces(tile_exspansion):
     for tile_id, tile_data in tiles.items():
         for tile in tile_data:
@@ -87,6 +87,12 @@ def tile_value_to_position(tile_value, width, tile_size):
     y = (tile_value // width) * tile_size
     return (x, y)
 
+def create_rects(tile_list, rect_list, width):
+    for index, tile in enumerate(tile_list):
+        tile_data = tiles[tile.id][0]
+        if tile_data["has_collision"]:
+            pass
+
 def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
     drawn_tiles = 0
     for index, tile in enumerate(tile_list):
@@ -100,7 +106,3 @@ def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
         screen.blit(tile_data["surface"], (offset_x + pos[0], offset_y + pos[1]))
 
         drawn_tiles += 1
-        # Debug: Print first few tile positions
-        #if index < 5:
-        #    print(f"Drawing tile {tile.id} at {pos}")
-    #print(f"Total tiles drawn: {drawn_tiles}")

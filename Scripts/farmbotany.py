@@ -51,7 +51,7 @@ inventory[2].id = "3"
 inventory[3].quantity = 3
 inventory[2].quantity = 2
 
-floutwitch = Floutwitch(-400, -300)
+floutwitch = Floutwitch(0, 0)
 
 setup_surfaces(tile_size)
 
@@ -91,8 +91,5 @@ def main():
     clock.tick(60)
 
 
-
 while running:
     main()
-
-
