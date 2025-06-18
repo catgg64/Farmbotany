@@ -89,6 +89,8 @@ class Farmbotany:
                 mouse_just_clicked = True
         return running, mouse_just_clicked
 
+
+
 farmbotany = Farmbotany()
 
 def main():
@@ -111,10 +113,12 @@ def main():
     if floutwitch.rect.y > mincornery and floutwitch.rect.y < maxcornery:
         viewporty = floutwitch.rect.y
 
+    # Updates viewport position
     viewport.update(viewportx, viewporty)
 
     mouse_pos = pygame.mouse.get_pos()
 
+    # This part is useful when debugging
     if keys[pygame.K_c]:
         tile = tiles_world[position_to_tile_value(-1 * (floutwitch.rect.x - viewport.pos_x - 350), -1 * (floutwitch.rect.y - viewport.pos_y - 150), tile_world_width, tile_world_length, tile_size, viewport.pos_x, viewport.pos_y)]
         tile.id = "4"
@@ -122,6 +126,7 @@ def main():
 
     check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, clicked_slot_data, tile_size, inventory, mouse_just_clicked)
 
+    # This is where most things are drawn.
     update_tile_map(tiles_world, tile_slot_list, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
     update_special_tiles(special_tiles_world, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
 
