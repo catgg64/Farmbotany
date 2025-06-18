@@ -3,7 +3,8 @@ import pygame
 items = {
     "1": [{"name": "nothing", "texture": "Sprites/book.png"}],
     "2": [{"name": "book", "texture": "Sprites/book.png"}],
-    "3": [{"name": "seed", "texture": "Sprites/vsauce_face.png"}]
+    "3": [{"name": "seed", "texture": "Sprites/vsauce_face.png"}],
+    "4": [{"name": "wheat", "texture": "Sprites/wheat.png"}]
 }
 
 pygame.font.init()
@@ -13,7 +14,6 @@ text_font = pygame.font.SysFont("Ariel", 30)
 def setup_item_surfaces():
     for item in items.items():
         if item != "1":
-            print(item)
             image = pygame.image.load(item[0]["texture"]).convert_alpha()
             item["texture"] = image
 
@@ -111,6 +111,8 @@ def initialize_inventory(inventory, slot_list, init_pos_x, init_pos_y, item_size
 def update_inventory(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size):
     for item_index, item in enumerate(inventory):
         slot = slot_list[item_index]
+        if inventory[item_index].quantity == 0:
+            inventory[item_index].id = "1"
         slot.update_id_and_quantity(item.id, item.quantity)
         slot.update(screen, sprite_size, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, item)
 
@@ -118,6 +120,8 @@ def update_clicked_slot(inventory, screen, slot_list, item_size, init_pos_x, ini
     for item_index, item in enumerate(inventory):
         slot = slot_list[item_index]
         slot.update_id_and_quantity(item.id, item.quantity)
+        if inventory[item_index].quantity == 0:
+            inventory[item_index].id = "1"
         if slot.id != "1":
             slot.update_position(init_pos_x, init_pos_y)
             slot.update(screen, sprite_size, init_pos_x + (1 * (item_size + spacement_x)), init_pos_y, item)
@@ -129,3 +133,17 @@ def check_point_collision_with_all_slots(slot_list, point):
         else:
             continue
     return None
+
+def add_item_to_inventory(inventory, my_item):
+    for index, item in enumerate(inventory):
+        check_item = inventory[index]
+        if check_item.id == my_item.id:
+            check_item.quantity += my_item.quantity
+            return
+
+    for index, item in enumerate(inventory):
+        check_item = inventory[index]
+        if check_item.id == "1":
+            check_item.id = my_item.id
+            check_item.quantity = my_item.quantity
+            return

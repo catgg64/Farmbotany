@@ -1,44 +1,13 @@
 import pygame
 import os
+import time
 
 tiles = {
-    "1": [{"name": "grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True}],
-    "2": [{"name": "dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True}],
-    "3": [{"name": "empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True}]
+    "1": [{"name": "grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "2": [{"name": "dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "3": [{"name": "empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "4": [{"name": "crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}]
 }
-#
-# class TileData:
-#     def __init__(self,  id):
-#         self.id = id
-#
-#
-# def setup_tile_data(weight, length):
-#     tile_list = [None] * weight * length
-#     for x in range(0, weight * length):
-#         tile_list[x] = TileData("0")
-#     return tile_list
-#
-# def position_to_tile_value(x, y, weight, length, tile_size):
-#     result = round((x / tile_size)) + round((y / tile_size))
-#
-#     return result
-#
-# def tile_value_to_position(tile_value, width, tile_size):
-#     x = round(tile_value & width) * tile_size
-#     y = round(tile_value // width) * tile_size
-#
-#     return (x, y)
-#
-# def draw_tilemap(tile_list, width, screen, tile_size):
-#     for tile in tile_list:
-#         if tiles[tile.id][0]["requires_rect"] == False:
-#             print("stamp")
-#             print(tile_value_to_position(tile_list.index(tile), width, tile_size))
-#             screen.blit(pygame.image.load(tiles[tile.id][0]["texture"]), tile_value_to_position(tile_list.index(tile), width, tile_size))
-#         if tiles[tile.id][0]["requires_rect"] == True:
-#             rect = pygame.Rect([tiles[tile.id][0]["rect_x"], tiles[tile.id][0]["rect_y"], tiles[tile.id][0]["size_x"], tiles[tile.id][0]["size_y"]])
-#             screen.blit(pygame.image.load(tiles[tile.id][0]["texture"]).subsurface(rect), tile_value_to_position(tile_list.index(tile), width, tile_size))
-#
 
 def setup_surfaces(tile_exspansion):
     for tile_id, tile_data in tiles.items():
@@ -85,6 +54,7 @@ class Tile:
 
     # Then it updates (draws it every frame).
     def update(self, id, sub_id, screen, pos_x, pos_y):
+        self.rect = pygame.Rect(pos_x, pos_y, self.tile_size, self.tile_size)
         if id != "3":
             tile_data = tiles[id][0]
             screen.blit(tile_data["surface"], (pos_x, pos_y))
@@ -92,7 +62,7 @@ class Tile:
             tile_data = tiles[sub_id][0]
             screen.blit(tile_data["surface"], (pos_x, pos_y))
 
-    # Pretty self explanatory, right?
+    # Pretty self-explanatory, right?
     def update_id_and_sub_id(self, id, sub_id):
         self.id = id
         self.sub_id = sub_id
@@ -104,16 +74,56 @@ class Tile:
         else:
             return None
 
+class SpecialTile:
+    def __init__(self, texture, size):
+        self.texture = texture
+        self.size = size
+        self.image = pygame.image.load(self.texture)
+        self.image = pygame.transform.scale(self.image, (self.size, self.size))
+
+    def update(self, screen, pos_x, pos_y):
+        screen.blit(self.image, (pos_x, pos_y))
+
+class Crop(SpecialTile):
+    def __init__(self, size, plant_time):
+        self.texture = "Sprites/wheat_growing.png"
+        self.image = pygame.image.load(self.texture)
+        super().__init__(self.texture, size)
+        self.rect = self.image.get_rect(topleft=(0, 0))
+        self.start_time = time.time()
+        self.plant_time = plant_time
+        self.can_collect = False
+        self.time_passed_since_beguining = 0
+        self.time_passed_since_beguining = time.time() - self.start_time
+
+
+    def update(self, screen, pos_x, pos_y):
+        super().update(screen, pos_x, pos_y)
+        self.rect = self.image.get_rect(topleft = (pos_x, pos_y))
+        self.time_passed_since_beguining = time.time() - self.start_time
+        if self.time_passed_since_beguining >= self.plant_time:
+            self.can_collect = True
+            self.texture = "Sprites/wheat.png"
+            self.image = pygame.image.load(self.texture)
+            self.image = pygame.transform.scale(self.image, (self.size, self.size))
+
+    def check_for_harvest(self, point):
+        if self.rect.collidepoint(point) and pygame.mouse.get_pressed()[0] and self.can_collect:
+            return True
+        return False
+
 
 
 def setup_tile_data(width, length):
     return [TileData("1", "1") for _ in range(width * length)]  # Use valid ID "1"
 
-def position_to_tile_value(x, y, width, length, tile_size):
-    grid_x = x // tile_size
-    grid_y = y // tile_size
+def position_to_tile_value(x, y, width, length, tile_size, offset_x, offset_y):
+    init_pos_x = offset_x + 0
+    init_pos_y = offset_y + 0
+    grid_x = (x - init_pos_x) // tile_size
+    grid_y = (y - init_pos_y) // tile_size
     if 0 <= grid_x < width and 0 <= grid_y < length:
-        return grid_y * width + grid_x
+        return (grid_y) * width + (grid_x)
     return -1
 
 def tile_value_to_position(tile_value, width, tile_size):
@@ -148,14 +158,30 @@ def initialize_tilemap(tile_list, width, tile_size, offset_x, offset_y, tile_slo
         pos = tile_value_to_position(index, width, tile_size)
         Tile(offset_x + pos[0], offset_y + pos[1], tile.id, tile.sub_id, tile_size, tile_slot_list)
 
+
 # Updates all the slots.
 def update_tile_map(tile_list, tile_slot_list, screen, width, tile_size, offset_x, offset_y):
     for index, tile in enumerate(tile_list):
+        tile_data = tiles[tile.id][0]
         pos = tile_value_to_position(index, width, tile_size)
         tile_slot_list[index].update(tile.id, tile.sub_id, screen, offset_x + pos[0], offset_y + pos[1])
+
+def update_special_tiles(special_tiles_list, screen, width, tile_size, offset_x, offset_y):
+    for index, tile in enumerate(special_tiles_list):
+        if tile is not None:
+            pos = tile_value_to_position(index, width, tile_size)
+            tile.update(screen, offset_x + pos[0], offset_y + pos[1])
+
+
 
 def check_collision_in_all_tiles(point, tile_slot_list):
     for tile in tile_slot_list:
         if tile.is_colliding_with_point_if_so_give_the_id_and_sub_id(point):
             return tile.is_colliding_with_point_if_so_give_the_id_and_sub_id(point)
+    return None
+
+def check_for_harvest_in_all_crops(special_items_list, point):
+    for index, tile in enumerate(special_items_list):
+        if isinstance(tile, Crop):
+            return tile.check_for_harvest(point)
     return None
