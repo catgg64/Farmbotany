@@ -3,10 +3,10 @@ import os
 import time
 
 tiles = {
-    "1": [{"name": "grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
-    "2": [{"name": "dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
-    "3": [{"name": "empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
-    "4": [{"name": "crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}]
+    "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "2": [{"name": "Hoed Ground", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "3": [{"name": "Empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
+    "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}]
 }
 
 def setup_surfaces(tile_exspansion):
@@ -42,7 +42,7 @@ class TileData:
         self.sub_id = sub_id
 
 class Tile:
-    # At first initializes the slot.
+    # At first initializes the tile.
     def __init__(self, pos_x, pos_y, id, sub_id, tile_size, slot_list):
         self.pos_x = pos_x
         self.pos_y = pos_y
@@ -55,11 +55,13 @@ class Tile:
     # Then it updates (draws it every frame).
     def update(self, id, sub_id, screen, pos_x, pos_y):
         self.rect = pygame.Rect(pos_x, pos_y, self.tile_size, self.tile_size)
-        if id != "3":
-            tile_data = tiles[id][0]
-            screen.blit(tile_data["surface"], (pos_x, pos_y))
+        self.id = id
+        self.sub_id = sub_id
         if sub_id != "3":
             tile_data = tiles[sub_id][0]
+            screen.blit(tile_data["surface"], (pos_x, pos_y))
+        if id != "3":
+            tile_data = tiles[id][0]
             screen.blit(tile_data["surface"], (pos_x, pos_y))
 
     # Pretty self-explanatory, right?
@@ -73,6 +75,9 @@ class Tile:
             return [self.id, self.sub_id]
         else:
             return None
+
+    def return_id_and_sub_id(self):
+        return self.id, self.sub_id
 
 class SpecialTile:
     def __init__(self, texture, size):
@@ -185,3 +190,18 @@ def check_for_harvest_in_all_crops(special_items_list, point):
         if isinstance(tile, Crop):
             return tile.check_for_harvest(point)
     return None
+
+def get_neighbors(tile_value, width, tile_map):
+    tile = tile_map[width]
+    neighbors = [None, None, None, None, None, None, None, None]
+    neighbors[0] = tile_map[tile_value - width - 1]
+    neighbors[1] = tile_map[tile_value - width]
+    neighbors[2] = tile_map[tile_value - width + 1]
+    neighbors[3] = tile_map[tile_value - 1]
+    neighbors[4] = tile_map[tile_value + 1]
+    neighbors[5] = tile_map[tile_value + width - 1]
+    neighbors[6] = tile_map[tile_value + width]
+    neighbors[7] = tile_map[tile_value + width + 1]
+    return neighbors
+
+

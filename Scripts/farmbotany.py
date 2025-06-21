@@ -43,19 +43,19 @@ tiles_world = []
 special_tiles_world = []
 special_tiles_world = Nonefy(tile_world_width * tile_world_length)
 tiles_world = setup_tile_data(tile_world_width, tile_world_length)
-tiles_world[20].id = "4"
-tiles_world[20].sub_id = "2"
 tile_slot_list = []
 
 initialize_tilemap(tiles_world, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y, tile_slot_list)
 
 inventory = []
 inventory = setup_inventory(12)
+slot_selected = 0
 slot_list = []
 spacement = 60
 initialize_inventory(inventory, slot_list, 10, 10, 30, 60, spacement)
 
-inventory[0].id = "2"
+inventory[0].id = "5"
+inventory[0].quantity = 1
 inventory[3].id = "2"
 inventory[2].id = "3"
 inventory[3].quantity = 3
@@ -65,13 +65,14 @@ floutwitch = Floutwitch(0, 0)
 
 setup_surfaces(tile_size)
 
-def check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, clicked_slot_data, tile_size, inventory, mouse_just_clicked):
+def check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot):
     pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
                                  viewport.pos_x, viewport.pos_y)
 
-    if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and clicked_slot_data.id == "3":
-        if check_collision_in_all_tiles(mouse_pos, tile_slot_list)[1] == "2" and special_tiles_world[pos] is None:
-            clicked_slot_data.quantity -= 1
+    special_slot_data = inventory[special_slot]
+    if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
+        if check_collision_in_all_tiles(mouse_pos, tile_slot_list)[0] == "2" and special_tiles_world[pos] is None:
+            special_slot_data.quantity -= 1
             special_tiles_world[pos] = Crop(tile_size, 2)
 
     if check_for_harvest_in_all_crops(special_tiles_world, mouse_pos):
@@ -79,30 +80,52 @@ def check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, ti
         add_item_to_inventory(inventory, ItemData("4", 1))
 
 class Farmbotany:
+
+    # Handles the events and stores them in the variables in the main function.
     def event_handling(self):
         running = True
         mouse_just_clicked = False
+        page_up_pressed = False
+        page_down_pressed = False
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_just_clicked = True
-        return running, mouse_just_clicked
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_PAGEUP:
+                    page_up_pressed = True
+                if event.key == pygame.K_PAGEDOWN:
+                    page_down_pressed = True
 
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed
+
+    # Checks specifically for special slots (no longer being used. Ignore this.)
+    def check_for_special_slot_interaction(self):
+        my_special_slot = 0
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEWHEEL:
+                my_special_slot += event.y
+
+        return my_special_slot
+
+
+    def check_if_axe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
+        if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "5" and mouse_just_clicked:
+            return True
+        return False
 
 
 farmbotany = Farmbotany()
+random_image = pygame.image.load("Sprites/tile_set.png")
 
 def main():
-    global running, screen, x, spacement, viewportx, viewporty, tile_slot_list, tile_world_width, tile_world_length
+    global running, screen, x, spacement, viewportx, viewporty, tile_slot_list, tile_world_width, tile_world_length, slot_selected, inventory
     mouse_just_clicked = False
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         running = False
-    #     if event.type == pygame.MOUSEBUTTONDOWN:
-    #         mouse_just_clicked = True
 
-    running, mouse_just_clicked = farmbotany.event_handling()
+    running, mouse_just_clicked, page_up_just_clicked, page_down_just_clicked = farmbotany.event_handling()
+
     keys = pygame.key.get_pressed()
     mouse_clicked = pygame.mouse.get_pressed()[0]
 
@@ -116,15 +139,38 @@ def main():
     # Updates viewport position
     viewport.update(viewportx, viewporty)
 
+    # Assigns the mouse position
     mouse_pos = pygame.mouse.get_pos()
+    print(mouse_pos)
+
+    slot_class_selected = inventory[slot_selected]
+
+    floutwitch.axe_action = farmbotany.check_if_axe_needs_to_be_used(slot_class_selected, slot_list, mouse_pos, mouse_just_clicked)
 
     # This part is useful when debugging
     if keys[pygame.K_c]:
-        tile = tiles_world[position_to_tile_value(-1 * (floutwitch.rect.x - viewport.pos_x - 350), -1 * (floutwitch.rect.y - viewport.pos_y - 150), tile_world_width, tile_world_length, tile_size, viewport.pos_x, viewport.pos_y)]
-        tile.id = "4"
-        tile.sub_id = "2"
+        hoe_tile = tiles_world[position_to_tile_value(-1 * (floutwitch.rect.x - viewport.pos_x - 350), -1 * (floutwitch.rect.y - viewport.pos_y - 150), tile_world_width, tile_world_length, tile_size, viewport.pos_x, viewport.pos_y)]
+        hoe_tile.id = "4"
+        hoe_tile.sub_id = "2"
 
-    check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, clicked_slot_data, tile_size, inventory, mouse_just_clicked)
+    # This part updates the selected slot in the hotbar.
+    if page_up_just_clicked:
+        if slot_selected < len(inventory) - 1:
+            slot_selected += 1
+        else:
+            slot_selected = 0
+
+    if page_down_just_clicked:
+        if slot_selected > 0:
+            slot_selected -= 1
+        else:
+            slot_selected = 11
+
+    # Checks and collects the wheat if the mouse clicks on top of one.
+    check_for_wheat_harvest(special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, slot_selected)
+
+    # Lights up the selected slot.
+    light_slot_by_number(slot_selected, slot_list)
 
     # This is where most things are drawn.
     update_tile_map(tiles_world, tile_slot_list, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
@@ -132,14 +178,32 @@ def main():
 
     floutwitch.draw(screen, viewport)
     floutwitch.move(keys)
+    axe_pos_x, axe_pos_y = floutwitch.make_axe_interaction(screen, viewport)
+
+    #print(position_to_tile_value(axe_pos_x,
+    #                                   axe_pos_y, tile_world_width,
+    #                                   tile_world_length, tile_size, viewport.pos_x, viewport.pos_y))
+
+    # Can be used later when debugging.
+    # pygame.draw.circle(screen, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+
+    if axe_pos_x and axe_pos_y:
+        tile = position_to_tile_value(axe_pos_x,
+                                           axe_pos_y, tile_world_width,
+                                           tile_world_length, tile_size, viewport.pos_x, viewport.pos_y)
+
+        if tile:
+            tiles_world[tile].id = "2"
 
     update_inventory(inventory, screen, slot_list, 30, 10, 10, spacement, 40)
-
     check_for_clicked_slot_interaction(mouse_just_clicked, slot_list, inventory, clicked_slot_data)
-
     update_clicked_slot(clicked_slot_data_list, screen, clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
 
+    # Makes the "just clicked" of the variables work.
     mouse_just_clicked = False
+    page_up_just_clicked = False
+    page_down_just_clicked = False
+
     pygame.display.update()
     clock.tick(60)
 

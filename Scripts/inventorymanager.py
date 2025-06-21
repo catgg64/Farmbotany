@@ -1,10 +1,11 @@
 import pygame
 
 items = {
-    "1": [{"name": "nothing", "texture": "Sprites/book.png"}],
-    "2": [{"name": "book", "texture": "Sprites/book.png"}],
-    "3": [{"name": "seed", "texture": "Sprites/vsauce_face.png"}],
-    "4": [{"name": "wheat", "texture": "Sprites/wheat.png"}]
+    "1": [{"name": "nothing", "texture": "Sprites/book.png", "stackable": True}],
+    "2": [{"name": "book", "texture": "Sprites/book.png", "stackable": True}],
+    "3": [{"name": "seed", "texture": "Sprites/vsauce_face.png", "stackable": True}],
+    "4": [{"name": "wheat", "texture": "Sprites/wheat.png", "stackable": True}],
+    "5": [{"name": "axe", "texture": "Sprites/axe.png", "stackable": False}]
 }
 
 pygame.font.init()
@@ -30,16 +31,18 @@ class Slot:
         self.quantity = quantity
         self.index = index
         self.rect = pygame.Rect(pos_x, pos_y, item_size, item_size)
+        self.rect_color = (255, 255, 255)
         slots_list.append(self)
 
 
     # Updates it every frame (hope this works)
     def update(self, screen, item_size, pos_x, pos_y, item):
-        pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
+        pygame.draw.rect(screen, self.rect_color, self.rect, 5)
         if item.id != "1":
             screen.blit(pygame.transform.scale(pygame.image.load(items[item.id][0]["texture"]), (item_size, item_size)), (pos_x + 10, pos_y + 10))
             text = text_font.render(str(item.quantity), True, (255, 255, 255))
             screen.blit(text, (pos_x + 64, pos_y + 64))
+            self.rect_color = (255, 255, 255)
 
     #YAAAAY it worked let's add some more.
     def is_colliding_with_point(self, point):
@@ -56,6 +59,14 @@ class Slot:
     def update_id_and_quantity(self, id, quantity):
         self.id = id
         self.quantity = quantity
+
+    # Sets the light mode of the slot to on.
+    def light_up(self):
+        self.rect_color = (255, 253, 150)
+
+    # Sets it to the normal color.
+    def un_light_up(self):
+        self.rect_color = (255, 255, 255)
 
 def check_for_clicked_slot_interaction(mouse_just_clicked, slot_list, inventory, clicked_slot_data):
     if mouse_just_clicked:
@@ -135,9 +146,11 @@ def check_point_collision_with_all_slots(slot_list, point):
     return None
 
 def add_item_to_inventory(inventory, my_item):
+    global tiles
     for index, item in enumerate(inventory):
         check_item = inventory[index]
-        if check_item.id == my_item.id:
+        check_item_data = items[check_item.id][0]
+        if check_item.id == my_item.id and check_item and check_item_data["stackable"]:
             check_item.quantity += my_item.quantity
             return
 
@@ -147,3 +160,11 @@ def add_item_to_inventory(inventory, my_item):
             check_item.id = my_item.id
             check_item.quantity = my_item.quantity
             return
+
+def light_slot_by_number(light_number, slot_list):
+    for index, slot in enumerate(slot_list):
+        slot = slot_list[index]
+        if index == light_number:
+            slot.light_up()
+        else:
+            slot.un_light_up()
