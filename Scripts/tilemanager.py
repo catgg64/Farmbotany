@@ -171,17 +171,17 @@ def initialize_tilemap(tile_list, width, tile_size, offset_x, offset_y, tile_slo
 
 
 # Updates all the slots.
-def update_tile_map(tile_list, tile_slot_list, screen, width, tile_size, offset_x, offset_y):
+def update_tile_map(tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface):
     for index, tile in enumerate(tile_list):
         tile_data = tiles[tile.id][0]
         pos = tile_value_to_position(index, width, tile_size)
-        tile_slot_list[index].update(tile.id, tile.sub_id, screen, offset_x + pos[0], offset_y + pos[1])
+        tile_slot_list[index].update(tile.id, tile.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def update_special_tiles(special_tiles_list, screen, width, tile_size, offset_x, offset_y):
+def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface):
     for index, tile in enumerate(special_tiles_list):
         if tile is not None:
             pos = tile_value_to_position(index, width, tile_size)
-            tile.update(screen, offset_x + pos[0], offset_y + pos[1])
+            tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
 
 

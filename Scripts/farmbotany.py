@@ -20,12 +20,13 @@ running = True
 
 viewportx = 0
 viewporty = 0
-mincornerx = -100
-maxcornerx = 0
-mincornery = -2100
-maxcornery = 0
+mincornerx = 0
+maxcornerx = 1000
+mincornery = 0
+maxcornery = 2100
 
 viewport = ViewPort(viewportx, viewporty)
+internal_surface = pygame.Surface((screen_height, screen_width))
 
 clicked_slot_data = ItemData("1", 0)
 clicked_slot_data_list = [clicked_slot_data]
@@ -57,7 +58,7 @@ inventory[2].id = "3"
 inventory[3].quantity = 3
 inventory[2].quantity = 2
 
-floutwitch = Floutwitch(0, 0)
+floutwitch = Floutwitch(0, 0, internal_surface)
 
 setup_surfaces(tile_size)
 
@@ -125,12 +126,16 @@ def main():
     keys = pygame.key.get_pressed()
     mouse_clicked = pygame.mouse.get_pressed()[0]
 
-    screen.fill("cadetblue1")
+    internal_surface.fill("cadetblue1")
 
-    if floutwitch.rect.x > mincornerx and floutwitch.rect.x < maxcornerx:
-        viewportx = floutwitch.rect.x
-    if floutwitch.rect.y > mincornery and floutwitch.rect.y < maxcornery:
-        viewporty = floutwitch.rect.y
+    #print(floutwitch.rect.x, viewportx)
+    #print(floutwitch.rect.x > mincornerx, floutwitch.rect.x < maxcornerx, floutwitch.rect.x > screen_width / 2)
+
+    if floutwitch.rect.x > mincornerx and floutwitch.rect.x < maxcornerx and floutwitch.rect.x > screen_height / 2:
+        viewportx = -1 * floutwitch.rect.x + screen_height / 2
+        print("ÇLKJÇLKJÇ")
+    if floutwitch.rect.y > mincornery and floutwitch.rect.y < maxcornery and floutwitch.rect.y > screen_width / 2:
+        viewporty = -1 * floutwitch.rect.y + screen_width / 2
 
     # Updates viewport position
     viewport.update(viewportx, viewporty)
@@ -168,19 +173,19 @@ def main():
     light_slot_by_number(slot_selected, slot_list)
 
     # This is where most things are drawn.
-    update_tile_map(tiles_world, tile_slot_list, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
-    update_special_tiles(special_tiles_world, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
+    update_tile_map(tiles_world, tile_slot_list, tile_world_width, tile_size, 0, 0, internal_surface)
+    update_special_tiles(special_tiles_world, tile_world_width, tile_size, 0, 0, internal_surface)
 
-    floutwitch.update(screen, viewport, tiles_world, tile_world_width, tile_world_length, mouse_pos, tile_slot_list)
+    floutwitch.update(internal_surface, viewport, tiles_world, tile_world_width, tile_world_length, mouse_pos, tile_slot_list)
     floutwitch.move(keys)
-    axe_pos_x, axe_pos_y = floutwitch.make_axe_interaction(screen, viewport)
+    axe_pos_x, axe_pos_y = floutwitch.make_axe_interaction(internal_surface, viewport)
 
     #print(position_to_tile_value(axe_pos_x,
     #                                   axe_pos_y, tile_world_width,
     #                                   tile_world_length, tile_size, viewport.pos_x, viewport.pos_y))
 
     # Can be used later when debugging.
-    pygame.draw.circle(screen, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+    pygame.draw.circle(internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
     if axe_pos_x and axe_pos_y:
         tile = position_to_tile_value(axe_pos_x,
@@ -190,15 +195,16 @@ def main():
         if tile:
             tiles_world[tile].id = "2"
 
-    update_inventory(inventory, screen, slot_list, 30, 10, 10, spacement, 40)
+    update_inventory(inventory, internal_surface, slot_list, 30, 10, 10, spacement, 40)
     check_for_clicked_slot_interaction(mouse_just_clicked, slot_list, inventory, clicked_slot_data)
-    update_clicked_slot(clicked_slot_data_list, screen, clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
+    update_clicked_slot(clicked_slot_data_list, internal_surface, clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
 
     # Makes the "just clicked" of the variables work.
     mouse_just_clicked = False
     page_up_just_clicked = False
     page_down_just_clicked = False
 
+    screen.blit(internal_surface, (viewport.pos_x, viewport.pos_y))
     pygame.display.update()
     clock.tick(60)
 

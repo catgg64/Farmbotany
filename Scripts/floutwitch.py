@@ -5,7 +5,7 @@ from axe import *
 
 class Floutwitch():
 
-    def __init__(self, pos_x, pos_y):
+    def __init__(self, pos_x, pos_y, internal_surface):
         self.image = pygame.image.load("Sprites/tile_set.png").convert_alpha()
         self.substract_rect = pygame.Rect(2016, 2912, 32, 32)
         self.image = self.image.subsurface(self.substract_rect)
@@ -22,12 +22,13 @@ class Floutwitch():
         self.direction_faced = [False, False, False, False]
         self.in_close_animation = False
         self.facing_direction = False
+        self.internal_surface = internal_surface
 
         self.speed = 5
         self.is_walking = False
         self.needs_reverse = False
 
-    def update(self, screen, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
+    def update(self, internal_surface, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
 
         self.tile_map = current_tile_map
         self.tile_map_width = current_tile_map_width
@@ -42,12 +43,12 @@ class Floutwitch():
         #      self.mouse_pos[1] - (-1 * (self.rect.y - viewport.pos_y - 150)))
 
         if self.needs_reverse:
-            screen.blit(self.image, ((viewport.pos_x - self.rect.x) + 350, (viewport.pos_y - self.rect.y) + 150))
+            self.internal_surface.blit(self.image, ((self.rect.x) + 0, (self.rect.y) + 0))
         else:
-            screen.blit(self.fliped_image, ((viewport.pos_x - self.rect.x) + 350, (viewport.pos_y - self.rect.y) + 150))
-        #pygame.draw.rect(screen, "blue", self.rect)
+            self.internal_surface.blit(self.fliped_image, ((self.rect.x) + 0, (self.rect.y) + 0))
+        #pygame.draw.rect(internal_surface, "blue", self.rect)
 
-    def make_axe_interaction(self, screen, viewport):
+    def make_axe_interaction(self, internal_surface, viewport):
         self.axe.update()
 
         result_x = 0
@@ -83,73 +84,73 @@ class Floutwitch():
                     self.facing_direction[1] = True
 
                 if actual_pos[0] > 60 and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 430
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 80
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     self.in_close_animation = True
 
 
                 elif actual_pos[0] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 280
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + (280 - 350)
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     self.in_close_animation = True
 
 
                 elif actual_pos[1] > 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 370
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 240
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 20
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (240 - 350)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     self.in_close_animation = True
 
 
                 elif actual_pos[1] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 360
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 90
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 10
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (90 - 350)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     self.in_close_animation = True
 
-                self.axe.make_animation(screen, self, self.facing_direction)
+                self.axe.make_animation(internal_surface, self, self.facing_direction)
 
 
 
         if self.axe_action:
             if not is_done:
                 if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 430
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 80
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = -1 * ((self.rect.x - viewport.pos_x) - 500)
                     result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
 
                 elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 280
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + (280 - 350)
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = -1 * ((self.rect.x - viewport.pos_x) - 280)
                     result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
 
                 elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 370
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 240
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 20
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (240 - 350)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = -1 * ((self.rect.x - viewport.pos_x) - 400)
                     result_y = -1 * ((self.rect.y - viewport.pos_y) - 280)
 
                 elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 360
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 90
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 10
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (90 - 350)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = -1 * ((self.rect.x - viewport.pos_x) - 390)
                     result_y = -1 * ((self.rect.y - viewport.pos_y) - 140)
 
-                self.axe.make_animation(screen, self, self.direction)
+                self.axe.make_animation(internal_surface, self, self.direction)
 
         if self.axe.in_animation:
-            self.axe.make_animation(screen, self, self.direction)
+            self.axe.make_animation(internal_surface, self, self.direction)
 
         if self.in_close_animation:
-            self.axe.make_animation(screen, self, self.facing_direction)
+            self.axe.make_animation(internal_surface, self, self.facing_direction)
 
         if not self.axe.in_animation:
             self.in_close_animation = False
@@ -169,26 +170,26 @@ class Floutwitch():
     def move(self, keys):
         if self.can_move:
             if keys[pygame.K_w]:
-                self.rect.y += self.speed
+                self.rect.y -= self.speed
                 self.is_walking = True
                 self.direction[0] = True
             else:
                 self.direction[0] = False
             if keys[pygame.K_s]:
-                self.rect.y -= self.speed
+                self.rect.y += self.speed
                 self.is_walking = True
                 self.direction[1] = True
             else:
                 self.direction[1] = False
             if keys[pygame.K_a]:
-                self.rect.x += self.speed
+                self.rect.x -= self.speed
                 self.is_walking = True
                 self.needs_reverse = False
                 self.direction[2] = True
             else:
                 self.direction[2] = False
             if keys[pygame.K_d]:
-                self.rect.x -= self.speed
+                self.rect.x += self.speed
                 self.is_walking = True
                 self.needs_reverse = True
                 self.direction[3] = True
