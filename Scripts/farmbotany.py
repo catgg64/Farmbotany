@@ -1,9 +1,5 @@
 import pygame
 from floutwitch import Floutwitch
-#from tilemanager import (TileData, setup_tile_data, position_to_tile_value,
-#                        tile_value_to_position, draw_tilemap, setup_surfaces
-#                        , initialize_tilemap, update_tile_map, check_collision_in_all_tiles
-#                         , SpecialTile, update_special_tiles, Crop)
 from tilemanager import *
 from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
@@ -141,7 +137,6 @@ def main():
 
     # Assigns the mouse position
     mouse_pos = pygame.mouse.get_pos()
-    print(mouse_pos)
 
     slot_class_selected = inventory[slot_selected]
 
@@ -176,7 +171,7 @@ def main():
     update_tile_map(tiles_world, tile_slot_list, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
     update_special_tiles(special_tiles_world, screen, tile_world_width, tile_size, viewport.pos_x, viewport.pos_y)
 
-    floutwitch.draw(screen, viewport)
+    floutwitch.update(screen, viewport, tiles_world, tile_world_width, tile_world_length, mouse_pos, tile_slot_list)
     floutwitch.move(keys)
     axe_pos_x, axe_pos_y = floutwitch.make_axe_interaction(screen, viewport)
 
@@ -185,7 +180,7 @@ def main():
     #                                   tile_world_length, tile_size, viewport.pos_x, viewport.pos_y))
 
     # Can be used later when debugging.
-    # pygame.draw.circle(screen, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+    pygame.draw.circle(screen, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
     if axe_pos_x and axe_pos_y:
         tile = position_to_tile_value(axe_pos_x,

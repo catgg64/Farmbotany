@@ -79,6 +79,12 @@ class Tile:
     def return_id_and_sub_id(self):
         return self.id, self.sub_id
 
+    def is_colliding_with_point_if_so_return_pos(self, point):
+        if self.rect.collidepoint(point):
+            return self.pos_x, self.pos_y
+        else:
+            return False
+
 class SpecialTile:
     def __init__(self, texture, size):
         self.texture = texture
@@ -192,7 +198,6 @@ def check_for_harvest_in_all_crops(special_items_list, point):
     return None
 
 def get_neighbors(tile_value, width, tile_map):
-    tile = tile_map[width]
     neighbors = [None, None, None, None, None, None, None, None]
     neighbors[0] = tile_map[tile_value - width - 1]
     neighbors[1] = tile_map[tile_value - width]

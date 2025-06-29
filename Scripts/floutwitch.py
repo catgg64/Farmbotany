@@ -1,4 +1,6 @@
 import pygame
+
+from tilemanager import *
 from axe import *
 
 class Floutwitch():
@@ -18,14 +20,26 @@ class Floutwitch():
         self.axe_action = False
         self.direction = [False, False, False, False]
         self.direction_faced = [False, False, False, False]
+        self.in_close_animation = False
+        self.facing_direction = False
 
         self.speed = 5
         self.is_walking = False
         self.needs_reverse = False
 
-    def draw(self, screen, viewport):
+    def update(self, screen, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
 
+        self.tile_map = current_tile_map
+        self.tile_map_width = current_tile_map_width
+        self.tile_map_lengh = current_tile_map_lengh
+        self.mouse_pos = mouse_pos
+        self.viewport = viewport
+        self.slot_tile_map = slot_tile_map
+        self.actual_floutwitch_position = (-1 * (self.rect.x - viewport.pos_x - 350), -1 * (self.rect.y - viewport.pos_y - 150))
 
+        #print(-1 * (self.rect.x - viewport.pos_x - 350), -1 * (self.rect.y - viewport.pos_y - 150))
+        #print(self.mouse_pos[0] - (-1 * (self.rect.x - viewport.pos_x - 350)),
+        #      self.mouse_pos[1] - (-1 * (self.rect.y - viewport.pos_y - 150)))
 
         if self.needs_reverse:
             screen.blit(self.image, ((viewport.pos_x - self.rect.x) + 350, (viewport.pos_y - self.rect.y) + 150))
@@ -35,40 +49,110 @@ class Floutwitch():
 
     def make_axe_interaction(self, screen, viewport):
         self.axe.update()
-        self.axe.make_animation(screen, self, self.direction)
+
         result_x = 0
         result_y = 0
+
         if self.axe_action:
 
-            if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = (viewport.pos_x - self.rect.x) + 430
-                self.front_pos_y = (viewport.pos_y - self.rect.y) + 130
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = -1 * ((self.rect.x - viewport.pos_x) - 500)
-                result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+            is_done = False
 
-            elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = (viewport.pos_x - self.rect.x) + 280
-                self.front_pos_y = (viewport.pos_y - self.rect.y) + 130
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = -1 * ((self.rect.x - viewport.pos_x) - 280)
-                result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+            distance_from_cursor_x, distance_from_cursor_y = self.mouse_pos[0] - (
+                        -1 * (self.rect.x - viewport.pos_x - 350)), self.mouse_pos[1] - (
+                                                                         -1 * (self.rect.y - viewport.pos_y - 150))
 
-            elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = (viewport.pos_x - self.rect.x) + 350
-                self.front_pos_y = (viewport.pos_y - self.rect.y) + 240
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = -1 * ((self.rect.x - viewport.pos_x) - 400)
-                result_y = -1 * ((self.rect.y - viewport.pos_y) - 280)
+            if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
+                pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
+                                             self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
+                grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
+                actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
+                self.tile_map[pos].id = "2"
+                is_done = True
 
-            elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = (viewport.pos_x - self.rect.x) + 350
-                self.front_pos_y = (viewport.pos_y - self.rect.y) + 70
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = -1 * ((self.rect.x - viewport.pos_x) - 400)
-                result_y = -1 * ((self.rect.y - viewport.pos_y) - 160)
+                print(actual_pos)
+
+                self.facing_direction = [False, False, False, False]
+
+                if actual_pos[0] < 0:
+                    self.facing_direction[2] = True
+                elif actual_pos[0] > 60:
+                    self.facing_direction[3] = True
+                elif actual_pos[1] < 0:
+                    self.facing_direction[0] = True
+                elif actual_pos[1] > 0:
+                    self.facing_direction[1] = True
+
+                if actual_pos[0] > 60 and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 430
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.in_close_animation = True
 
 
+                elif actual_pos[0] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 280
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.in_close_animation = True
+
+
+                elif actual_pos[1] > 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 370
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 240
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.in_close_animation = True
+
+
+                elif actual_pos[1] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 360
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 90
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.in_close_animation = True
+
+                self.axe.make_animation(screen, self, self.facing_direction)
+
+
+
+        if self.axe_action:
+            if not is_done:
+                if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 430
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 500)
+                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+
+                elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 280
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 150
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 280)
+                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+
+                elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 370
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 240
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 400)
+                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 280)
+
+                elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 360
+                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 90
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 390)
+                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 140)
+
+                self.axe.make_animation(screen, self, self.direction)
+
+        if self.axe.in_animation:
+            self.axe.make_animation(screen, self, self.direction)
+
+        if self.in_close_animation:
+            self.axe.make_animation(screen, self, self.facing_direction)
+
+        if not self.axe.in_animation:
+            self.in_close_animation = False
 
 
 
