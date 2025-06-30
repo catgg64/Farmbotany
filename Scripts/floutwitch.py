@@ -36,7 +36,6 @@ class Floutwitch():
         self.viewport = viewport
         self.slot_tile_map = slot_tile_map
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x + 350, self.rect.y - viewport.pos_y + 150)
-        print(self.actual_floutwitch_position)
 
         #print(-1 * (self.rect.x - viewport.pos_x - 350), -1 * (self.rect.y - viewport.pos_y - 150))
         #print(self.mouse_pos[0] - (-1 * (self.rect.x - viewport.pos_x - 350)),

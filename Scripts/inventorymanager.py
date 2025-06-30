@@ -120,12 +120,12 @@ def initialize_inventory(inventory, slot_list, init_pos_x, init_pos_y, item_size
         Slot(item.id, item_index, item.quantity, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, slot_list, rect_size)
 
 def update_inventory(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size):
-    for item_index, item in enumerate(inventory):
+    for item_index, item in enumerate(inventory): # Checks for each slot.
         slot = slot_list[item_index]
         if inventory[item_index].quantity == 0:
-            inventory[item_index].id = "1"
-        slot.update_id_and_quantity(item.id, item.quantity)
-        slot.update(screen, sprite_size, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, item)
+            inventory[item_index].id = "1" # Checks if the quantity is 0, if so, make the slot's id 1 (nothing).
+        slot.update_id_and_quantity(item.id, item.quantity) # Updates it's id and quantity
+        slot.update(screen, sprite_size, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, item) # posisions them on screen
 
 def update_clicked_slot(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size):
     for item_index, item in enumerate(inventory):
