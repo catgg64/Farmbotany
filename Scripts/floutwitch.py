@@ -29,15 +29,14 @@ class Floutwitch():
         self.needs_reverse = False
 
     def update(self, internal_surface, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
-        pygame.draw.rect(internal_surface, (255, 255, 255), self.rect, 10)
-
         self.tile_map = current_tile_map
         self.tile_map_width = current_tile_map_width
         self.tile_map_lengh = current_tile_map_lengh
         self.mouse_pos = mouse_pos
         self.viewport = viewport
         self.slot_tile_map = slot_tile_map
-        self.actual_floutwitch_position = (-1 * (self.rect.x - viewport.pos_x - 350), -1 * (self.rect.y - viewport.pos_y - 150))
+        self.actual_floutwitch_position = (self.rect.x - viewport.pos_x + 350, self.rect.y - viewport.pos_y + 150)
+        print(self.actual_floutwitch_position)
 
         #print(-1 * (self.rect.x - viewport.pos_x - 350), -1 * (self.rect.y - viewport.pos_y - 150))
         #print(self.mouse_pos[0] - (-1 * (self.rect.x - viewport.pos_x - 350)),
@@ -68,10 +67,9 @@ class Floutwitch():
                                              self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
                 grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
                 actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
+                pos = round(pos)
                 self.tile_map[pos].id = "2"
                 is_done = True
-
-                print(actual_pos)
 
                 self.facing_direction = [False, False, False, False]
 
