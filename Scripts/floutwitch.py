@@ -29,6 +29,7 @@ class Floutwitch():
         self.needs_reverse = False
 
     def update(self, internal_surface, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
+        pygame.draw.rect(internal_surface, (255, 255, 255), self.rect, 10)
 
         self.tile_map = current_tile_map
         self.tile_map_width = current_tile_map_width
@@ -117,32 +118,36 @@ class Floutwitch():
         if self.axe_action:
             if not is_done:
                 if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 80
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
+                    self.front_pos_x = self.rect.x + 80
+                    self.front_pos_y = self.rect.y + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 500)
-                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+                    result_x = (self.rect.x + 150)
+                    result_y = (self.rect.y + 70)
+                    print(result_x, result_y)
 
                 elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + (280 - 350)
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + 0
+                    self.front_pos_x = self.rect.x + (280 - 350)
+                    self.front_pos_y = self.rect.y + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 280)
-                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 220)
+                    result_x = (self.rect.x + -70)
+                    result_y = (self.rect.y + 70)
+                    print(result_x, result_y)
 
                 elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 20
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (240 - 350)
+                    self.front_pos_x = self.rect.x + 20
+                    self.front_pos_y = self.rect.y + (240 - 150)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 400)
-                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 280)
+                    result_x = (self.rect.x + 50)
+                    result_y = (self.rect.y + 130)
+                    print(result_x, result_y)
 
                 elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                    self.front_pos_x = (viewport.pos_x - self.rect.x) + 10
-                    self.front_pos_y = (viewport.pos_y - self.rect.y) + (90 - 350)
+                    self.front_pos_x = self.rect.x + 10
+                    self.front_pos_y = self.rect.y + (90 - 150)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = -1 * ((self.rect.x - viewport.pos_x) - 390)
-                    result_y = -1 * ((self.rect.y - viewport.pos_y) - 140)
+                    result_x = (self.rect.x + 50)
+                    result_y = (self.rect.y + -10)
+                    print(result_x, result_y)
 
                 self.axe.make_animation(internal_surface, self, self.direction)
 
