@@ -180,10 +180,6 @@ class Farmbotany:
         self.floutwitch.move(self.keys)
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport)
 
-        #print(position_to_tile_value(axe_pos_x,
-        #                                   axe_pos_y, self.tile_world_width,
-        #                                   self.tile_world_length, self.tile_size, self.viewport.pos_x, self.viewport.pos_y))
-
         # Can be used later when debugging.
         pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
