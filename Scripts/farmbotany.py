@@ -1,10 +1,11 @@
 import pygame
+import time
 from floutwitch import Floutwitch
 from tilemanager import *
 from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
 from globals import *
-import time
+from shop import *
 
 # Future Note here:
 # I really regret not having the start date of this file
@@ -23,8 +24,10 @@ class Farmbotany:
         pygame.display.set_caption("Farmbotany")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.internal_surface = pygame.Surface((1000, 1000))
+        self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
+
+        self.shop = Shop(1000, 1000, self.floutwitch)
 
         self.viewportx = 0
         self.viewporty = 0
@@ -110,6 +113,8 @@ class Farmbotany:
         pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
                                     self.viewport.pos_x, self.viewport.pos_y)
 
+        pos = round(pos)
+
         special_slot_data = inventory[special_slot]
         if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
             if check_collision_in_all_tiles(mouse_pos, tile_slot_list)[0] == "2" and special_tiles_world[pos] is None:
@@ -125,7 +130,6 @@ class Farmbotany:
 
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked = self.event_handling()
 
-        # ! Doesen't work so far
 
         self.keys = pygame.key.get_pressed()
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
@@ -188,12 +192,15 @@ class Farmbotany:
                                             axe_pos_y, self.tile_world_width,
                                             self.tile_world_length, self.tile_size, 0, 0)
 
-            tile = round(tile)
+            tile = round(tile) # Rounds the tile down to prevent some issues.
 
             if tile is not None and 0 <= tile < len(self.tiles_world): # Checks if the tile is not None,
                                                                     # is greater or equel to 0 and is 
                                                                     # smaller that the size of the world
                 self.tiles_world[tile].id = "2"
+        
+        # Updates the shop.
+        self.shop.update(self.internal_surface)
         
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (self.viewport.pos_x, self.viewport.pos_y))
@@ -202,7 +209,7 @@ class Farmbotany:
         update_inventory(self.inventory, self.screen, self.slot_list, 30, 10, 10, self.spacement, 40)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
-        
+
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
         self.page_up_just_clicked = False

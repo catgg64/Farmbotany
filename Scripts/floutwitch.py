@@ -4,7 +4,6 @@ from tilemanager import *
 from axe import *
 
 class Floutwitch():
-
     def __init__(self, pos_x, pos_y, internal_surface):
         self.image_right = pygame.image.load("Sprites/tile_set.png").convert_alpha()
         self.substract_rect = pygame.Rect(2080, 2912, 32, 32)
@@ -45,8 +44,6 @@ class Floutwitch():
         self.slot_tile_map = slot_tile_map
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
 
-        print(self.direction_faced)
-
         if self.direction_faced[2]:
             self.internal_surface.blit(self.image_right, ((self.rect.x) + 0, (self.rect.y) + 0))
         elif self.direction_faced[3]:
@@ -75,8 +72,6 @@ class Floutwitch():
 
             distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.actual_floutwitch_position[0] - self.viewport.pos_x,
                                                                                  self.mouse_pos[1] - self.actual_floutwitch_position[1] - self.viewport.pos_y)
-
-            print(distance_from_cursor_x, distance_from_cursor_y)
 
             if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
                 pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
