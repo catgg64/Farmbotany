@@ -6,6 +6,7 @@ from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
 from globals import *
 from shop import *
+import solid_object
 
 # Future Note here:
 # I really regret not having the start date of this file
@@ -27,7 +28,10 @@ class Farmbotany:
         self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
+        self.solid_objects_list = []
         self.shop = Shop(1000, 1000, self.floutwitch)
+        self.brick = solid_object.Brick(100, 100)
+        self.brick.append_self_to_list(self.solid_objects_list)
 
         self.viewportx = 0
         self.viewporty = 0
@@ -186,6 +190,9 @@ class Farmbotany:
         self.floutwitch.move(self.keys)
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport)
 
+        for solid_brick in self.solid_objects_list:
+            solid_brick.update(self.internal_surface)
+
         # Can be used later when debugging.
         pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
@@ -204,6 +211,8 @@ class Farmbotany:
         # Updates the shop.
         self.shop.update(self.internal_surface, self.screen)
         
+        #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
+
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (self.viewport.pos_x, self.viewport.pos_y))
 

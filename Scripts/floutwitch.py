@@ -184,10 +184,12 @@ class Floutwitch():
         return result_x, result_y
 
     def move(self, keys):
-        if self.can_move:
-            if keys[pygame.K_w]:
+        self.is_walking = False
+        if keys[pygame.K_w]:
+            self.is_walking = True
+            if self.can_move:
+            
                 self.rect.y -= self.speed
-                self.is_walking = True
                 self.direction[0] = True
                 self.direction_faced[0] = True
                 self.direction_faced[1] = False
@@ -195,9 +197,11 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[0] = False
-            if keys[pygame.K_s]:
+        if keys[pygame.K_s]:
+            self.is_walking = True
+            if self.can_move:
+            
                 self.rect.y += self.speed
-                self.is_walking = True
                 self.direction[1] = True
                 self.direction_faced[0] = False
                 self.direction_faced[1] = True
@@ -205,9 +209,10 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[1] = False
-            if keys[pygame.K_a]:
+        if keys[pygame.K_a]:
+            self.is_walking = True
+            if self.can_move:
                 self.rect.x -= self.speed
-                self.is_walking = True
                 self.needs_reverse = False
                 self.direction[2] = True
                 self.direction_faced[0] = False
@@ -216,9 +221,11 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[2] = False
-            if keys[pygame.K_d]:
+        if keys[pygame.K_d]:
+            self.is_walking = True
+            if self.can_move:
+            
                 self.rect.x += self.speed
-                self.is_walking = True
                 self.needs_reverse = True
                 self.direction[3] = True
                 self.direction_faced[0] = False
@@ -227,7 +234,7 @@ class Floutwitch():
                 self.direction_faced[3] = True
             else:
                 self.direction[3] = False
-            if keys[pygame.K_v]:
-                self.is_key_v_pressed = True
-            else:
-                self.is_key_v_pressed = False
+        if keys[pygame.K_v]:
+            self.is_key_v_pressed = True
+        else:
+            self.is_key_v_pressed = False

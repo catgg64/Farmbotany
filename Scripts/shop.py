@@ -42,7 +42,7 @@ class Shop:
         pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
         # Check collision only if shop is not already open
-        if not self.shop_open and self.rect.colliderect(self.floutwitch.rect):
+        if not self.shop_open and self.rect.colliderect(self.floutwitch.rect) and self.floutwitch.is_walking:
             self._open_shop()
         elif self.shop_open and not self.rect.colliderect(self.floutwitch.rect):
             self._close_shop()
