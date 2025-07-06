@@ -10,7 +10,7 @@ class Floutwitch():
         self.image_right = self.image_right.subsurface(self.substract_rect)
         self.image_right = pygame.transform.scale(self.image_right, (100, 100))
         self.image_left = pygame.transform.flip(self.image_right, True, False)
-        self.rect = self.image_right.get_rect(topleft=(pos_x, pos_y))
+        self.rect = self.image_right.get_rect(center=(pos_x, pos_y))
         self.image_down = pygame.image.load("Sprites/tile_set.png").convert_alpha()
         self.substract_rect_down = pygame.Rect(2016, 2912, 32, 32)
         self.image_down = self.image_down.subsurface(self.substract_rect_down)

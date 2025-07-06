@@ -75,7 +75,7 @@ class Farmbotany:
         self.slot_class_selected = 0
 
     # Handles the events and stores them in the variables in the main function.
-    def event_handling(self):
+    def _event_handling(self):
         running = True
         mouse_just_clicked = False
         page_up_pressed = False
@@ -128,7 +128,7 @@ class Farmbotany:
     def update(self):
         self.mouse_just_clicked = False
 
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked = self.event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked = self._event_handling()
 
 
         self.keys = pygame.key.get_pressed()
@@ -149,26 +149,28 @@ class Farmbotany:
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 
-        self.floutwitch.axe_action = self.check_if_axe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
+        if not self.shop.shop_open:
 
-        # This part is useful when debugging
-        if self.keys[pygame.K_c]:
-            hoe_tile = self.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.tile_world_width, self.tile_world_length, self.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
-            hoe_tile.id = "4"
-            hoe_tile.sub_id = "2"
+            self.floutwitch.axe_action = self.check_if_axe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
 
-        # This part updates the selected slot in the hotbar.
-        if self.page_up_just_clicked:
-            if self.slot_selected < len(self.inventory) - 1:
-                self.slot_selected += 1
-            else:
-                self.slot_selected = 0
+            # This part is useful when debugging
+            if self.keys[pygame.K_c]:
+                hoe_tile = self.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.tile_world_width, self.tile_world_length, self.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
+                hoe_tile.id = "4"
+                hoe_tile.sub_id = "2"
 
-        if self.page_down_just_clicked:
-            if self.slot_selected > 0:
-                self.slot_selected -= 1
-            else:
-                self.slot_selected = 11
+            # This part updates the selected slot in the hotbar.
+            if self.page_up_just_clicked:
+                if self.slot_selected < len(self.inventory) - 1:
+                    self.slot_selected += 1
+                else:
+                    self.slot_selected = 0
+
+            if self.page_down_just_clicked:
+                if self.slot_selected > 0:
+                    self.slot_selected -= 1
+                else:
+                    self.slot_selected = 11
 
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.special_tiles_world, self.mouse_pos, self.tile_world_width, self.tile_world_length, self.tile_slot_list, self.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected)
@@ -200,12 +202,13 @@ class Farmbotany:
                 self.tiles_world[tile].id = "2"
         
         # Updates the shop.
-        self.shop.update(self.internal_surface)
+        self.shop.update(self.internal_surface, self.screen)
         
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (self.viewport.pos_x, self.viewport.pos_y))
 
         # Calculates the UI and some other things here so they appear in front of the everything else.
+        self.shop.update_shop_ui(self.screen)
         update_inventory(self.inventory, self.screen, self.slot_list, 30, 10, 10, self.spacement, 40)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
