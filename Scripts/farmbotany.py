@@ -28,10 +28,12 @@ class Farmbotany:
         self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
-        self.solid_objects_list = []
         self.shop = Shop(1000, 1000, self.floutwitch)
+        
+        self.solid_objects_list = []
         self.brick = solid_object.Brick(100, 100)
         self.brick.append_self_to_list(self.solid_objects_list)
+        self.colliding_with_solid_object = False
 
         self.viewportx = 0
         self.viewporty = 0
@@ -71,6 +73,7 @@ class Farmbotany:
         self.inventory[2].quantity = 2
 
         self.mouse_just_clicked = False
+        self.mouse_realeased = False
         self.page_up_just_clicked = False
         self.page_up_pressed = False
         self.page_down_just_clicked = False
@@ -84,19 +87,22 @@ class Farmbotany:
         mouse_just_clicked = False
         page_up_pressed = False
         page_down_pressed = False
+        mouse_realeased = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_just_clicked = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_realeased = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_PAGEUP:
                     page_up_pressed = True
                 if event.key == pygame.K_PAGEDOWN:
                     page_down_pressed = True
 
-        return running, mouse_just_clicked, page_up_pressed, page_down_pressed
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased
 
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -113,6 +119,12 @@ class Farmbotany:
             return True
         return False
     
+    def _check_for_solid_object_colision(self, solid_objects_list, rect):
+        for solid_object in solid_objects_list:
+            if solid_object.rect.colliderect(rect):
+                return True
+        return False
+
     def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot):
         pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
                                     self.viewport.pos_x, self.viewport.pos_y)
@@ -132,8 +144,8 @@ class Farmbotany:
     def update(self):
         self.mouse_just_clicked = False
 
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked = self._event_handling()
-
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased = self._event_handling()
+        self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
@@ -186,7 +198,9 @@ class Farmbotany:
         update_tile_map(self.tiles_world, self.tile_slot_list, self.tile_world_width, self.tile_size, 0, 0, self.internal_surface)
         update_special_tiles(self.special_tiles_world, self.tile_world_width, self.tile_size, 0, 0, self.internal_surface)
 
-        self.floutwitch.update(self.internal_surface, self.viewport, self.tiles_world, self.tile_world_width, self.tile_world_length, self.mouse_pos, self.tile_slot_list)
+        self.floutwitch.update(self.internal_surface, self.viewport, self.tiles_world,
+                                self.tile_world_width, self.tile_world_length, self.mouse_pos,
+                                self.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys)
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport)
 
@@ -209,7 +223,7 @@ class Farmbotany:
                 self.tiles_world[tile].id = "2"
         
         # Updates the shop.
-        self.shop.update(self.internal_surface, self.screen)
+        self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
         
         #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
 

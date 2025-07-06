@@ -6,7 +6,7 @@ class FBButton:
         self.state: str = "none"
         self.pressed: bool = False
 
-    def update(self, surface, color, hover_color, pressed_color):
+    def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
         self.pressed = False
 
         if self.state == "none":
@@ -18,9 +18,10 @@ class FBButton:
         
         mouse_pos = pygame.mouse.get_pos()
         left_mouse_down = pygame.mouse.get_pressed()[0]
+        
         if self.rect.collidepoint(mouse_pos):
             self.state = "hover"
-            if left_mouse_down:
+            if mouse_realeased:
                 self.state = "pressed"
                 self.pressed = True
         else:

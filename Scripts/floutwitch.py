@@ -10,7 +10,7 @@ class Floutwitch():
         self.image_right = self.image_right.subsurface(self.substract_rect)
         self.image_right = pygame.transform.scale(self.image_right, (100, 100))
         self.image_left = pygame.transform.flip(self.image_right, True, False)
-        self.rect = self.image_right.get_rect(center=(pos_x, pos_y))
+        self.rect = pygame.Rect(pos_x, pos_y, 50, 25)
         self.image_down = pygame.image.load("Sprites/tile_set.png").convert_alpha()
         self.substract_rect_down = pygame.Rect(2016, 2912, 32, 32)
         self.image_down = self.image_down.subsurface(self.substract_rect_down)
@@ -35,29 +35,30 @@ class Floutwitch():
         self.is_walking = False
         self.needs_reverse = False
 
-    def update(self, internal_surface, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map):
+    def update(self, internal_surface, viewport, current_tile_map, current_tile_map_width, current_tile_map_lengh, mouse_pos, slot_tile_map, colliding_with_solid_object, solid_objects_list):
         self.tile_map = current_tile_map
         self.tile_map_width = current_tile_map_width
         self.tile_map_lengh = current_tile_map_lengh
         self.mouse_pos = mouse_pos
         self.viewport = viewport
         self.slot_tile_map = slot_tile_map
+        self.colliding_with_solid_object = colliding_with_solid_object
+        self.solid_objects_list = solid_objects_list
+
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
+        
 
         if self.direction_faced[2]:
-            self.internal_surface.blit(self.image_right, ((self.rect.x) + 0, (self.rect.y) + 0))
+            self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[3]:
-            self.internal_surface.blit(self.image_left, ((self.rect.x) + 0, (self.rect.y) + 0))
+            self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[0]:
-            self.internal_surface.blit(self.image_up, ((self.rect.x) + 0, (self.rect.y) + 0))
+            self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[1]:
-            self.internal_surface.blit(self.image_down, ((self.rect.x) + 0, (self.rect.y) + 0))
+            self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
-            self.internal_surface.blit(self.image_down, ((self.rect.x) + 0, (self.rect.y) + 0))
-        #if self.needs_reverse:
-        #    self.internal_surface.blit(self.image, ((self.rect.x) + 0, (self.rect.y) + 0))
-        #else:
-        #    self.internal_surface.blit(self.fliped_image, ((self.rect.x) + 0, (self.rect.y) + 0))
+            self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+        
         #pygame.draw.rect(internal_surface, "blue", self.rect)
 
     def make_axe_interaction(self, internal_surface, viewport):
@@ -184,12 +185,18 @@ class Floutwitch():
         return result_x, result_y
 
     def move(self, keys):
-        self.is_walking = False
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:
             self.is_walking = True
-            if self.can_move:
-            
+        else:
+            self.is_walking = False
+
+        if self.can_move:
+            if keys[pygame.K_w]:
                 self.rect.y -= self.speed
+                for solid_object in self.solid_objects_list:
+                    if solid_object.rect.colliderect(self.rect):
+                        self.rect.y += self.speed
+
                 self.direction[0] = True
                 self.direction_faced[0] = True
                 self.direction_faced[1] = False
@@ -197,11 +204,12 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[0] = False
-        if keys[pygame.K_s]:
-            self.is_walking = True
-            if self.can_move:
-            
+            if keys[pygame.K_s]:
                 self.rect.y += self.speed
+                for solid_object in self.solid_objects_list:
+                    if solid_object.rect.colliderect(self.rect):
+                        self.rect.y -= self.speed
+
                 self.direction[1] = True
                 self.direction_faced[0] = False
                 self.direction_faced[1] = True
@@ -209,10 +217,12 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[1] = False
-        if keys[pygame.K_a]:
-            self.is_walking = True
-            if self.can_move:
+            if keys[pygame.K_a]:
                 self.rect.x -= self.speed
+                for solid_object in self.solid_objects_list:
+                    if solid_object.rect.colliderect(self.rect):
+                        self.rect.x += self.speed
+                
                 self.needs_reverse = False
                 self.direction[2] = True
                 self.direction_faced[0] = False
@@ -221,12 +231,13 @@ class Floutwitch():
                 self.direction_faced[3] = False
             else:
                 self.direction[2] = False
-        if keys[pygame.K_d]:
-            self.is_walking = True
-            if self.can_move:
-            
+            if keys[pygame.K_d]:
                 self.rect.x += self.speed
                 self.needs_reverse = True
+                for solid_object in self.solid_objects_list:
+                    if solid_object.rect.colliderect(self.rect):
+                        self.rect.x -= self.speed
+            
                 self.direction[3] = True
                 self.direction_faced[0] = False
                 self.direction_faced[1] = False
@@ -234,7 +245,7 @@ class Floutwitch():
                 self.direction_faced[3] = True
             else:
                 self.direction[3] = False
-        if keys[pygame.K_v]:
-            self.is_key_v_pressed = True
-        else:
-            self.is_key_v_pressed = False
+            if keys[pygame.K_v]:
+                self.is_key_v_pressed = True
+            else:
+                self.is_key_v_pressed = False

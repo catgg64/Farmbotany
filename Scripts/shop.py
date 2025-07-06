@@ -24,6 +24,7 @@ class Shop:
         self.shop_open = False
         self.shop_ui = ShopUI(100, 100)
         self.exit_button = fbbutton.FBButton(150, 150, 64, 64)
+        self.mouse_realeased = False
 
     def _load_image(self) -> pygame.Surface:
         """Load and prepare the shop image."""
@@ -36,11 +37,14 @@ class Shop:
             print(f"Error loading shop image: {e}")
             raise
 
-    def update(self, surface: pygame.Surface, screen: pygame.Surface) -> None:
+    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
         """Update shop state and render it."""
         surface.blit(self.image, self.rect)
         pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
+        """Updates the check of the mouse realsed"""
+        self.mouse_realeased = mouse_realeased
+
         # Check collision only if shop is not already open
         if not self.shop_open and self.rect.colliderect(self.floutwitch.rect) and self.floutwitch.is_walking:
             self._open_shop()
@@ -54,7 +58,7 @@ class Shop:
         self.shop_ui.update(screen)
                 
         if self.shop_open:
-            self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0))
+            self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
             if self.exit_button.state == "pressed":
                 self._close_shop()
