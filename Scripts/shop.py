@@ -25,6 +25,9 @@ class Shop:
         self.shop_ui = ShopUI(100, 100)
         self.exit_button = fbbutton.FBButton(150, 150, 100, 50, "Exit")
         self.buy_button = fbbutton.FBButton(200, 250, 100, 50, "Buy")
+        self.exit_buy_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
+        self.sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
+        self.exit_sell_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
         self.mouse_realeased = False
 
     def _load_image(self) -> pygame.Surface:
@@ -60,12 +63,28 @@ class Shop:
                 
         if self.shop_open:
             self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
-            self.buy_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+            if self.shop_ui.status == "menu":
+                self.buy_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+            if self.shop_ui.status == "buy_menu":
+                self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
-            if self.exit_button.state == "pressed" and self.state == "menu":
+            if self.shop_ui.status == "menu":
+                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+            if self.shop_ui.status == "sell_menu":
+                self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+
+            print(self.exit_buy_menu_button.pressed)
+            if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._close_shop()
             if self.buy_button.state == "pressed":
                 self._open_buy_menu()
+            if self.exit_buy_menu_button.pressed:
+                self._close_buy_menu()
+            if self.sell_button.pressed:
+                self._open_sell_menu()
+            if self.exit_sell_menu_button.pressed:
+                self._close_sell_menu()
 
     def _open_shop(self) -> None:
         """Open the shop and update related states."""
@@ -82,11 +101,20 @@ class Shop:
         self.shop_ui.visibility = False
 
     def _open_buy_menu(self):
-        print("opend buy menu")
-
+        self.shop_ui.status = "buy_menu"
+        
     def _close_buy_menu(self):
-        print("close buy menu")
-
+        self.shop_ui.status = "menu"
+        self.exit_buy_menu_button.status = "none"
+        self.exit_buy_menu_button.pressed = False
+    
+    def _open_sell_menu(self):
+        self.shop_ui.status = "sell_menu"
+    
+    def _close_sell_menu(self):
+        self.shop_ui.status = "menu"
+        self.exit_sell_menu_button.status = "none"
+        self.exit_sell_menu_button.pressed = False
 
 class ShopUI:
     """A class representing the shop's user interface."""

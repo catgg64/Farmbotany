@@ -28,7 +28,7 @@ class Farmbotany:
         self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
-        self.shop = Shop(1000, 1000, self.floutwitch)
+        self.shop = Shop(100, 100, self.floutwitch)
         
         self.solid_objects_list = []
         self.brick = solid_object.Brick(100, 100)
