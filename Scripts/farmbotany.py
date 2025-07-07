@@ -5,8 +5,8 @@ from tilemanager import *
 from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
 from globals import *
-from shop import *
 import solid_object
+from shop import *
 
 # Future Note here:
 # I really regret not having the start date of this file
@@ -28,7 +28,7 @@ class Farmbotany:
         self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
-        self.shop = Shop(100, 100, self.floutwitch)
+        self.shop = Shop(500, 500, self.floutwitch)
         
         self.solid_objects_list = []
         self.brick = solid_object.Brick(100, 100)
