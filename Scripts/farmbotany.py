@@ -131,9 +131,11 @@ class Farmbotany:
 
         pos = round(pos)
 
+        print(self.tiles_world[pos].id)
+
         special_slot_data = inventory[special_slot]
         if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-            if check_collision_in_all_tiles(mouse_pos, tile_slot_list)[0] == "2" and special_tiles_world[pos] is None:
+            if tile_slot_list[pos].id == "2" and special_tiles_world[pos] is None:
                 special_slot_data.quantity -= 1
                 special_tiles_world[pos] = Crop(tile_size, 2)
 
