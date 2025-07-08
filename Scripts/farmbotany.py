@@ -6,19 +6,17 @@ from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
 from globals import *
 import solid_object
-from shop import *
 
-# Future Note here:
-# I really regret not having the start date of this file
-# written down. However, I am 99% sure that it started on
-# last Sunday (08/06/2025). Just taking this as a note.
+# Remove the import of shop here
+# from shop import *
 
 pygame.init()
 
-
 class Farmbotany:
-    # Initializes the Farmbotany Class.
     def __init__(self):
+        # Import Shop inside the __init__ method to avoid circular import
+        from shop import Shop
+        
         self.screen_width = 400
         self.screen_height = 800
         self.screen = pygame.display.set_mode((self.screen_height, self.screen_width))
@@ -28,7 +26,6 @@ class Farmbotany:
         self.internal_surface = pygame.Surface((2000, 2000))
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
-        self.shop = Shop(500, 500, self.floutwitch)
         
         self.solid_objects_list = []
         self.brick = solid_object.Brick(100, 100)
@@ -81,6 +78,9 @@ class Farmbotany:
         self.mouse_pos = 0
         self.slot_class_selected = 0
 
+        # Now Shop is defined and can be used
+        self.shop = Shop(500, 500, self.floutwitch, self)
+    
     # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
         running = True
@@ -195,8 +195,11 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        update_tile_map(self.tiles_world, self.tile_slot_list, self.tile_world_width, self.tile_size, 0, 0, self.internal_surface)
-        update_special_tiles(self.special_tiles_world, self.tile_world_width, self.tile_size, 0, 0, self.internal_surface)
+        update_tile_map(self.tiles_world, self.tile_slot_list,
+                        self.tile_world_width, self.tile_size,
+                        0, 0, self.internal_surface)
+        update_special_tiles(self.special_tiles_world, self.tile_world_width, 
+                            self.tile_size, 0, 0, self.internal_surface)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.tiles_world,
                                 self.tile_world_width, self.tile_world_length, self.mouse_pos,

@@ -3,9 +3,6 @@ from globals import *
 import fbbutton
 import inventorymanager
 
-# Remove this import
-# import farmbotany
-
 # Constants for shop and UI dimensions
 SHOP_TILE_SIZE = 64
 SHOP_SCALED_SIZE = 250
@@ -19,7 +16,11 @@ BORDER_COLOR = (255, 255, 255)
 BORDER_WIDTH = 5
 
 class Shop:
-    def __init__(self, pos_x: int, pos_y: int, floutwitch, check_slot_interaction_func=None):
+    """A class representing a shop in the game that can be interacted with."""
+    def __init__(self, pos_x: int, pos_y: int, floutwitch, farmbotany):
+        
+        """Initialize the shop with position and floutwitch reference."""
+        
         self.image = self._load_image()
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
         self.floutwitch = floutwitch
@@ -33,15 +34,42 @@ class Shop:
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
-        self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 1, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
+        self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.mouse_realeased = False
-        # Store the function for slot interaction
-        self.check_slot_interaction_func = check_slot_interaction_func
+        self.farmbotany = farmbotany
+        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, farmbotany.clicked_slot_data)
 
-    # ... other methods unchanged until update_shop_ui ...
+    def _load_image(self) -> pygame.Surface:
+        """Load and prepare the shop image."""
+        try:
+            image = pygame.image.load("Sprites/tile_set.png")
+            subsurface_rect = pygame.Rect(SHOP_TILE_POS, (SHOP_TILE_SIZE, SHOP_TILE_SIZE))
+            image = image.subsurface(subsurface_rect)
+            return pygame.transform.scale(image, (SHOP_SCALED_SIZE, SHOP_SCALED_SIZE))
+        except pygame.error as e:
+            print(f"Error loading shop image: {e}")
+            raise
+
+    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
+        """Update shop state and render it."""
+        surface.blit(self.image, self.rect)
+        pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
+        
+        """Updates the check of the mouse realsed"""
+        self.mouse_realeased = mouse_realeased
+
+        # Check collision only if shop is not already open
+        if not self.shop_open and self.rect.colliderect(self.floutwitch.rect) and self.floutwitch.is_walking:
+            self._open_shop()
+        elif self.shop_open and not self.rect.colliderect(self.floutwitch.rect):
+            self._close_shop()
+        
+
 
     def update_shop_ui(self, screen: pygame.Surface) -> None:
+        """Update and render the shop UI if visible."""
         self.shop_ui.update(screen)
+                
         if self.shop_open:
             self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
             if self.shop_ui.status == "menu":
@@ -50,13 +78,14 @@ class Shop:
             if self.shop_ui.status == "buy_menu":
                 self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
+            if self.shop_ui.status == "menu":
+                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
             if self.shop_ui.status == "sell_menu":
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
-                inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 0, 0, 0, 64)
-                # Use the passed function instead of importing farmbotany
-                if self.check_slot_interaction_func:
-                    self.check_slot_interaction_func(self.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.sell_slot_data)
+                inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40)
+                inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data)
 
+            print(self.exit_buy_menu_button.pressed)
             if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._close_shop()
             if self.buy_button.state == "pressed":
@@ -67,7 +96,7 @@ class Shop:
                 self._open_sell_menu()
             if self.exit_sell_menu_button.pressed:
                 self._close_sell_menu()
-    
+
     def _open_shop(self) -> None:
         """Open the shop and update related states."""
         self.shop_open = True
