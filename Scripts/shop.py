@@ -23,12 +23,17 @@ class Shop:
         
         self.image = self._load_image()
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
+        
         self.floutwitch = floutwitch
+        
         self.shop_open = False
         self.shop_ui = ShopUI(100, 100)
+        
         self.exit_button = fbbutton.FBButton(150, 150, 100, 50, "Exit")
+        
         self.buy_button = fbbutton.FBButton(200, 250, 100, 50, "Buy")
         self.exit_buy_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
+        
         self.sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
         self.actual_sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
         self.exit_sell_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
@@ -36,11 +41,16 @@ class Shop:
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
+        
         self.mouse_realeased = False
+        
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, 
                                                                                                     self.sell_slot_list, self.sell_slot_data_list, 
                                                                                                     farmbotany.clicked_slot_data)
+        
+        self.product_slot_list = []
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch)
 
     def _load_image(self) -> pygame.Surface:
         """Load and prepare the shop image."""
@@ -72,17 +82,26 @@ class Shop:
     def update_shop_ui(self, screen: pygame.Surface) -> None:
         """Update and render the shop UI if visible."""
         self.shop_ui.update(screen)
-                
+        
+        self.inventory = self.farmbotany.inventory
+
         if self.shop_open:
+    
             self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+
             if self.shop_ui.status == "menu":
                 self.buy_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
                 self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+
             if self.shop_ui.status == "buy_menu":
                 self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
+                for product_slot in self.product_slot_list:
+                    product_slot.update(screen, self.mouse_realeased, self.inventory, self.floutwitch)
+
             if self.shop_ui.status == "menu":
                 self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+
             if self.shop_ui.status == "sell_menu":
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
                 inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40)
@@ -91,14 +110,19 @@ class Shop:
 
             if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._close_shop()
+
             if self.buy_button.state == "pressed":
                 self._open_buy_menu()
+
             if self.exit_buy_menu_button.pressed:
                 self._close_buy_menu()
+
             if self.sell_button.pressed:
                 self._open_sell_menu()
+
             if self.exit_sell_menu_button.pressed:
                 self._close_sell_menu()
+
             if self.actual_sell_button.pressed:
                 self._sell(self.sell_slot_data, self.floutwitch)
 
@@ -168,3 +192,35 @@ class ShopUI:
         """Render the shop UI if visible."""
         if self.visibility:
             internal_surface.blit(self.image, self.rect)
+
+class ProductSlot:
+    def __init__(self, x, y, item, price, product_slot_list, slot_size, color, width, floutwitch):
+        self.text_font = pygame.font.SysFont("Ariel", 30)
+        
+        product_slot_list.append(self)
+
+        self.item_data = inventorymanager.items[item][0]
+        print(self.item_data["texture"])
+        self.image = pygame.image.load(self.item_data["texture"])
+        self.image = pygame.transform.scale(self.image, (slot_size, slot_size))
+        self.x = x
+        self.y = y
+        self.price = price
+        self.rect = pygame.Rect(x, y, slot_size, slot_size)
+        self.item = item
+
+        self.color = color
+        self.width = width
+
+        self.slot_size = slot_size
+
+    def update(self, surface, mouse_realeased, inventory, floutwitch):
+        if floutwitch.gold >= self.item_data["value"]:
+            print("has more gold")
+            if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
+                inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
+                floutwitch.gold -= self.item_data["value"]
+        surface.blit(self.image, self.rect)
+        pygame.draw.rect(surface, self.color, self.rect, self.width)
+        text = self.text_font.render(str(self.item_data["value"]), True, (255, 255, 255))
+        surface.blit(text, (self.rect.x + self.slot_size + 10, self.rect.y + self.slot_size + 10))

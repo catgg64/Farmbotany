@@ -149,6 +149,20 @@ class Farmbotany:
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (0, 0))
 
+    def _makes_the_axe_work(self, axe_pos_x, axe_pos_y, farmbotany):
+        if axe_pos_x and axe_pos_y:
+            tile = position_to_tile_value(axe_pos_x,
+                                            axe_pos_y, farmbotany.tile_world_width,
+                                            farmbotany.tile_world_length, farmbotany.tile_size, 0, 0)
+
+            tile = round(tile) # Rounds the tile down to prevent some issues.
+
+            if tile is not None and 0 <= tile < len(farmbotany.tiles_world): # Checks if the tile is not None,
+                                                                    # is greater or equel to 0 and is 
+                                                                    # smaller that the size of the world
+                farmbotany.tiles_world[tile].id = "2"
+        
+
     def update(self):
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
@@ -211,6 +225,7 @@ class Farmbotany:
                                 self.tile_world_width, self.tile_world_length, self.mouse_pos,
                                 self.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys)
+        
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport)
 
         for solid_brick in self.solid_objects_list:
@@ -219,17 +234,7 @@ class Farmbotany:
         # Can be used later when debugging.
         pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
-        if axe_pos_x and axe_pos_y:
-            tile = position_to_tile_value(axe_pos_x,
-                                            axe_pos_y, self.tile_world_width,
-                                            self.tile_world_length, self.tile_size, 0, 0)
-
-            tile = round(tile) # Rounds the tile down to prevent some issues.
-
-            if tile is not None and 0 <= tile < len(self.tiles_world): # Checks if the tile is not None,
-                                                                    # is greater or equel to 0 and is 
-                                                                    # smaller that the size of the world
-                self.tiles_world[tile].id = "2"
+        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
         # Updates the shop.
         self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
