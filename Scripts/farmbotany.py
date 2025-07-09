@@ -125,13 +125,11 @@ class Farmbotany:
                 return True
         return False
 
-    def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot):
+    def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot, viewport):
         pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
                                     self.viewport.pos_x, self.viewport.pos_y)
 
         pos = round(pos)
-
-        print(self.tiles_world[pos].id)
 
         special_slot_data = inventory[special_slot]
         if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
@@ -139,13 +137,11 @@ class Farmbotany:
                 special_slot_data.quantity -= 1
                 special_tiles_world[pos] = Crop(tile_size, 2)
 
-        if check_for_harvest_in_all_crops(special_tiles_world, mouse_pos):
+        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
             special_tiles_world[pos] = None
             add_item_to_inventory(inventory, ItemData("4", 1))
     
     def update(self):
-        self.mouse_just_clicked = False
-
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
@@ -191,7 +187,7 @@ class Farmbotany:
                     self.slot_selected = 11
 
         # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.special_tiles_world, self.mouse_pos, self.tile_world_width, self.tile_world_length, self.tile_slot_list, self.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected)
+        self.check_for_wheat_harvest(self.special_tiles_world, self.mouse_pos, self.tile_world_width, self.tile_world_length, self.tile_slot_list, self.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
 
         # Lights up the selected slot.
         light_slot_by_number(self.slot_selected, self.slot_list)
