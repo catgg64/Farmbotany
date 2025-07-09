@@ -30,6 +30,7 @@ class Floutwitch():
         self.in_close_animation = False
         self.facing_direction = False
         self.internal_surface = internal_surface
+        self.gold = 0
 
         self.speed = 5
         self.is_walking = False

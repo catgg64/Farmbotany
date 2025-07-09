@@ -30,6 +30,7 @@ class Shop:
         self.buy_button = fbbutton.FBButton(200, 250, 100, 50, "Buy")
         self.exit_buy_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
         self.sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
+        self.actual_sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
         self.exit_sell_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
@@ -37,7 +38,9 @@ class Shop:
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.mouse_realeased = False
         self.farmbotany = farmbotany
-        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, farmbotany.clicked_slot_data)
+        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, 
+                                                                                                    self.sell_slot_list, self.sell_slot_data_list, 
+                                                                                                    farmbotany.clicked_slot_data)
 
     def _load_image(self) -> pygame.Surface:
         """Load and prepare the shop image."""
@@ -84,8 +87,8 @@ class Shop:
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
                 inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40)
                 inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data)
+                self.actual_sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
-            print(self.exit_buy_menu_button.pressed)
             if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._close_shop()
             if self.buy_button.state == "pressed":
@@ -96,6 +99,8 @@ class Shop:
                 self._open_sell_menu()
             if self.exit_sell_menu_button.pressed:
                 self._close_sell_menu()
+            if self.actual_sell_button.pressed:
+                self._sell(self.sell_slot_data, self.floutwitch)
 
     def _open_shop(self) -> None:
         """Open the shop and update related states."""
@@ -126,6 +131,18 @@ class Shop:
         self.shop_ui.status = "menu"
         self.exit_sell_menu_button.status = "none"
         self.exit_sell_menu_button.pressed = False
+
+    def _sell(self, item_data, floutwitch):
+        items = inventorymanager.items
+        slot_id = item_data.id
+        slot_quantity = item_data.quantity
+        slot_data = items[slot_id][0]
+        if slot_id != "1" and slot_data["can_be_sold"]:
+            floutwitch.gold += slot_data["value"] * slot_quantity
+            slot_id = "1"
+            slot_quantity = 0
+        item_data.id = slot_id
+        item_data.quantity = slot_quantity
 
 class ShopUI:
     """A class representing the shop's user interface."""

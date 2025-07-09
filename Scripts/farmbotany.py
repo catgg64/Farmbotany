@@ -11,6 +11,7 @@ import solid_object
 # from shop import *
 
 pygame.init()
+pygame.font.init()
 
 class Farmbotany:
     def __init__(self):
@@ -23,10 +24,13 @@ class Farmbotany:
         pygame.display.set_caption("Farmbotany")
         self.clock = pygame.time.Clock()
         self.running = True
-        self.internal_surface = pygame.Surface((2000, 2000))
-        self.floutwitch = Floutwitch(0, 0, self.internal_surface)
-
         
+        self.internal_surface = pygame.Surface((2000, 2000))
+        
+        self.floutwitch = Floutwitch(0, 0, self.internal_surface)
+        
+        self.text_font = pygame.font.SysFont("Ariel", 30)
+
         self.solid_objects_list = []
         self.brick = solid_object.Brick(100, 100)
         self.brick.append_self_to_list(self.solid_objects_list)
@@ -80,7 +84,7 @@ class Farmbotany:
 
         # Now Shop is defined and can be used
         self.shop = Shop(500, 500, self.floutwitch, self)
-    
+
     # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
         running = True
@@ -141,6 +145,10 @@ class Farmbotany:
             special_tiles_world[pos] = None
             add_item_to_inventory(inventory, ItemData("4", 1))
     
+    def _render_gold(self, gold, font, surface):
+        text = font.render(str(gold), True, (255, 255, 255))
+        surface.blit(text, (0, 0))
+
     def update(self):
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
@@ -236,6 +244,7 @@ class Farmbotany:
         update_inventory(self.inventory, self.screen, self.slot_list, 30, 10, 10, self.spacement, 40)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
+        self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
