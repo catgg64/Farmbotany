@@ -63,8 +63,8 @@ class Farmbotany:
         self.inventory = setup_inventory(12)
         self.slot_selected = 0
         self.slot_list = []
-        self.spacement = 60
-        initialize_inventory(self.inventory, self.slot_list, 10, 10, 30, 60, self.spacement)
+        self.spacement = 40
+        initialize_inventory(self.inventory, self.slot_list, 20, 20, 20, 50, self.spacement)
 
         self.inventory[0].id = "5"
         self.inventory[0].quantity = 1
@@ -141,10 +141,15 @@ class Farmbotany:
                 special_slot_data.quantity -= 1
                 special_tiles_world[pos] = Crop(tile_size, 2)
 
+#        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
+#            print(check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)))
+
+
+        #if special_tiles_world[pos].check_for_harvest()
         if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
             special_tiles_world[pos] = None
             add_item_to_inventory(inventory, ItemData("4", 1))
-    
+            
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (0, 0))
@@ -232,7 +237,7 @@ class Farmbotany:
             solid_brick.update(self.internal_surface)
 
         # Can be used later when debugging.
-        pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
 
         self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
@@ -246,10 +251,11 @@ class Farmbotany:
 
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.screen)
-        update_inventory(self.inventory, self.screen, self.slot_list, 30, 10, 10, self.spacement, 40)
+        update_inventory(self.inventory, self.screen, self.slot_list, 10, 10, 10, self.spacement, 30, 10)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
         self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
+        #pygame.draw.circle(self.screen, (255, 255, 255), (self.mouse_pos[0] - self.viewport.pos_x, self.mouse_pos[1] - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
@@ -263,7 +269,6 @@ class Farmbotany:
 
 
 farmbotany = Farmbotany()
-random_image = pygame.image.load("Sprites/tile_set.png")
 
 setup_surfaces(farmbotany.tile_size)
 initialize_tilemap(farmbotany.tiles_world, farmbotany.tile_world_width, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.tile_slot_list)

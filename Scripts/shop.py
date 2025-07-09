@@ -66,7 +66,7 @@ class Shop:
     def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
         """Update shop state and render it."""
         surface.blit(self.image, self.rect)
-        pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
+        #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
@@ -104,7 +104,7 @@ class Shop:
 
             if self.shop_ui.status == "sell_menu":
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
-                inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40)
+                inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40, 10)
                 inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data)
                 self.actual_sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
 
@@ -129,14 +129,12 @@ class Shop:
     def _open_shop(self) -> None:
         """Open the shop and update related states."""
         self.shop_open = True
-        print('Shop opened')
         self.floutwitch.can_move = False
         self.shop_ui.visibility = True
 
     def _close_shop(self) -> None:
         """Close the shop and update related states."""
         self.shop_open = False
-        print('Shop closed')
         self.floutwitch.can_move = True
         self.shop_ui.visibility = False
 
@@ -200,7 +198,6 @@ class ProductSlot:
         product_slot_list.append(self)
 
         self.item_data = inventorymanager.items[item][0]
-        print(self.item_data["texture"])
         self.image = pygame.image.load(self.item_data["texture"])
         self.image = pygame.transform.scale(self.image, (slot_size, slot_size))
         self.x = x
@@ -216,7 +213,6 @@ class ProductSlot:
 
     def update(self, surface, mouse_realeased, inventory, floutwitch):
         if floutwitch.gold >= self.item_data["value"]:
-            print("has more gold")
             if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
                 inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
                 floutwitch.gold -= self.item_data["value"]

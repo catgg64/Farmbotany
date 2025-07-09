@@ -63,7 +63,7 @@ class Tile:
         if id != "3":
             tile_data = tiles[id][0]
             screen.blit(tile_data["surface"], (pos_x, pos_y))
-
+        
     # Pretty self-explanatory, right?
     def update_id_and_sub_id(self, id, sub_id):
         self.id = id
@@ -100,7 +100,7 @@ class Crop(SpecialTile):
         self.texture = "Sprites/wheat_growing.png"
         self.image = pygame.image.load(self.texture)
         super().__init__(self.texture, size)
-        self.rect = self.image.get_rect(topleft=(0, 0))
+        self.rect = pygame.Rect(0, 0, size, size)
         self.start_time = time.time()
         self.plant_time = plant_time
         self.can_collect = False
@@ -112,6 +112,7 @@ class Crop(SpecialTile):
         super().update(screen, pos_x, pos_y)
         self.rect = self.image.get_rect(topleft = (pos_x, pos_y))
         self.time_passed_since_beguining = time.time() - self.start_time
+        #pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
         if self.time_passed_since_beguining >= self.plant_time:
             self.can_collect = True
             self.texture = "Sprites/wheat.png"
@@ -119,6 +120,9 @@ class Crop(SpecialTile):
             self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
     def check_for_harvest(self, point):
+        #print(f"colliding with mouse: {self.rect.collidepoint(point)}")
+        #print(f"mouse pressed: {pygame.mouse.get_pressed()[0]}")
+        #print(f"can be collected: {self.can_collect}")
         if self.rect.collidepoint(point) and pygame.mouse.get_pressed()[0] and self.can_collect:
             return True
         return False

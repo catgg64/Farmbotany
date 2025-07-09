@@ -39,9 +39,9 @@ class Slot:
     def update(self, screen, item_size, pos_x, pos_y, item):
         pygame.draw.rect(screen, self.rect_color, self.rect, 5)
         if item.id != "1":
-            screen.blit(pygame.transform.scale(pygame.image.load(items[item.id][0]["texture"]), (item_size, item_size)), (pos_x + 10, pos_y + 10))
+            screen.blit(pygame.transform.scale(pygame.image.load(items[item.id][0]["texture"]), (item_size, item_size)), (self.rect.x + 10, self.rect.y + 10))
             text = text_font.render(str(item.quantity), True, (255, 255, 255))
-            screen.blit(text, (pos_x + 64, pos_y + 64))
+            screen.blit(text, (self.rect.x + 64, self.rect.y + 64))
             self.rect_color = (255, 255, 255)
 
     #YAAAAY it worked let's add some more.
@@ -119,13 +119,13 @@ def initialize_inventory(inventory, slot_list, init_pos_x, init_pos_y, item_size
     for item_index, item in enumerate(inventory):
         Slot(item.id, item_index, item.quantity, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, slot_list, rect_size)
 
-def update_inventory(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size):
+def update_inventory(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size, value_to_increase_from_y_position):
     for item_index, item in enumerate(inventory): # Checks for each slot.
         slot = slot_list[item_index]
         if inventory[item_index].quantity == 0:
             inventory[item_index].id = "1" # Checks if the quantity is 0, if so, make the slot's id 1 (nothing).
         slot.update_id_and_quantity(item.id, item.quantity) # Updates it's id and quantity
-        slot.update(screen, sprite_size, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + 10, item) # posisions them on screen
+        slot.update(screen, sprite_size, init_pos_x + (item_index * (item_size + spacement_x)), init_pos_y + value_to_increase_from_y_position, item) # posisions them on screen
 
 def update_clicked_slot(inventory, screen, slot_list, item_size, init_pos_x, init_pos_y, spacement_x, sprite_size):
     for item_index, item in enumerate(inventory):
