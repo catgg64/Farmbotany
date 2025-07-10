@@ -72,8 +72,8 @@ class Floutwitch():
 
             is_done = False
 
-            distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.actual_floutwitch_position[0] - self.viewport.pos_x,
-                                                                                 self.mouse_pos[1] - self.actual_floutwitch_position[1] - self.viewport.pos_y)
+            distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.rect.x - self.viewport.pos_x,
+                                                                                 self.mouse_pos[1] - self.rect.y - self.viewport.pos_y)
 
             if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
                 pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,

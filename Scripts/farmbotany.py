@@ -135,6 +135,7 @@ class Farmbotany:
                                         self.viewport.pos_x, self.viewport.pos_y)
 
             pos = round(pos)
+            print(pos)
 
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
@@ -142,14 +143,10 @@ class Farmbotany:
                     special_slot_data.quantity -= 1
                     special_tiles_world[pos] = Crop(tile_size, 2)
 
-    #        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
-    #            print(check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)))
 
 
-            #if special_tiles_world[pos].check_for_harvest()
             if isinstance(special_tiles_world[pos], Crop):
                 if special_tiles_world[pos].check_for_harvest():
-                #if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
                     special_tiles_world[pos] = None
                     add_item_to_inventory(inventory, ItemData("4", 1))
                 
@@ -181,9 +178,9 @@ class Farmbotany:
         self.internal_surface.fill("cadetblue1")
 
         if self.floutwitch.rect.x > self.mincornerx and self.floutwitch.rect.x < self.maxcornerx and self.floutwitch.rect.x > self.screen_height / 2:
-            self.viewportx = -1 * self.floutwitch.rect.x + self.screen_height / 2
+            self.viewportx = self.floutwitch.rect.x - self.screen_height / 2
         if self.floutwitch.rect.y > self.mincornery and self.floutwitch.rect.y < self.maxcornery and self.floutwitch.rect.y > self.screen_width / 2:
-            self.viewporty = -1 * self.floutwitch.rect.y + self.screen_width / 2
+            self.viewporty = self.floutwitch.rect.y - self.screen_width / 2
 
         # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
@@ -241,7 +238,7 @@ class Farmbotany:
 
         # Can be used later when debugging.
         #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
-
+        
         self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
         # Updates the shop.
@@ -250,7 +247,7 @@ class Farmbotany:
         #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
 
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
-        self.screen.blit(self.internal_surface, (self.viewport.pos_x, self.viewport.pos_y))
+        self.screen.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))
 
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.screen)

@@ -135,8 +135,8 @@ def setup_tile_data(width, length):
 def position_to_tile_value(x, y, width, length, tile_size, offset_x, offset_y):
     init_pos_x = offset_x + 0
     init_pos_y = offset_y + 0
-    grid_x = (x - init_pos_x) // tile_size
-    grid_y = (y - init_pos_y) // tile_size
+    grid_x = (x + init_pos_x) // tile_size
+    grid_y = (y + init_pos_y) // tile_size
     if 0 <= grid_x < width and 0 <= grid_y < length:
         return (grid_y) * width + (grid_x)
     return -1

@@ -37,11 +37,16 @@ class Slot:
 
     # Updates it every frame (hope this works)
     def update(self, screen, item_size, pos_x, pos_y, item):
+        item_data = items[item.id][0]
+
         pygame.draw.rect(screen, self.rect_color, self.rect, 5)
         if item.id != "1":
             screen.blit(pygame.transform.scale(pygame.image.load(items[item.id][0]["texture"]), (item_size, item_size)), (self.rect.x + 10, self.rect.y + 10))
-            text = text_font.render(str(item.quantity), True, (255, 255, 255))
-            screen.blit(text, (self.rect.x + 64, self.rect.y + 64))
+            
+            if item_data["stackable"]:
+                text = text_font.render(str(item.quantity), True, (255, 255, 255))
+                screen.blit(text, (self.rect.x + 60, self.rect.y + 60))
+            
             self.rect_color = (255, 255, 255)
 
     #YAAAAY it worked let's add some more.
