@@ -119,11 +119,11 @@ class Crop(SpecialTile):
             self.image = pygame.image.load(self.texture)
             self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
-    def check_for_harvest(self, point):
+    def check_for_harvest(self):
         #print(f"colliding with mouse: {self.rect.collidepoint(point)}")
         #print(f"mouse pressed: {pygame.mouse.get_pressed()[0]}")
         #print(f"can be collected: {self.can_collect}")
-        if self.rect.collidepoint(point) and pygame.mouse.get_pressed()[0] and self.can_collect:
+        if pygame.mouse.get_pressed()[0] and self.can_collect:
             return True
         return False
 

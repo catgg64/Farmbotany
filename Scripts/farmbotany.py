@@ -130,26 +130,29 @@ class Farmbotany:
         return False
 
     def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot, viewport):
-        pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
-                                    self.viewport.pos_x, self.viewport.pos_y)
+        if not self.shop.shop_open:
+            pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
+                                        self.viewport.pos_x, self.viewport.pos_y)
 
-        pos = round(pos)
+            pos = round(pos)
 
-        special_slot_data = inventory[special_slot]
-        if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-            if tile_slot_list[pos].id == "2" and special_tiles_world[pos] is None:
-                special_slot_data.quantity -= 1
-                special_tiles_world[pos] = Crop(tile_size, 2)
+            special_slot_data = inventory[special_slot]
+            if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
+                if tile_slot_list[pos].id == "2" and special_tiles_world[pos] is None:
+                    special_slot_data.quantity -= 1
+                    special_tiles_world[pos] = Crop(tile_size, 2)
 
-#        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
-#            print(check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)))
+    #        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
+    #            print(check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)))
 
 
-        #if special_tiles_world[pos].check_for_harvest()
-        if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
-            special_tiles_world[pos] = None
-            add_item_to_inventory(inventory, ItemData("4", 1))
-            
+            #if special_tiles_world[pos].check_for_harvest()
+            if isinstance(special_tiles_world[pos], Crop):
+                if special_tiles_world[pos].check_for_harvest():
+                #if check_for_harvest_in_all_crops(special_tiles_world, (mouse_pos[0] - viewport.pos_x, mouse_pos[1] - viewport.pos_y)):
+                    special_tiles_world[pos] = None
+                    add_item_to_inventory(inventory, ItemData("4", 1))
+                
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (0, 0))
