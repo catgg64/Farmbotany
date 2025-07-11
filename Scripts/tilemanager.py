@@ -133,18 +133,15 @@ def setup_tile_data(width, length):
     return [TileData("1", "1") for _ in range(width * length)]  # Use valid ID "1"
 
 def position_to_tile_value(x, y, width, length, tile_size, offset_x, offset_y):
-    init_pos_x = offset_x + 0
-    init_pos_y = offset_y + 0
-    grid_x = (x + init_pos_x) // tile_size
-    grid_y = (y + init_pos_y) // tile_size
-    if 0 <= grid_x < width and 0 <= grid_y < length:
-        return (grid_y) * width + (grid_x)
-    return -1
+    calc_x = (x - offset_x) // tile_size
+    calc_y = (y - offset_y) // tile_size
+    return calc_x, calc_y
+    
 
-def tile_value_to_position(tile_value, width, tile_size):
-    x = (tile_value % width) * tile_size
-    y = (tile_value // width) * tile_size
-    return (x, y)
+def tile_value_to_position(x, y, width, tile_size):
+    pos_x = x * tile_size
+    pos_y = y * tile_size
+    return pos_x, pos_y
 
 def create_rects(tile_list, rect_list, width):
     for index, tile in enumerate(tile_list):
@@ -167,25 +164,46 @@ def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
         drawn_tiles += 1
 
 # Instantiates all the slots.
-def initialize_tilemap(tile_list, width, tile_size, offset_x, offset_y, tile_slot_list):
-    for index, tile in enumerate(tile_list):
-        tile_data = tiles[tile.id][0]
-        pos = tile_value_to_position(index, width, tile_size)
-        Tile(offset_x + pos[0], offset_y + pos[1], tile.id, tile.sub_id, tile_size, tile_slot_list)
+def initialize_tilemap(tile_list, sub_tile_list, width, tile_size, offset_x, offset_y, tile_slot_list):
+    for row_idx in range(len(tile_list)):
+        for col_idx in range(len(tile_list[row_idx])):
+            tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
+            pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
+            Tile(offset_x + pos[0], offset_y + pos[1], tile_data.id, tile_data.sub_id, tile_size, tile_slot_list)
+        
+    
+    # for index, tile in enumerate(tile_list):
+    #     tile_data = tiles[tile.id][0]
+    #     pos = tile_value_to_position(x, y, width, tile_size)
+    #     Tile(offset_x + pos[0], offset_y + pos[1], tile.id, tile.sub_id, tile_size, tile_slot_list)
 
 
 # Updates all the slots.
-def update_tile_map(tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface):
-    for index, tile in enumerate(tile_list):
-        tile_data = tiles[tile.id][0]
-        pos = tile_value_to_position(index, width, tile_size)
-        tile_slot_list[index].update(tile.id, tile.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
+def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface):   
+    for row_idx in range(len(tile_list)):
+        for col_idx in range(len(tile_list[row_idx])):
+            tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
+            pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
+            tile_slot_list[row_idx * width + col_idx].update(tile_data.id, tile_data.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
+
+
+    # for index, tile in enumerate(tile_list):
+    #     tile_data = tiles[tile.id][0]
+    #     pos = tile_value_to_position(index, width, tile_size)
+    #     tile_slot_list[index].update(tile.id, tile.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
 
 def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface):
-    for index, tile in enumerate(special_tiles_list):
-        if tile is not None:
-            pos = tile_value_to_position(index, width, tile_size)
-            tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+    for row_idx, row in enumerate(special_tiles_list):
+        for column_idx, column in enumerate(row):
+            if column is not None:
+                pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
+                column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+
+    
+    # for index, tile in enumerate(special_tiles_list):
+    #     if tile is not None:
+    #         pos = tile_value_to_position(index, width, tile_size)
+    #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
 
 

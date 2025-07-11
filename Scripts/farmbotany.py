@@ -55,29 +55,72 @@ class Farmbotany:
         self.tile_size = 64
         self.tiles_world = []
         self.world = [
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
+            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]
         ]
-        self.special_tiles_world = []
-        self.special_tiles_world = Nonefy(self.tile_world_width * self.tile_world_length)
+        self.sub_world = [
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
+        ]
+        self.special_tiles_world = [
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+        ]
+        #self.special_tiles_world = Nonefy(self.tile_world_width * self.tile_world_length)
         self.tiles_world = setup_tile_data(self.tile_world_width, self.tile_world_length)
         self.tile_slot_list = []
 
@@ -153,23 +196,30 @@ class Farmbotany:
 
     def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot, viewport):
         if not self.shop.shop_open:
-            pos = position_to_tile_value(mouse_pos[0], mouse_pos[1], tile_world_width, tile_world_length, tile_size,
-                                        self.viewport.pos_x, self.viewport.pos_y)
+            world_x = mouse_pos[0] + viewport.pos_x
+            world_y = mouse_pos[1] + viewport.pos_y
+            # Use fixed tilemap offsets (adjust if tilemap has a non-zero origin)
+            offset_x = 0  # e.g., 100 if tilemap starts at x=100
+            offset_y = 0  # e.g., 200 if tilemap starts at y=200
+            pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
+            pos_x, pos_y = pos  # Unpack tuple
+            # Ensure integer indices
+            pos_x = int(pos_x)
+            pos_y = int(pos_y)
 
-            pos = round(pos)
+            pos = pos_y * tile_world_width + pos_x
+
             print(pos)
 
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-                if tile_slot_list[pos].id == "2" and special_tiles_world[pos] is None:
+                if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
                     special_slot_data.quantity -= 1
-                    special_tiles_world[pos] = Crop(tile_size, 2)
+                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 2)
 
-
-
-            if isinstance(special_tiles_world[pos], Crop):
-                if special_tiles_world[pos].check_for_harvest():
-                    special_tiles_world[pos] = None
+            if isinstance(special_tiles_world[pos_x][pos_y], Crop):
+                if special_tiles_world[pos_x][pos_y].check_for_harvest():
+                    special_tiles_world[pos_x][pos_y] = None
                     add_item_to_inventory(inventory, ItemData("4", 1))
                 
     def _render_gold(self, gold, font, surface):
@@ -177,17 +227,19 @@ class Farmbotany:
         surface.blit(text, (0, 0))
 
     def _makes_the_axe_work(self, axe_pos_x, axe_pos_y, farmbotany):
+        # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
+
         if axe_pos_x and axe_pos_y:
-            tile = position_to_tile_value(axe_pos_x,
-                                            axe_pos_y, farmbotany.tile_world_width,
-                                            farmbotany.tile_world_length, farmbotany.tile_size, 0, 0)
-
-            tile = round(tile) # Rounds the tile down to prevent some issues.
-
-            if tile is not None and 0 <= tile < len(farmbotany.tiles_world): # Checks if the tile is not None,
-                                                                    # is greater or equel to 0 and is 
-                                                                    # smaller that the size of the world
-                farmbotany.tiles_world[tile].id = "2"
+            world_x = axe_pos_x + farmbotany.viewport.pos_x
+            world_y = axe_pos_y + farmbotany.viewport.pos_y
+            tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.tile_world_width, farmbotany.tile_world_length, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
+            tile_x = int(round(tile_x))
+            tile_y = int(round(tile_y))
+            if 0 <= tile_x < farmbotany.tile_world_width and 0 <= tile_y < farmbotany.tile_world_length:
+                tile_index = tile_y * farmbotany.tile_world_width + tile_x
+                if tile_index < len(farmbotany.tiles_world):
+                    farmbotany.world[tile_y][tile_x] = "2"
+                    
         
 
     def update(self):
@@ -196,6 +248,7 @@ class Farmbotany:
 
         self.keys = pygame.key.get_pressed()
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
+
 
         self.internal_surface.fill("cadetblue1")
 
@@ -242,7 +295,7 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        update_tile_map(self.tiles_world, self.tile_slot_list,
+        update_tile_map(self.world, self.sub_world, self.tile_slot_list,
                         self.tile_world_width, self.tile_size,
                         0, 0, self.internal_surface)
         update_special_tiles(self.special_tiles_world, self.tile_world_width, 
@@ -293,7 +346,7 @@ class Farmbotany:
 farmbotany = Farmbotany()
 
 setup_surfaces(farmbotany.tile_size)
-initialize_tilemap(farmbotany.tiles_world, farmbotany.tile_world_width, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.tile_slot_list)
+initialize_tilemap(farmbotany.world, farmbotany.sub_world, farmbotany.tile_world_width, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.tile_slot_list)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame
