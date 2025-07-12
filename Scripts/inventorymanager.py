@@ -39,6 +39,7 @@ class Slot:
     def update(self, screen, item_size, pos_x, pos_y, item):
         item_data = items[item.id][0]
 
+        pygame.draw.rect(screen, (227, 227, 227), self.rect, 0)
         pygame.draw.rect(screen, self.rect_color, self.rect, 5)
         if item.id != "1":
             screen.blit(pygame.transform.scale(pygame.image.load(items[item.id][0]["texture"]), (item_size, item_size)), (self.rect.x + 10, self.rect.y + 10))

@@ -20,8 +20,8 @@ class Farmbotany:
         # Import Shop inside the __init__ method to avoid circular import
         from shop import Shop
         
-        self.screen_width = 400
-        self.screen_height = 800
+        self.screen_width = 680
+        self.screen_height = 720
         self.screen = pygame.display.set_mode((self.screen_height, self.screen_width))
         pygame.display.set_caption("Farmbotany")
         self.clock = pygame.time.Clock()
@@ -41,9 +41,9 @@ class Farmbotany:
         self.viewportx = 0
         self.viewporty = 0
         self.mincornerx = 0
-        self.maxcornerx = 1000
+        self.maxcornerx = 100
         self.mincornery = 0
-        self.maxcornery = 2100
+        self.maxcornery = 1270 - self.screen_width
 
         self.viewport = ViewPort(self.viewportx, self.viewporty)
         
@@ -72,7 +72,7 @@ class Farmbotany:
         self.slot_selected = 0
         self.slot_list = []
         self.spacement = 40
-        initialize_inventory(self.inventory, self.slot_list, 20, 20, 20, 50, self.spacement)
+        initialize_inventory(self.inventory, self.slot_list, 20, 20, 10, 40, self.spacement)
 
         self.inventory[0].id = "5"
         self.inventory[0].quantity = 1
@@ -88,6 +88,9 @@ class Farmbotany:
         self.page_up_pressed = False
         self.page_down_just_clicked = False
         self.page_down_pressed = False
+        self.mouse_wheel_up = False
+        self.mouse_wheel_down = False
+
         self.mouse_pos = 0
         self.slot_class_selected = 0
         self.is_picking_up = False
@@ -103,6 +106,8 @@ class Farmbotany:
         page_down_pressed = False
         mouse_realeased = False
         right_just_clicked = False
+        mouse_wheel_up = False
+        mouse_wheel_down = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -112,6 +117,10 @@ class Farmbotany:
                     mouse_just_clicked = True
                 if event.button == 3:
                     right_just_clicked = True
+                if event.button == 4:
+                    mouse_wheel_up = True
+                if event.button == 5:
+                    mouse_wheel_down = True
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     mouse_realeased = True
@@ -120,8 +129,15 @@ class Farmbotany:
                     page_up_pressed = True
                 if event.key == pygame.K_PAGEDOWN:
                     page_down_pressed = True
+                if event.key == pygame.K_F11:
+                    pygame.display.toggle_fullscreen()
+            #if event.type == pygame.VIDEORESIZE:
+            #    # Update window size
+            #    self.window_width, self.window_height = event.w, event.h
+            #    # Resize the display surface
+            #    self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
 
-        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down
 
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -165,14 +181,15 @@ class Farmbotany:
                     special_slot_data.quantity -= 1
                     special_tiles_world[pos_x][pos_y] = Crop(tile_size, 2)
 
-            if isinstance(special_tiles_world[pos_x][pos_y], Crop):
-                if special_tiles_world[pos_x][pos_y].check_for_harvest():
-                    special_tiles_world[pos_x][pos_y] = None
-                    add_item_to_inventory(inventory, ItemData("4", 1))
+            if pos_x < tile_world_width and pos_y < tile_world_length:
+                if isinstance(special_tiles_world[pos_x][pos_y], Crop):
+                    if special_tiles_world[pos_x][pos_y].check_for_harvest():
+                        special_tiles_world[pos_x][pos_y] = None
+                        add_item_to_inventory(inventory, ItemData("4", 1))
                 
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
-        surface.blit(text, (0, 0))
+        surface.blit(text, (10, 10))
 
     def _makes_the_axe_work(self, axe_pos_x, axe_pos_y, farmbotany):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
@@ -192,7 +209,7 @@ class Farmbotany:
         
 
     def update(self):
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked = self._event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
@@ -228,13 +245,13 @@ class Farmbotany:
                 hoe_tile.sub_id = "2"
 
             # This part updates the selected slot in the hotbar.
-            if self.page_up_just_clicked:
+            if self.mouse_wheel_up:
                 if self.slot_selected < len(self.inventory) - 1:
                     self.slot_selected += 1
                 else:
                     self.slot_selected = 0
 
-            if self.page_down_just_clicked:
+            if self.mouse_wheel_down:
                 if self.slot_selected > 0:
                     self.slot_selected -= 1
                 else:
@@ -263,6 +280,8 @@ class Farmbotany:
         for solid_brick in self.solid_objects_list:
             solid_brick.update(self.internal_surface)
 
+        print(self.viewportx, self.viewporty)
+
         # Can be used later when debugging.
         #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
         
@@ -278,7 +297,7 @@ class Farmbotany:
 
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.screen)
-        update_inventory(self.inventory, self.screen, self.slot_list, 10, 10, 10, self.spacement, 30, 10)
+        update_inventory(self.inventory, self.screen, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
         self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
