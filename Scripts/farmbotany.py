@@ -6,6 +6,7 @@ from inventorymanager import *
 from viewport import ViewPort, check_if_out_of_area
 from globals import *
 import solid_object
+import rooms
 
 # Remove the import of shop here
 # from shop import *
@@ -77,7 +78,7 @@ class Farmbotany:
             ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]
         ]
         self.sub_world = [
-            ["1", "3", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
@@ -120,7 +121,10 @@ class Farmbotany:
             [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
             [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
         ]
-        #self.special_tiles_world = Nonefy(self.tile_world_width * self.tile_world_length)
+        self.farm = rooms.Room(self.world, self.sub_world, self.special_tiles_world, 1)
+
+        self.current_room = self.farm
+
         self.tiles_world = setup_tile_data(self.tile_world_width, self.tile_world_length)
         self.tile_slot_list = []
 
@@ -247,7 +251,10 @@ class Farmbotany:
 
         self.keys = pygame.key.get_pressed()
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
+        
+        self.solid_objects_list = []
 
+        self.brick.append_self_to_list(self.solid_objects_list)
 
         self.internal_surface.fill("cadetblue1")
 
@@ -288,16 +295,16 @@ class Farmbotany:
                     self.slot_selected = 11
 
         # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.special_tiles_world, self.mouse_pos, self.tile_world_width, self.tile_world_length, self.tile_slot_list, self.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.tile_world_width, self.tile_world_length, self.tile_slot_list, self.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
 
         # Lights up the selected slot.
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        update_tile_map(self.world, self.sub_world, self.tile_slot_list,
+        update_tile_map(self.current_room.world, self.current_room.sub_world, self.tile_slot_list,
                         self.tile_world_width, self.tile_size,
                         0, 0, self.internal_surface)
-        update_special_tiles(self.special_tiles_world, self.tile_world_width, 
+        update_special_tiles(self.current_room.special_tiles_world, self.tile_world_width, 
                             self.tile_size, 0, 0, self.internal_surface)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.tiles_world,
