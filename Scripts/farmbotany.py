@@ -77,7 +77,7 @@ class Farmbotany:
             ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]
         ]
         self.sub_world = [
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "3", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
             ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
@@ -209,8 +209,6 @@ class Farmbotany:
 
             pos = pos_y * tile_world_width + pos_x
 
-            print(pos)
-
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
                 if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
@@ -235,7 +233,8 @@ class Farmbotany:
             tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.tile_world_width, farmbotany.tile_world_length, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
             tile_x = int(round(tile_x))
             tile_y = int(round(tile_y))
-            if 0 <= tile_x < farmbotany.tile_world_width and 0 <= tile_y < farmbotany.tile_world_length:
+            
+            if 0 <= tile_x < farmbotany.tile_world_width and 0 <= tile_y < farmbotany.tile_world_length and farmbotany.sub_world[tile_y][tile_x] == "1":
                 tile_index = tile_y * farmbotany.tile_world_width + tile_x
                 if tile_index < len(farmbotany.tiles_world):
                     farmbotany.world[tile_y][tile_x] = "2"
@@ -339,9 +338,6 @@ class Farmbotany:
         
         pygame.display.update() # Udates the screen.
         self.clock.tick(60) # The clock ticks. This is used for the framerate adjustments.
-
-
-
 
 farmbotany = Farmbotany()
 
