@@ -45,9 +45,9 @@ class Shop:
         self.mouse_realeased = False
         
         self.farmbotany = farmbotany
-        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, 
+        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
                                                                                                     self.sell_slot_list, self.sell_slot_data_list, 
-                                                                                                    farmbotany.clicked_slot_data)
+                                                                                                    farmbotany.clicked_slot_data, farmbotany.is_picking_up)
         
         self.product_slot_list = []
         self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch)

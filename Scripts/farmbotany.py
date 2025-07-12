@@ -7,6 +7,7 @@ from viewport import ViewPort, check_if_out_of_area
 from globals import *
 import solid_object
 import rooms
+import worlds
 
 # Remove the import of shop here
 # from shop import *
@@ -55,73 +56,11 @@ class Farmbotany:
         self.tile_world_length = 20
         self.tile_size = 64
         self.tiles_world = []
-        self.world = [
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],
-            ["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]
-        ]
-        self.sub_world = [
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]
-        ]
-        self.special_tiles_world = [
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],
-            [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
-        ]
-        self.farm = rooms.Room(self.world, self.sub_world, self.special_tiles_world, 1)
+
+        self.worlds = worlds.Worlds()
+
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1)
+        # self.my_room = rooms.Room(self)
 
         self.current_room = self.farm
 
@@ -144,12 +83,14 @@ class Farmbotany:
 
         self.mouse_just_clicked = False
         self.mouse_realeased = False
+        self.right_just_clicked = False
         self.page_up_just_clicked = False
         self.page_up_pressed = False
         self.page_down_just_clicked = False
         self.page_down_pressed = False
         self.mouse_pos = 0
         self.slot_class_selected = 0
+        self.is_picking_up = False
 
         # Now Shop is defined and can be used
         self.shop = Shop(500, 500, self.floutwitch, self)
@@ -161,21 +102,26 @@ class Farmbotany:
         page_up_pressed = False
         page_down_pressed = False
         mouse_realeased = False
+        right_just_clicked = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_just_clicked = True
+                if event.button == 1:
+                    mouse_just_clicked = True
+                if event.button == 3:
+                    right_just_clicked = True
             if event.type == pygame.MOUSEBUTTONUP:
-                mouse_realeased = True
+                if event.button == 1:
+                    mouse_realeased = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_PAGEUP:
                     page_up_pressed = True
                 if event.key == pygame.K_PAGEDOWN:
                     page_down_pressed = True
 
-        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked
 
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -238,15 +184,15 @@ class Farmbotany:
             tile_x = int(round(tile_x))
             tile_y = int(round(tile_y))
             
-            if 0 <= tile_x < farmbotany.tile_world_width and 0 <= tile_y < farmbotany.tile_world_length and farmbotany.sub_world[tile_y][tile_x] == "1":
+            if 0 <= tile_x < farmbotany.tile_world_width and 0 <= tile_y < farmbotany.tile_world_length and farmbotany.worlds.farm.sub_world[tile_y][tile_x] == "1":
                 tile_index = tile_y * farmbotany.tile_world_width + tile_x
                 if tile_index < len(farmbotany.tiles_world):
-                    farmbotany.world[tile_y][tile_x] = "2"
+                    farmbotany.worlds.farm.world[tile_y][tile_x] = "2"
                     
         
 
     def update(self):
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased = self._event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
@@ -333,13 +279,14 @@ class Farmbotany:
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.screen)
         update_inventory(self.inventory, self.screen, self.slot_list, 10, 10, 10, self.spacement, 30, 10)
-        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data)
+        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
         self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
         #pygame.draw.circle(self.screen, (255, 255, 255), (self.mouse_pos[0] - self.viewport.pos_x, self.mouse_pos[1] - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
+        self.right_just_clicked = False
         self.page_up_just_clicked = False
         self.page_down_just_clicked = False
         
@@ -349,7 +296,7 @@ class Farmbotany:
 farmbotany = Farmbotany()
 
 setup_surfaces(farmbotany.tile_size)
-initialize_tilemap(farmbotany.world, farmbotany.sub_world, farmbotany.tile_world_width, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.tile_slot_list)
+initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.worlds.farm.tile_world_width, farmbotany.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.tile_slot_list)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame

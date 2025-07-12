@@ -3,7 +3,7 @@ import pygame
 items = {
     "1": [{"name": "nothing", "texture": "Sprites/book.png", "stackable": True, "can_be_sold": False, "value": 0}],
     "2": [{"name": "book", "texture": "Sprites/book.png", "stackable": True, "can_be_sold": True, "value": 10}],
-    "3": [{"name": "seed", "texture": "Sprites/vsauce_face.png", "stackable": True, "can_be_sold": True, "value": 20}],
+    "3": [{"name": "seed", "texture": "Sprites/wheat_growing.png", "stackable": True, "can_be_sold": True, "value": 20}],
     "4": [{"name": "wheat", "texture": "Sprites/wheat.png", "stackable": True, "can_be_sold": True, "value": 50}],
     "5": [{"name": "axe", "texture": "Sprites/axe.png", "stackable": False, "can_be_sold": False, "value": 0}]
 }
@@ -73,7 +73,11 @@ class Slot:
     def un_light_up(self):
         self.rect_color = (255, 255, 255)
 
-def check_for_clicked_slot_interaction(mouse_just_clicked, slot_list, inventory, clicked_slot_data):
+def check_for_clicked_slot_interaction(mouse_just_clicked, right_just_clicked, slot_list, inventory, clicked_slot_data, is_picking_up):
+    
+    if clicked_slot_data.id == "1":
+        is_picking_up = False
+
     if mouse_just_clicked:
         if check_point_collision_with_all_slots(slot_list, pygame.mouse.get_pos()) != None:
             slot_clicked = inventory[check_point_collision_with_all_slots(slot_list, pygame.mouse.get_pos()) - 1]
@@ -102,6 +106,23 @@ def check_for_clicked_slot_interaction(mouse_just_clicked, slot_list, inventory,
                 slot_clicked.quantity = new_slot_cliked.quantity
                 clicked_slot_data.id = new_clicked_slot_data.id
                 clicked_slot_data.quantity = new_clicked_slot_data.quantity
+    if right_just_clicked:
+        if check_point_collision_with_all_slots(slot_list, pygame.mouse.get_pos()):
+            slot_clicked = inventory[check_point_collision_with_all_slots(slot_list, pygame.mouse.get_pos()) - 1]
+            if slot_clicked.id != "1" and clicked_slot_data.id == "1":
+                is_picking_up = True
+                clicked_slot_data.id = slot_clicked.id
+                clicked_slot_data.quantity += 1
+                slot_clicked.quantity -= 1
+            elif slot_clicked.id != "1" and is_picking_up:
+                is_picking_up = True
+                clicked_slot_data.id = slot_clicked.id
+                clicked_slot_data.quantity += 1
+                slot_clicked.quantity -= 1
+            if clicked_slot_data.id != "1" and not is_picking_up:
+                slot_clicked.id = clicked_slot_data.id
+                slot_clicked.quantity += 1
+                clicked_slot_data.quantity -= 1
 
 def setup_inventory(size):
     inventory_list = [None] * size
