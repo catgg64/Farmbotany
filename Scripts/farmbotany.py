@@ -8,6 +8,8 @@ from globals import *
 import solid_object
 import rooms
 import worlds
+import tweener
+import fadeinout
 
 # Remove the import of shop here
 # from shop import *
@@ -22,14 +24,19 @@ class Farmbotany:
         
         self.screen_width = 680
         self.screen_height = 720
-        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width))
+        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA)
         pygame.display.set_caption("Farmbotany")
         self.clock = pygame.time.Clock()
         self.running = True
+        self.paused = False
         
-        self.internal_surface = pygame.Surface((2000, 2000))
+        self.internal_surface = pygame.Surface((2000, 2000), pygame.SRCALPHA)
         
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
+
+        self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
+        self.fadeinout_start_time = 0
+        self.is_fading_out = False
         
         self.text_font = pygame.font.SysFont("Ariel", 30)
 
@@ -37,6 +44,8 @@ class Farmbotany:
         #self.brick = solid_object.Brick(100, 100)
         #self.brick.append_self_to_list(self.solid_objects_list)
         self.colliding_with_solid_object = False
+
+        self.farm_to_my_room_passage_rect = pygame.Rect(200, 0, 100, 100)
 
         self.viewportx = 0
         self.viewporty = 0
@@ -54,6 +63,11 @@ class Farmbotany:
         self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 0, 0, 0, 20, 20)
 
         self.current_room = self.my_room
+
+        # Use this to help me for later in case i forget.
+
+        #self.my_tween = tweener.Tween(0, 1, 1000, tweener.Easing.QUAD, tweener.EasingMode.OUT, True, True, 0)
+        #self.my_tween.start()
 
         self.inventory = []
         self.inventory = setup_inventory(12)
@@ -195,7 +209,13 @@ class Farmbotany:
                     print(farmbotany.current_room.world[tile_y][tile_x], farmbotany.current_room.sub_world[tile_y][tile_x])
                     farmbotany.current_room.world[tile_y][tile_x] = "2"
                     
-        
+    def _switch_room(self, start_time, new_room, is_fading_out):
+        if self.is_fading_out:
+            current_time = time.time() - start_time
+            
+            if current_time > .5:
+                self.current_room = new_room
+                self.is_fading_out = False
 
     def update(self):
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down = self._event_handling()
@@ -207,6 +227,11 @@ class Farmbotany:
         self.solid_objects_list = []
 
         self.internal_surface.fill("cadetblue1")
+
+        #self.my_tween.update()
+
+
+        #print(self.my_tween.value)
 
         if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > self.screen_height / 2:
             self.viewportx = self.floutwitch.rect.x - self.screen_height / 2
@@ -272,6 +297,7 @@ class Farmbotany:
         for solid_brick in self.solid_objects_list:
             solid_brick.update(self.internal_surface)
 
+        
         # Can be used later when debugging.
         #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
         
@@ -281,6 +307,15 @@ class Farmbotany:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
             
+            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
+
+            if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
+                self.fadeinout.fade()
+                
+                self.fadeinout_start_time = time.time()
+                self.is_fading_out = True
+
+        self._switch_room(self.fadeinout_start_time, self.my_room, self.is_fading_out)
         
         #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
 
@@ -293,6 +328,9 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 30, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 40)
         self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
+
+        self.fadeinout.update(self.screen)
+
         #pygame.draw.circle(self.screen, (255, 255, 255), (self.mouse_pos[0] - self.viewport.pos_x, self.mouse_pos[1] - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
