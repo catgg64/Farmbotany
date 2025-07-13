@@ -2,13 +2,24 @@ import pygame
 import tilemanager
 
 class Room:
-    def __init__(self, world, sub_world, special_tiles_world, room_id):
+    def __init__(self, world, sub_world, special_tiles_world, room_id, mincornerx, maxcornerx, mincornery, maxcornery, width, length):
         self.world = world
         self.sub_world = sub_world
         self.special_tiles_world = special_tiles_world
         self.room_id = room_id
 
-        self.mincornerx = 0
-        self.maxcornerx = 1800
-        self.mincornery = 0
-        self.maxcornery = 800
+        self.mincornerx = mincornerx
+        self.maxcornerx = maxcornerx
+        self.mincornery = mincornery
+        self.maxcornery = maxcornery
+
+        self.tile_world_width = width
+        self.tile_world_length = length
+        self.tile_size = 64
+
+        self.tiles_world = []
+        self.tiles_world = tilemanager.setup_tile_data(self.tile_world_width, self.tile_world_length)
+
+
+
+        self.tile_slot_list = []
