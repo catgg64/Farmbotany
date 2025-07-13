@@ -68,7 +68,7 @@ class Slot:
 
     # Sets the light mode of the slot to on.
     def light_up(self):
-        self.rect_color = (255, 253, 150)
+        self.rect_color = (255, 112, 112) # Original colors were (255, 253, 150)
 
     # Sets it to the normal color.
     def un_light_up(self):

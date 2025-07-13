@@ -64,106 +64,108 @@ class Floutwitch():
         
         #pygame.draw.rect(internal_surface, "blue", self.rect)
 
-    def make_axe_interaction(self, internal_surface, viewport):
+    def make_axe_interaction(self, internal_surface, viewport, farmbotany):
         self.axe.update()
 
         result_x = 0
         result_y = 0
+        
+        if not farmbotany.paused:
 
-        # if self.axe_action:
+            # if self.axe_action:
 
-        #     is_done = False
+            #     is_done = False
 
-        #     distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.rect.x - self.viewport.pos_x,
-        #                                                                          self.mouse_pos[1] - self.rect.y - self.viewport.pos_y)
+            #     distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.rect.x - self.viewport.pos_x,
+            #                                                                          self.mouse_pos[1] - self.rect.y - self.viewport.pos_y)
 
-        #     if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
-        #         pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
-        #                                      self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
-        #         grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
-        #         actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
-        #         print(actual_pos)
-        #         pos = round(pos)
-        #         self.tile_map[pos].id = "2"
-        #         is_done = True
-        #         print(actual_pos)
+            #     if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
+            #         pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
+            #                                      self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
+            #         grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
+            #         actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
+            #         print(actual_pos)
+            #         pos = round(pos)
+            #         self.tile_map[pos].id = "2"
+            #         is_done = True
+            #         print(actual_pos)
 
-        #         self.facing_direction = [False, False, False, False]
+            #         self.facing_direction = [False, False, False, False]
 
-        #         if actual_pos[0] < 0:
-        #             self.facing_direction[2] = True
-        #         elif actual_pos[0] > 60:
-        #             self.facing_direction[3] = True
-        #         elif actual_pos[1] < 0:
-        #             self.facing_direction[0] = True
-        #         elif actual_pos[1] > 0:
-        #             self.facing_direction[1] = True
+            #         if actual_pos[0] < 0:
+            #             self.facing_direction[2] = True
+            #         elif actual_pos[0] > 60:
+            #             self.facing_direction[3] = True
+            #         elif actual_pos[1] < 0:
+            #             self.facing_direction[0] = True
+            #         elif actual_pos[1] > 0:
+            #             self.facing_direction[1] = True
+                        
+            #         if actual_pos[0] > 60 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 80
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[0] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + (280 - 350)
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] > 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (90 - 350)
+            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (240 - 350)
+            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+            #         self.axe.make_animation(internal_surface, self, self.facing_direction)
+
+
+
+            if self.axe_action:
+                if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = self.image_rect.x + 80
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 150)
+                    result_y = (self.image_rect.y + 70)
                     
-        #         if actual_pos[0] > 60 and not self.axe.in_animation and not self.axe.just_exited_animation:
-        #             self.front_pos_x = (self.rect.x) + 80
-        #             self.front_pos_y = (self.rect.y) + 0
-        #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-        #             self.in_close_animation = True
 
+                elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + -70)
+                    result_y = (self.image_rect.y + 70)
+                    
 
-        #         elif actual_pos[0] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-        #             self.front_pos_x = (self.rect.x) + (280 - 350)
-        #             self.front_pos_y = (self.rect.y) + 0
-        #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-        #             self.in_close_animation = True
+                elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (240 - 150)
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + 130)
+                    
 
+                elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                    self.front_pos_x = self.image_rect.x + 10
+                    self.front_pos_y = self.image_rect.y + (90 - 150)
+                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + -10)
+                    
 
-        #         elif actual_pos[1] > 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-        #             self.front_pos_x = (self.rect.x) + 10
-        #             self.front_pos_y = (self.rect.y) + (90 - 350)
-        #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-        #             self.in_close_animation = True
-
-
-        #         elif actual_pos[1] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
-        #             self.front_pos_x = (self.rect.x) + 10
-        #             self.front_pos_y = (self.rect.y) + (240 - 350)
-        #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-        #             self.in_close_animation = True
-
-        #         self.axe.make_animation(internal_surface, self, self.facing_direction)
-
-
-
-        if self.axe_action:
-            if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = self.image_rect.x + 80
-                self.front_pos_y = self.image_rect.y + 0
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = (self.image_rect.x + 150)
-                result_y = (self.image_rect.y + 70)
-                
-
-            elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = self.image_rect.x + (280 - 350)
-                self.front_pos_y = self.image_rect.y + 0
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = (self.image_rect.x + -70)
-                result_y = (self.image_rect.y + 70)
-                
-
-            elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = self.image_rect.x + 20
-                self.front_pos_y = self.image_rect.y + (240 - 150)
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = (self.image_rect.x + 50)
-                result_y = (self.image_rect.y + 130)
-                
-
-            elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
-                self.front_pos_x = self.image_rect.x + 10
-                self.front_pos_y = self.image_rect.y + (90 - 150)
-                self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                result_x = (self.image_rect.x + 50)
-                result_y = (self.image_rect.y + -10)
-                
-
-            self.axe.make_animation(internal_surface, self, self.direction)
+                self.axe.make_animation(internal_surface, self, self.direction)
 
         if self.axe.in_animation:
             self.axe.make_animation(internal_surface, self, self.direction)
@@ -186,68 +188,69 @@ class Floutwitch():
         self.axe.just_exited_animation = False
         return result_x, result_y
 
-    def move(self, keys):
-        if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:
-            self.is_walking = True
-        else:
-            self.is_walking = False
-
-        if self.can_move:
-            if keys[pygame.K_w]:
-                self.rect.y -= self.speed
-                for solid_object in self.solid_objects_list:
-                    if solid_object.rect.colliderect(self.rect):
-                        self.rect.y += self.speed
-
-                self.direction[0] = True
-                self.direction_faced[0] = True
-                self.direction_faced[1] = False
-                self.direction_faced[2] = False
-                self.direction_faced[3] = False
+    def move(self, keys, farmbotany):
+        if not farmbotany.paused:
+            if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:
+                self.is_walking = True
             else:
-                self.direction[0] = False
-            if keys[pygame.K_s]:
-                self.rect.y += self.speed
-                for solid_object in self.solid_objects_list:
-                    if solid_object.rect.colliderect(self.rect):
-                        self.rect.y -= self.speed
+                self.is_walking = False
 
-                self.direction[1] = True
-                self.direction_faced[0] = False
-                self.direction_faced[1] = True
-                self.direction_faced[2] = False
-                self.direction_faced[3] = False
-            else:
-                self.direction[1] = False
-            if keys[pygame.K_a]:
-                self.rect.x -= self.speed
-                for solid_object in self.solid_objects_list:
-                    if solid_object.rect.colliderect(self.rect):
-                        self.rect.x += self.speed
+            if self.can_move:
+                if keys[pygame.K_w]:
+                    self.rect.y -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.rect.colliderect(self.rect):
+                            self.rect.y += self.speed
+
+                    self.direction[0] = True
+                    self.direction_faced[0] = True
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[0] = False
+                if keys[pygame.K_s]:
+                    self.rect.y += self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.rect.colliderect(self.rect):
+                            self.rect.y -= self.speed
+
+                    self.direction[1] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = True
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[1] = False
+                if keys[pygame.K_a]:
+                    self.rect.x -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.rect.colliderect(self.rect):
+                            self.rect.x += self.speed
+                    
+                    self.needs_reverse = False
+                    self.direction[2] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = True
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[2] = False
+                if keys[pygame.K_d]:
+                    self.rect.x += self.speed
+                    self.needs_reverse = True
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.rect.colliderect(self.rect):
+                            self.rect.x -= self.speed
                 
-                self.needs_reverse = False
-                self.direction[2] = True
-                self.direction_faced[0] = False
-                self.direction_faced[1] = False
-                self.direction_faced[2] = True
-                self.direction_faced[3] = False
-            else:
-                self.direction[2] = False
-            if keys[pygame.K_d]:
-                self.rect.x += self.speed
-                self.needs_reverse = True
-                for solid_object in self.solid_objects_list:
-                    if solid_object.rect.colliderect(self.rect):
-                        self.rect.x -= self.speed
-            
-                self.direction[3] = True
-                self.direction_faced[0] = False
-                self.direction_faced[1] = False
-                self.direction_faced[2] = False
-                self.direction_faced[3] = True
-            else:
-                self.direction[3] = False
-            if keys[pygame.K_v]:
-                self.is_key_v_pressed = True
-            else:
-                self.is_key_v_pressed = False
+                    self.direction[3] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = True
+                else:
+                    self.direction[3] = False
+                if keys[pygame.K_v]:
+                    self.is_key_v_pressed = True
+                else:
+                    self.is_key_v_pressed = False
