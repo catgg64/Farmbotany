@@ -51,13 +51,10 @@ class Farmbotany:
         self.worlds = worlds.Worlds()
 
         self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 1800, 0, 800, 20, 20)
-        self.my_room_world = [["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]]
-        self.my_room_sub_world = [["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]]
-        self.my_special_room_world = [[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]]
-        self.my_room = rooms.Room(self.my_room_sub_world, self.my_room_sub_world, self.my_special_room_world, 2, 0, 0, 0, 0, 20, 20)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 0, 0, 0, 20, 20)
 
-        self.current_room = self.farm
-        
+        self.current_room = self.my_room
+
         self.inventory = []
         self.inventory = setup_inventory(12)
         self.slot_selected = 0
@@ -192,11 +189,11 @@ class Farmbotany:
             tile_x = int(round(tile_x))
             tile_y = int(round(tile_y))
             
-            if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length and farmbotany.worlds.farm.sub_world[tile_y][tile_x] == "1":
+            if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length and farmbotany.current_room.sub_world[tile_y][tile_x] == "1":
                 tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                 if tile_index < len(farmbotany.current_room.tiles_world):
-                    print("1")
-                    farmbotany.worlds.farm.world[tile_y][tile_x] = "2"
+                    print(farmbotany.current_room.world[tile_y][tile_x], farmbotany.current_room.sub_world[tile_y][tile_x])
+                    farmbotany.current_room.world[tile_y][tile_x] = "2"
                     
         
 
@@ -208,8 +205,6 @@ class Farmbotany:
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
         
         self.solid_objects_list = []
-
-#        self.brick.append_self_to_list(self.solid_objects_list)
 
         self.internal_surface.fill("cadetblue1")
 
@@ -231,10 +226,15 @@ class Farmbotany:
             self.floutwitch.axe_action = self.check_if_axe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
 
             # This part is useful when debugging
-            if self.keys[pygame.K_c]:
-                hoe_tile = self.current_room.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
-                hoe_tile.id = "4"
-                hoe_tile.sub_id = "2"
+            if self.right_just_clicked:
+                if self.current_room == self.farm:
+                    self.current_room = self.my_room
+                elif self.current_room == self.my_room:
+                    self.current_room = self.farm    
+                
+                #hoe_tile = self.current_room.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
+                #hoe_tile.id = "4"
+                #hoe_tile.sub_id = "2"
 
             # This part updates the selected slot in the hotbar.
             if self.mouse_wheel_up:
@@ -277,8 +277,10 @@ class Farmbotany:
         
         self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
-        # Updates the shop.
-        self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
+        if self.current_room == self.farm:
+            # Updates the shop.
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
+            
         
         #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
 
@@ -306,7 +308,7 @@ farmbotany = Farmbotany()
 
 setup_surfaces(farmbotany.current_room.tile_size)
 initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.farm.tile_slot_list)
-initialize_tilemap(farmbotany.my_room_world, farmbotany.my_room_sub_world, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
+initialize_tilemap(farmbotany.worlds.my_room_world.my_room_world, farmbotany.worlds.my_room_world.my_room_sub_world, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame

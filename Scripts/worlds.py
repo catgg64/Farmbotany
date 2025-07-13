@@ -1,6 +1,7 @@
 class Worlds:
     def __init__(self):
         self.farm = Farm()
+        self.my_room_world = MyRoomWorld()
 
 class Farm:
     def __init__(self):
@@ -94,6 +95,15 @@ class Farm:
         ]
         self.solid_objects_list = []
 
+        
+        self.tile_world_width = 20
+        self.tile_world_heigt = 20
+
+class MyRoomWorld:
+    def __init__(self):
+        self.my_room_world = [["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"],["3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3", "3"]]
+        self.my_room_sub_world = [["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"]]
+        self.my_special_room_world = [[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None],[None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]]
         
         self.tile_world_width = 20
         self.tile_world_heigt = 20

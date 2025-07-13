@@ -20,6 +20,4 @@ class Room:
         self.tiles_world = []
         self.tiles_world = tilemanager.setup_tile_data(self.tile_world_width, self.tile_world_length)
 
-
-
         self.tile_slot_list = []
