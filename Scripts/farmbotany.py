@@ -34,16 +34,16 @@ class Farmbotany:
         self.text_font = pygame.font.SysFont("Ariel", 30)
 
         self.solid_objects_list = []
-        self.brick = solid_object.Brick(100, 100)
-        self.brick.append_self_to_list(self.solid_objects_list)
+        #self.brick = solid_object.Brick(100, 100)
+        #self.brick.append_self_to_list(self.solid_objects_list)
         self.colliding_with_solid_object = False
 
         self.viewportx = 0
         self.viewporty = 0
         self.mincornerx = 0
-        self.maxcornerx = 100
+        self.maxcornerx = 800
         self.mincornery = 0
-        self.maxcornery = 1270 - self.screen_width
+        self.maxcornery = 800
 
         self.viewport = ViewPort(self.viewportx, self.viewporty)
         
@@ -179,7 +179,7 @@ class Farmbotany:
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
                 if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
                     special_slot_data.quantity -= 1
-                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 2)
+                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20)
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop):
@@ -217,7 +217,7 @@ class Farmbotany:
         
         self.solid_objects_list = []
 
-        self.brick.append_self_to_list(self.solid_objects_list)
+#        self.brick.append_self_to_list(self.solid_objects_list)
 
         self.internal_surface.fill("cadetblue1")
 
@@ -279,8 +279,6 @@ class Farmbotany:
 
         for solid_brick in self.solid_objects_list:
             solid_brick.update(self.internal_surface)
-
-        print(self.viewportx, self.viewporty)
 
         # Can be used later when debugging.
         #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)

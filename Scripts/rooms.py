@@ -7,3 +7,8 @@ class Room:
         self.sub_world = sub_world
         self.special_tiles_world = special_tiles_world
         self.room_id = room_id
+
+        self.mincornerx = 0
+        self.maxcornerx = 1800
+        self.mincornery = 0
+        self.maxcornery = 800

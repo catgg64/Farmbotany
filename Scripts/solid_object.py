@@ -16,3 +16,8 @@ class Brick:
     def update(self, surface):
         pygame.draw.rect(surface, (100, 100, 100), self.rect, 0)
 
+
+def update_solid_object_tilemap(tilemap, solid_objects_list, tile_size):
+    for row_idx, row in enumerate(tilemap):
+        for column_idx, column in enumerate(row):
+            solid_objects_list.append(Brick(row_idx * tile_size, column_idx * tile_size))

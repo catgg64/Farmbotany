@@ -6,7 +6,8 @@ tiles = {
     "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
     "2": [{"name": "Hoed Ground", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
     "3": [{"name": "Empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
-    "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}]
+    "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}],
+    "5": [{"name": "Dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16}]
 }
 
 def setup_surfaces(tile_exspansion):
