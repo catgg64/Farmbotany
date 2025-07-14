@@ -133,7 +133,7 @@ class Floutwitch():
 
 
             if self.axe_action:
-                if self.direction[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                if self.direction_faced[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -141,7 +141,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + (280 - 350)
                     self.front_pos_y = self.image_rect.y + 0
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -149,7 +149,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (240 - 150)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -157,7 +157,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 130)
                     
 
-                elif self.direction[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 10
                     self.front_pos_y = self.image_rect.y + (90 - 150)
                     self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -165,13 +165,13 @@ class Floutwitch():
                     result_y = (self.image_rect.y + -10)
                     
 
-                self.axe.make_animation(internal_surface, self, self.direction)
+                self.axe.make_animation(internal_surface, self, self.direction_faced)
 
         if self.axe.in_animation:
-            self.axe.make_animation(internal_surface, self, self.direction)
+            self.axe.make_animation(internal_surface, self, self.direction_faced)
 
         if self.in_close_animation:
-            self.axe.make_animation(internal_surface, self, self.facing_direction)
+            self.axe.make_animation(internal_surface, self, self.facing_direction_faced)
 
         if not self.axe.in_animation:
             self.in_close_animation = False

@@ -63,10 +63,10 @@ class Farmbotany:
 
         self.worlds = worlds.Worlds()
 
-        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 1800, 0, 800, 20, 20)
-        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 0, 0, 0, 20, 20)
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 800, 0, 800, 20, 20)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 20, 20)
 
-        self.current_room = self.my_room
+        self.current_room = self.farm
 
         # Use this to help me for later in case i forget.
 
@@ -244,9 +244,9 @@ class Farmbotany:
 
         #print(self.my_tween.value)
 
-        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > self.screen_height / 2:
+        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
             self.viewportx = self.floutwitch.rect.x - self.screen_height / 2
-        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > self.screen_width / 2:
+        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
             self.viewporty = self.floutwitch.rect.y - self.screen_width / 2
 
         # Updates viewport position
@@ -262,11 +262,11 @@ class Farmbotany:
             self.floutwitch.axe_action = self.check_if_axe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
 
             # This part is useful when debugging
-            if self.right_just_clicked:
-                if self.current_room == self.farm:
-                    self.current_room = self.my_room
-                elif self.current_room == self.my_room:
-                    self.current_room = self.farm    
+            #if self.right_just_clicked:
+            #    if self.current_room == self.farm:
+            #        self.current_room = self.my_room
+            #    elif self.current_room == self.my_room:
+            #        self.current_room = self.farm    
                 
                 #hoe_tile = self.current_room.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
                 #hoe_tile.id = "4"
@@ -351,7 +351,7 @@ class Farmbotany:
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         
-        #self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
+        self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
 
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))
