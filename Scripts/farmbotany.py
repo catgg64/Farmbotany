@@ -298,6 +298,7 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, 0, 0, self.internal_surface)
 
+
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
                                 self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
@@ -351,10 +352,11 @@ class Farmbotany:
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         
-        self.internal_surface = pygame.transform.scale(self.internal_surface, (1000, 1000))
+        #self.internal_surface = pygame.transform.scale(self.internal_surface, (700, 600))
 
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))
+
 
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.screen)
