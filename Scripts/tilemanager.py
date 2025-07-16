@@ -85,23 +85,42 @@ class Tile:
             return self.pos_x, self.pos_y
         else:
             return False
+    
+    def is_colliding_with_point(self, point):
+        if self.rect.collidepoint(point):
+            return True
+        else:
+            return False
+    
+    def is_colliding_with_rect(self, rect):
+        if self.rect.colliderect(rect):
+            return True
+        else:
+            return False
+    
 
 class SpecialTile:
-    def __init__(self, texture, size):
+    def __init__(self, texture, size, pos_x, pos_y):
         self.texture = texture
         self.size = size
         self.image = pygame.image.load(self.texture)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
+        self.rect = pygame.Rect(pos_x, pos_y, size, size)
 
     def update(self, screen, pos_x, pos_y):
         screen.blit(self.image, (pos_x, pos_y))
+        pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
+    
+    def is_colliding_with_rect(self, rect):
+        if self.rect.colliderect(rect):
+            return True
+        return False
 
 class Crop(SpecialTile):
-    def __init__(self, size, plant_time):
+    def __init__(self, size, plant_time, pos_x, pos_y):
         self.texture = "Sprites/wheat_growing.png"
         self.image = pygame.image.load(self.texture)
-        super().__init__(self.texture, size)
-        self.rect = pygame.Rect(0, 0, size, size)
+        super().__init__(self.texture, size, pos_x, pos_y)
         self.start_time = time.time()
         self.plant_time = plant_time
         self.can_collect = False
@@ -180,12 +199,13 @@ def initialize_tilemap(tile_list, sub_tile_list, width, tile_size, offset_x, off
 
 
 # Updates all the slots.
-def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface):   
+def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue):   
     for row_idx in range(len(tile_list)):
         for col_idx in range(len(tile_list[row_idx])):
-            tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
-            pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
-            tile_slot_list[row_idx * width + col_idx].update(tile_data.id, tile_data.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
+            if tile_slot_list[row_idx * width + col_idx] in draw_queue:
+                tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
+                pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
+                tile_slot_list[row_idx * width + col_idx].update(tile_data.id, tile_data.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
 
 
     # for index, tile in enumerate(tile_list):
@@ -193,12 +213,13 @@ def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, 
     #     pos = tile_value_to_position(index, width, tile_size)
     #     tile_slot_list[index].update(tile.id, tile.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface):
+def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue):
     for row_idx, row in enumerate(special_tiles_list):
         for column_idx, column in enumerate(row):
             if column is not None:
-                pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
-                column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+                if column in draw_queue:
+                    pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
+                    column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
     
     # for index, tile in enumerate(special_tiles_list):

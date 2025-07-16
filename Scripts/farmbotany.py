@@ -31,6 +31,9 @@ class Farmbotany:
         self.paused = False
         
         self.internal_surface = pygame.Surface((2000, 2000), pygame.SRCALPHA)
+
+        self.draw_queue = []
+        self.special_draw_queue = []
         
         self.floutwitch = Floutwitch(0, 0, self.internal_surface)
 
@@ -63,10 +66,11 @@ class Farmbotany:
 
         self.worlds = worlds.Worlds()
 
-        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 800, 0, 800, 20, 20)
-        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 20, 20)
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 600, 0, 600, 20, 20)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 31, 31)
 
         self.current_room = self.farm
+        self.screen_rect = pygame.Rect(0, 0, self.screen_height, self.screen_width)
 
         # Use this to help me for later in case i forget.
 
@@ -185,7 +189,7 @@ class Farmbotany:
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
                 if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
                     special_slot_data.quantity -= 1
-                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20)
+                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1])
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop):
@@ -210,7 +214,6 @@ class Farmbotany:
             if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length and farmbotany.current_room.sub_world[tile_y][tile_x] == "1":
                 tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                 if tile_index < len(farmbotany.current_room.tiles_world):
-                    print(farmbotany.current_room.world[tile_y][tile_x], farmbotany.current_room.sub_world[tile_y][tile_x])
                     farmbotany.current_room.world[tile_y][tile_x] = "2"
                     
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
@@ -233,15 +236,29 @@ class Farmbotany:
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
+        # Assigns the mouse position
+        self.mouse_pos = pygame.mouse.get_pos()
+        # Check to see if the mouse is clicked.
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
         
         self.solid_objects_list = []
+        self.draw_queue = []
+        self.special_draw_queue = []
 
         self.internal_surface.fill("cadetblue1")
+        self.screen_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, self.screen_height, self.screen_width)
+
+        for tile in self.current_room.tile_slot_list:
+            if tile.is_colliding_with_rect(self.screen_rect):
+                self.draw_queue.append(tile)
+
+        for row_idx, row in enumerate(self.current_room.special_tiles_world):
+            for column_idx, column in enumerate(row):
+                if self.current_room.special_tiles_world[row_idx][column_idx]:
+                    if self.current_room.special_tiles_world[row_idx][column_idx].is_colliding_with_rect(self.screen_rect):
+                        self.special_draw_queue.append(self.current_room.special_tiles_world[row_idx][column_idx])
 
         #self.my_tween.update()
-
-
         #print(self.my_tween.value)
 
         if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
@@ -252,8 +269,6 @@ class Farmbotany:
         # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
 
-        # Assigns the mouse position
-        self.mouse_pos = pygame.mouse.get_pos()
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 
@@ -294,9 +309,9 @@ class Farmbotany:
         # This is where most things are drawn.
         update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
                         self.current_room.tile_world_width, self.current_room.tile_size,
-                        0, 0, self.internal_surface)
+                        0, 0, self.internal_surface, self.draw_queue)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
-                            self.current_room.tile_size, 0, 0, self.internal_surface)
+                            self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
 
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
@@ -353,6 +368,7 @@ class Farmbotany:
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         
         #self.internal_surface = pygame.transform.scale(self.internal_surface, (700, 600))
+        #pygame.draw.rect(self.internal_surface, (255, 255, 255), self.screen_rect, 30)
 
         # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
         self.screen.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))

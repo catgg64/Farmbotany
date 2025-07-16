@@ -50,8 +50,6 @@ class Floutwitch():
         
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
         
-        print(self.rect.x, self.rect.y)
-
         if self.direction_faced[2]:
             self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[3]:

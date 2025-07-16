@@ -198,5 +198,5 @@ class MyRoomWorld:
             [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
             ]
 
-        self.tile_world_width = 30
-        self.tile_world_heigt = 20
+        self.tile_world_width = 1234
+        self.tile_world_heigt = 1324
