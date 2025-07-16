@@ -32,6 +32,7 @@ class Farmbotany:
         
         self.internal_surface = pygame.Surface((2000, 2000), pygame.SRCALPHA)
         self.scailing_surface = pygame.Surface((self.screen_height, self.screen_width), pygame.SRCALPHA)
+        self.ui_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
 
         self.draw_queue = []
         self.special_draw_queue = []
@@ -247,6 +248,7 @@ class Farmbotany:
         self.special_draw_queue = []
 
         self.internal_surface.fill("cadetblue1")
+        self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
 
         for tile in self.current_room.tile_slot_list:
@@ -262,10 +264,10 @@ class Farmbotany:
         #self.my_tween.update()
         #print(self.my_tween.value)
 
-        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > self.screen_width / 2:
-            self.viewportx = self.floutwitch.rect.x - self.screen_width / 2
-        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > self.screen_height / 2:
-            self.viewporty = self.floutwitch.rect.y - self.screen_height / 2
+        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
+            self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
+        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
+            self.viewporty = self.floutwitch.rect.y - pygame.display.get_window_size()[1] / 2
 
         # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
@@ -367,35 +369,32 @@ class Farmbotany:
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
+    
         
-        #self.scailing_surface = pygame.transform.scale(self.internal_surface, pygame.display.get_window_size())
         
-        #pygame.draw.rect(self.internal_surface, (255, 255, 255), self.screen_rect, 30)
-        #self.screen.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))
         
-        #self.scailing_surface = pygame.transform.scale(self.scailing_surface, pygame.display.get_window_size())
 
-        # Blits the internal surface with the offset of the viewports. Works a lot better than appling them directly.
-        #self.scailing_surface.blit(self.internal_surface, (-1 * self.viewport.pos_x, -1 * self.viewport.pos_y))
-        
-        # Calculates the UI and some other things here so they appear in front of the everything else.
-
-        self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, self.screen_height, self.screen_width)
-
+        # Creates a viewport rectangle and then subsurfaces it.
+        self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
         
 
-        self.scailing_surface = pygame.transform.scale(self.viewport_surface, pygame.display.get_window_size())
-        
+        #self.scailing_surface = pygame.transform.scale(self.viewport_surface, pygame.display.get_window_size())
+        self.scailing_surface = self.viewport_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
-        
-        self.shop.update_shop_ui(self.screen)
-        update_inventory(self.inventory, self.screen, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
-        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
-        update_clicked_slot(self.clicked_slot_data_list, self.screen, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
-        self._render_gold(self.floutwitch.gold, self.text_font, self.screen)
 
+
+        # Calculates the UI and some other things here so they appear in front of the everything else.
+        self.shop.update_shop_ui(self.ui_surface)
+        update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
+        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
+        update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
+        self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
+
+        self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
+
+        self.screen.blit(self.ui_surface, (0, 0))        
 
         self.fadeinout.update(self.screen)
 
