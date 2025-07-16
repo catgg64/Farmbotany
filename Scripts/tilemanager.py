@@ -109,8 +109,7 @@ class SpecialTile:
 
     def update(self, screen, pos_x, pos_y):
         screen.blit(self.image, (pos_x, pos_y))
-        pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
-    
+        
     def is_colliding_with_rect(self, rect):
         if self.rect.colliderect(rect):
             return True
@@ -132,7 +131,6 @@ class Crop(SpecialTile):
         super().update(screen, pos_x, pos_y)
         self.rect = self.image.get_rect(topleft = (pos_x, pos_y))
         self.time_passed_since_beguining = time.time() - self.start_time
-        #pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
         if self.time_passed_since_beguining >= self.plant_time:
             self.can_collect = True
             self.texture = "Sprites/wheat.png"
@@ -140,9 +138,6 @@ class Crop(SpecialTile):
             self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
     def check_for_harvest(self):
-        #print(f"colliding with mouse: {self.rect.collidepoint(point)}")
-        #print(f"mouse pressed: {pygame.mouse.get_pressed()[0]}")
-        #print(f"can be collected: {self.can_collect}")
         if pygame.mouse.get_pressed()[0] and self.can_collect:
             return True
         return False
