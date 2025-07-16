@@ -50,6 +50,20 @@ class Floutwitch():
         
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
         
+        print(self.direction)
+
+        if self.direction[1] and self.direction[2] and self.direction[3]:
+            self.direction_faced[1] = True
+            self.direction_faced[2] = False
+            self.direction_faced[3] = False
+            
+        
+        if self.direction[0] and self.direction[2] and self.direction[3]:
+            self.direction_faced[0] = True
+            self.direction_faced[2] = False
+            self.direction_faced[3] = False
+            print("change")
+
         if self.direction_faced[2]:
             self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[3]:
@@ -60,8 +74,6 @@ class Floutwitch():
             self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
             self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
-        
-        pygame.draw.rect(internal_surface, "blue", self.rect)
 
     def make_axe_interaction(self, internal_surface, viewport, farmbotany):
         self.axe.update()
