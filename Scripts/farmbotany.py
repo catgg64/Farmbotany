@@ -68,7 +68,7 @@ class Farmbotany:
 
         self.worlds = worlds.Worlds()
 
-        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 600, 0, 600, 20, 20)
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 900, 0, 900, 20, 20)
         self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 31, 31)
 
         self.current_room = self.farm        

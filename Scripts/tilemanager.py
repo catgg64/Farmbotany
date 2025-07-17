@@ -7,7 +7,15 @@ tiles = {
     "2": [{"name": "Hoed Ground", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
     "3": [{"name": "Empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": False}],
     "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "has_collision": True, "has_custom_class": True, "custom_class": "Crop"}],
-    "5": [{"name": "Dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16}]
+    "5": [{"name": "Dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16}],
+    "6": [{"name": "Top Left Corner Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "7": [{"name": "Left Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 48, "size_x": 16, "size_y": 16}],
+    "8": [{"name": "Botton Left Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 64, "size_x": 16, "size_y": 16}],
+    "9": [{"name": "Top Corner Center Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "10": [{"name": "Botton Center Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 64, "size_x": 16, "size_y": 16}],
+    "11": [{"name": "Top Right Corner Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "12": [{"name": "Right Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 48, "size_x": 16, "size_y": 16}],
+    "13": [{"name": "Botton Right Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 64, "size_x": 16, "size_y": 16}],
 }
 
 def setup_surfaces(tile_exspansion):
