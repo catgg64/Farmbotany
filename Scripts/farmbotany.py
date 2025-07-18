@@ -391,6 +391,7 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
+        #pygame.draw.rect()
 
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 

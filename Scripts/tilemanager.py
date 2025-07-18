@@ -16,6 +16,14 @@ tiles = {
     "11": [{"name": "Top Right Corner Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 32, "size_x": 16, "size_y": 16}],
     "12": [{"name": "Right Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 48, "size_x": 16, "size_y": 16}],
     "13": [{"name": "Botton Right Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 64, "size_x": 16, "size_y": 16}],
+    "14": [{"name": "Top Left Corner Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "15": [{"name": "Left Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 48, "size_x": 16, "size_y": 16}],
+    "16": [{"name": "Botton Left Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 64, "size_x": 16, "size_y": 16}],
+    "17": [{"name": "Top Corner Center Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "18": [{"name": "Botton Center Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 64, "size_x": 16, "size_y": 16}],
+    "19": [{"name": "Top Right Corner Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 32, "size_x": 16, "size_y": 16}],
+    "20": [{"name": "Right Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 48, "size_x": 16, "size_y": 16}],
+    "21": [{"name": "Botton Right Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 64, "size_x": 16, "size_y": 16}],
 }
 
 def setup_surfaces(tile_exspansion):
