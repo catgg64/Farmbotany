@@ -1,5 +1,6 @@
 import pygame
 import time
+import tweener
 from floutwitch import Floutwitch
 from tilemanager import *
 from inventorymanager import *
@@ -8,8 +9,8 @@ from globals import *
 import solid_object
 import rooms
 import worlds
-import tweener
 import fadeinout
+import spritemanager
 
 # Remove the import of shop here
 # from shop import *
@@ -246,6 +247,8 @@ class Farmbotany:
         self.solid_objects_list = []
         self.draw_queue = []
         self.special_draw_queue = []
+        self.sprite_list = []
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
 
         self.internal_surface.fill("cadetblue1")
         self.ui_surface.fill((0, 0, 0, 0))
@@ -310,9 +313,10 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
-                        self.current_room.tile_world_width, self.current_room.tile_size,
-                        0, 0, self.internal_surface, self.draw_queue)
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y)
+        #update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
+        #                self.current_room.tile_world_width, self.current_room.tile_size,
+        #                0, 0, self.internal_surface, self.draw_queue)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
 
@@ -376,15 +380,15 @@ class Farmbotany:
 
         # Creates a viewport rectangle and then subsurfaces it.
         self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
-        
+        #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
+        self.viewport_surface = self.internal_surface
 
         #self.scailing_surface = pygame.transform.scale(self.viewport_surface, pygame.display.get_window_size())
         self.scailing_surface = self.viewport_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
 
-
+    
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface)
         update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
