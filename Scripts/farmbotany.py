@@ -31,7 +31,7 @@ class Farmbotany:
         self.running = True
         self.paused = False
         
-        self.internal_surface = pygame.Surface((2000, 2000), pygame.SRCALPHA)
+        self.internal_surface = pygame.Surface((1000, 1000), pygame.SRCALPHA)
         self.scailing_surface = pygame.Surface((self.screen_height, self.screen_width), pygame.SRCALPHA)
         self.ui_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
 
@@ -364,7 +364,7 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size())
         #update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
         #                self.current_room.tile_world_width, self.current_room.tile_size,
         #                0, 0, self.internal_surface, self.draw_queue)
