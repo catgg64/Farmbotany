@@ -38,7 +38,7 @@ class Farmbotany:
         self.draw_queue = []
         self.special_draw_queue = []
         
-        self.floutwitch = Floutwitch(0, 0, self.internal_surface)
+        self.floutwitch = Floutwitch(0, 0, self.internal_surface, self)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         self.fadeinout_start_time = 0
@@ -248,8 +248,58 @@ class Farmbotany:
         self.draw_queue = []
         self.special_draw_queue = []
         self.sprite_list = []
-        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
 
+        self.floutwitch.actual_rect_update(self.viewport)
+        
+        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
+            self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
+        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
+            self.viewporty = self.floutwitch.rect.y - pygame.display.get_window_size()[1] / 2
+        
+        self.floutwitch.actual_rect_update(self.viewport)
+        
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
+        self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
+                                self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
+                                self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
+        self.floutwitch.move(self.keys, self)
+        
+
+        if self.current_room == self.farm:
+            print("updating shop")
+            # Updates the shop.
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
+            
+            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
+
+            if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
+                self.paused = True
+
+                self.fadeinout.fade()
+                
+                self.fadeinout_start_time = time.time()
+                self.is_fading_out = True
+
+                self.location_after_change_x = 200
+                self.location_after_change_y = 100
+                self.room_to_change = self.my_room
+
+        if self.current_room == self.my_room:
+            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.my_room_to_farm_passage_rect, 5)
+
+            if self.floutwitch.rect.colliderect(self.my_room_to_farm_passage_rect) and not self.is_fading_out:
+                self.paused = True
+                
+                self.fadeinout.fade()
+                
+                self.fadeinout_start_time = time.time()
+                self.is_fading_out = True
+
+                
+                self.location_after_change_x = 200
+                self.location_after_change_y = 100
+                self.room_to_change = self.farm
+        
         self.internal_surface.fill("cadetblue1")
         self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
@@ -267,10 +317,7 @@ class Farmbotany:
         #self.my_tween.update()
         #print(self.my_tween.value)
 
-        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
-            self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
-        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
-            self.viewporty = self.floutwitch.rect.y - pygame.display.get_window_size()[1] / 2
+        pygame.draw.rect(self.internal_surface, (255, 255, 255), self.floutwitch.actual_rect, 5)
 
         # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
@@ -321,11 +368,6 @@ class Farmbotany:
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
 
 
-        self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
-                                self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
-                                self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
-        self.floutwitch.move(self.keys, self)
-        
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
 
         for solid_brick in self.solid_objects_list:
@@ -337,39 +379,6 @@ class Farmbotany:
         
         self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
-        if self.current_room == self.farm:
-            # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
-            
-            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
-
-            if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
-                self.paused = True
-
-                self.fadeinout.fade()
-                
-                self.fadeinout_start_time = time.time()
-                self.is_fading_out = True
-
-                self.location_after_change_x = 200
-                self.location_after_change_y = 100
-                self.room_to_change = self.my_room
-
-        if self.current_room == self.my_room:
-            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.my_room_to_farm_passage_rect, 5)
-
-            if self.floutwitch.rect.colliderect(self.my_room_to_farm_passage_rect) and not self.is_fading_out:
-                self.paused = True
-                
-                self.fadeinout.fade()
-                
-                self.fadeinout_start_time = time.time()
-                self.is_fading_out = True
-
-                
-                self.location_after_change_x = 200
-                self.location_after_change_y = 100
-                self.room_to_change = self.farm
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)

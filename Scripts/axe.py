@@ -1,5 +1,6 @@
 import pygame
 from globals import *
+import spritemanager
 
 class Axe:
     def __init__(self, x, y):
@@ -70,16 +71,22 @@ class Axe:
         if self.in_animation == True:
             if direction[3]:
                 if self.anim_frames < self.animation_speed * 1:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_one, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_one, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 1 and self.anim_frames <= self.animation_speed * 2:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_two, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_two, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 2 and self.anim_frames <= self.animation_speed * 3:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_three, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_three, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 3 and self.anim_frames <= self.animation_speed * 4:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_four, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_four, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 4 and self.anim_frames <= self.animation_speed * 5:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_five, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_five, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 5 and self.anim_frames <= self.animation_speed * 6:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.frame_six, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.frame_six, (self.x, self.y))
                 if self.anim_frames == self.animation_speed * 6 - 1:
                     self.exited_animation = True
@@ -90,16 +97,22 @@ class Axe:
                     self.just_exited_animation = True
             elif direction[2]:
                 if self.anim_frames < self.animation_speed * 1:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_one, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_one, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 1 and self.anim_frames <= self.animation_speed * 2:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_two, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_two, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 2 and self.anim_frames <= self.animation_speed * 3:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_three, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_three, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 3 and self.anim_frames <= self.animation_speed * 4:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_four, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_four, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 4 and self.anim_frames <= self.animation_speed * 5:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_five, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_five, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 5 and self.anim_frames <= self.animation_speed * 6:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_frame_six, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_frame_six, (self.x, self.y))
                 if self.anim_frames == self.animation_speed * 6 - 1:
                     self.exited_animation = True
@@ -110,16 +123,22 @@ class Axe:
                     self.just_exited_animation = True
             elif direction[1]:
                 if self.anim_frames <= self.animation_speed * 1:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_one, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_one, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 1 and self.anim_frames <= self.animation_speed * 2:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_two, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_two, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 2 and self.anim_frames <= self.animation_speed * 3:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_three, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_three, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 3 and self.anim_frames <= self.animation_speed * 4:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_four, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_four, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 4 and self.anim_frames <= self.animation_speed * 5:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_five, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_five, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 5 and self.anim_frames <= self.animation_speed * 6:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.flipped_up_view_frame_six, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.flipped_up_view_frame_six, (self.x, self.y))
                 if self.anim_frames == self.animation_speed * 6 - 1:
                     self.exited_animation = True
@@ -130,16 +149,22 @@ class Axe:
                     self.just_exited_animation = True
             elif direction[0]:
                 if self.anim_frames < self.animation_speed * 1:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_one, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_one, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 1 and self.anim_frames <= self.animation_speed * 2:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_two, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_two, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 2 and self.anim_frames <= self.animation_speed * 3:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_three, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_three, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 3 and self.anim_frames <= self.animation_speed * 4:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_four, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_four, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 4 and self.anim_frames <= self.animation_speed * 5:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_five, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_five, (self.x, self.y))
                 if self.anim_frames > self.animation_speed * 5 and self.anim_frames <= self.animation_speed * 6:
+                    floutwitch.farmbotany.sprite_list.append(spritemanager.SpriteData(self.up_view_frame_six, self.x, self.y, self.x + 64, self.y + 64))
                     screen.blit(self.up_view_frame_six, (self.x, self.y))
                 if self.anim_frames == self.animation_speed * 6 - 1:
                     self.exited_animation = True

@@ -247,14 +247,14 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
 def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size):
     for tile_idx, tile in enumerate(tile_slot_list):
         sprite_list.append(spritemanager.SpriteData(
-            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
+            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
             (tile_idx // width) * tile_size,
             (tile_idx % width) * tile_size,
             (tile_idx // width) * tile_size + tile_size,
             (tile_idx // width) * tile_size + tile_size
         ))
         sprite_list.append(spritemanager.SpriteData(
-            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
+            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
             (tile_idx // width) * tile_size,
             (tile_idx % width) * tile_size,
             (tile_idx // width) * tile_size + tile_size,

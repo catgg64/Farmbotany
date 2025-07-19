@@ -2,9 +2,10 @@ import pygame
 
 from tilemanager import *
 from axe import *
+import spritemanager
 
 class Floutwitch():
-    def __init__(self, pos_x, pos_y, internal_surface):
+    def __init__(self, pos_x, pos_y, internal_surface, farmbotany):
         self.image_right = pygame.image.load("Sprites/tile_set.png").convert_alpha()
         self.substract_rect = pygame.Rect(2080, 2912, 32, 32)
         self.image_right = self.image_right.subsurface(self.substract_rect)
@@ -32,6 +33,7 @@ class Floutwitch():
         self.facing_direction = False
         self.internal_surface = internal_surface
         self.gold = 0
+        self.farmbotany = farmbotany
 
         self.speed = 5
         self.is_walking = False
@@ -50,6 +52,7 @@ class Floutwitch():
         
         self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
         
+
         if self.direction[1] and self.direction[2] and self.direction[3]:
             self.direction_faced[1] = True
             self.direction_faced[2] = False
@@ -62,16 +65,23 @@ class Floutwitch():
             self.direction_faced[3] = False
             
         if self.direction_faced[2]:
-            self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_right, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            #self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[3]:
-            self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_left, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            #self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[0]:
-            self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_up, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            #self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[1]:
-            self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
-            self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
-
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+        
+        self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
+        
     def make_axe_interaction(self, internal_surface, viewport, farmbotany):
         self.axe.update()
 
@@ -262,3 +272,10 @@ class Floutwitch():
                     self.is_key_v_pressed = True
                 else:
                     self.is_key_v_pressed = False
+    
+    def actual_rect_update(self, viewport):
+        self.actual_rect = pygame.Rect(
+            self.rect.x - viewport.pos_x - 25,  # Apply the same x-offset as image_rect
+            self.rect.y - viewport.pos_y - 50,  # Apply the same y-offset as image_rect
+            50, 25
+        )
