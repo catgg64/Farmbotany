@@ -204,8 +204,17 @@ def draw_tilemap(tile_list, width, screen, tile_size, offset_x, offset_y):
 
 # Instantiates all the slots.
 def initialize_tilemap(tile_list, sub_tile_list, width, tile_size, offset_x, offset_y, tile_slot_list):
-    for row_idx in range(len(tile_list)):
-        for col_idx in range(len(tile_list[row_idx])):
+    if not tile_list or not sub_tile_list:
+        raise ValueError("tile_list or sub_tile_list is empty")
+    rows = len(tile_list)
+    cols = len(tile_list[0]) if rows > 0 else 0
+    if len(sub_tile_list) != rows or (sub_tile_list and len(sub_tile_list[0]) != cols):
+        raise ValueError(f"Dimension mismatch: tile_list is {rows}x{cols}, sub_tile_list is {len(sub_tile_list)}x{len(sub_tile_list[0]) if sub_tile_list else 0}")
+    if cols != width:
+        raise ValueError(f"Width mismatch: expected {width}, got {cols}")
+
+    for row_idx in range(rows):
+        for col_idx in range(cols):
             tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
             pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
             Tile(offset_x + pos[0], offset_y + pos[1], tile_data.id, tile_data.sub_id, tile_size, tile_slot_list)
@@ -236,9 +245,8 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
     for row_idx, row in enumerate(special_tiles_list):
         for column_idx, column in enumerate(row):
             if column is not None:
-                if column in draw_queue:
-                    pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
-                    column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+                pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
+                column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
     
     # for index, tile in enumerate(special_tiles_list):
@@ -248,6 +256,7 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
 
 def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size):
     for tile_idx, tile in enumerate(tile_slot_list):
+        tile.update_id_and_sub_id(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])
         sprite_list.append(spritemanager.SpriteData(
             tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
             (tile_idx // width) * tile_size,

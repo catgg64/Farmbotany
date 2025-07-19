@@ -70,7 +70,7 @@ class Farmbotany:
         self.worlds = worlds.Worlds()
 
         self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 900, 0, 900, 20, 20)
-        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 31, 31)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 30, 30)
 
         self.current_room = self.farm        
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, self.screen_height + 20, self.screen_width + 20)
@@ -186,11 +186,12 @@ class Farmbotany:
             pos_x = int(pos_x)
             pos_y = int(pos_y)
 
-            pos = pos_y * tile_world_width + pos_x
 
+            pos = pos_y * tile_world_width + pos_x
+            
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-                if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
+                if self.current_room.world[pos_y][pos_x] == "2" and special_tiles_world[pos_x][pos_y] is None:
                     special_slot_data.quantity -= 1
                     special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1], self)
 
@@ -299,7 +300,6 @@ class Farmbotany:
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
 
         if self.current_room == self.farm:
-            print("updating shop")
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
             
@@ -427,8 +427,8 @@ class Farmbotany:
 farmbotany = Farmbotany()
 
 setup_surfaces(farmbotany.current_room.tile_size)
-initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.farm.tile_slot_list)
-initialize_tilemap(farmbotany.worlds.my_room_world.my_room_world, farmbotany.worlds.my_room_world.my_room_sub_world, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
+initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.farm.tile_world_width, farmbotany.farm.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.farm.tile_slot_list)
+initialize_tilemap(farmbotany.worlds.my_room_world.my_room_world, farmbotany.worlds.my_room_world.my_room_sub_world, farmbotany.my_room.tile_world_width, farmbotany.my_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame
