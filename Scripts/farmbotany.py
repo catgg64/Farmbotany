@@ -1,5 +1,6 @@
 import pygame
 import time
+import tweener
 from floutwitch import Floutwitch
 from tilemanager import *
 from inventorymanager import *
@@ -8,8 +9,8 @@ from globals import *
 import solid_object
 import rooms
 import worlds
-import tweener
 import fadeinout
+import spritemanager
 
 # Remove the import of shop here
 # from shop import *
@@ -37,7 +38,7 @@ class Farmbotany:
         self.draw_queue = []
         self.special_draw_queue = []
         
-        self.floutwitch = Floutwitch(0, 0, self.internal_surface)
+        self.floutwitch = Floutwitch(0, 0, self.internal_surface, self)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         self.fadeinout_start_time = 0
@@ -191,7 +192,7 @@ class Farmbotany:
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
                 if tile_slot_list[pos].id == "2" and special_tiles_world[pos_x][pos_y] is None:
                     special_slot_data.quantity -= 1
-                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1])
+                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1], self)
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop):
@@ -246,33 +247,25 @@ class Farmbotany:
         self.solid_objects_list = []
         self.draw_queue = []
         self.special_draw_queue = []
+        self.sprite_list = []
 
-        self.internal_surface.fill("cadetblue1")
-        self.ui_surface.fill((0, 0, 0, 0))
-        self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
-
-        for tile in self.current_room.tile_slot_list:
-            if tile.is_colliding_with_rect(self.screen_rect):
-                self.draw_queue.append(tile)
-
-        for row_idx, row in enumerate(self.current_room.special_tiles_world):
-            for column_idx, column in enumerate(row):
-                if self.current_room.special_tiles_world[row_idx][column_idx]:
-                    if self.current_room.special_tiles_world[row_idx][column_idx].is_colliding_with_rect(self.screen_rect):
-                        self.special_draw_queue.append(self.current_room.special_tiles_world[row_idx][column_idx])
-
-        #self.my_tween.update()
-        #print(self.my_tween.value)
-
+        self.floutwitch.actual_rect_update(self.viewport)
+        
         if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
             self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
         if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
             self.viewporty = self.floutwitch.rect.y - pygame.display.get_window_size()[1] / 2
-
-        # Updates viewport position
-        self.viewport.update(self.viewportx, self.viewporty)
-
-
+        
+        self.floutwitch.actual_rect_update(self.viewport)
+        
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
+        update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
+                            self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
+        self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
+                                self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
+                                self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
+        self.floutwitch.move(self.keys, self)
+        
         self.slot_class_selected = self.inventory[self.slot_selected]
 
         if not self.shop.shop_open:
@@ -302,38 +295,11 @@ class Farmbotany:
                     self.slot_selected -= 1
                 else:
                     self.slot_selected = 11
-
-        # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
-
-        # Lights up the selected slot.
-        light_slot_by_number(self.slot_selected, self.slot_list)
-
-        # This is where most things are drawn.
-        update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
-                        self.current_room.tile_world_width, self.current_room.tile_size,
-                        0, 0, self.internal_surface, self.draw_queue)
-        update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
-                            self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
-
-
-        self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
-                                self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
-                                self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
-        self.floutwitch.move(self.keys, self)
         
         axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
 
-        for solid_brick in self.solid_objects_list:
-            solid_brick.update(self.internal_surface)
-
-        
-        # Can be used later when debugging.
-        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
-        
-        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
-        
         if self.current_room == self.farm:
+            print("updating shop")
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
             
@@ -366,6 +332,54 @@ class Farmbotany:
                 self.location_after_change_x = 200
                 self.location_after_change_y = 100
                 self.room_to_change = self.farm
+        
+        self.internal_surface.fill("cadetblue1")
+        self.ui_surface.fill((0, 0, 0, 0))
+        self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
+
+        for tile in self.current_room.tile_slot_list:
+            if tile.is_colliding_with_rect(self.screen_rect):
+                self.draw_queue.append(tile)
+
+        for row_idx, row in enumerate(self.current_room.special_tiles_world):
+            for column_idx, column in enumerate(row):
+                if self.current_room.special_tiles_world[row_idx][column_idx]:
+                    if self.current_room.special_tiles_world[row_idx][column_idx].is_colliding_with_rect(self.screen_rect):
+                        self.special_draw_queue.append(self.current_room.special_tiles_world[row_idx][column_idx])
+
+        #self.my_tween.update()
+        #print(self.my_tween.value)
+
+        pygame.draw.rect(self.internal_surface, (255, 255, 255), self.floutwitch.actual_rect, 5)
+
+        # Updates viewport position
+        self.viewport.update(self.viewportx, self.viewporty)
+
+
+
+        # Checks and collects the wheat if the mouse clicks on top of one.
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
+
+        # Lights up the selected slot.
+        light_slot_by_number(self.slot_selected, self.slot_list)
+
+        # This is where most things are drawn.
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y)
+        #update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
+        #                self.current_room.tile_world_width, self.current_room.tile_size,
+        #                0, 0, self.internal_surface, self.draw_queue)
+
+
+
+        for solid_brick in self.solid_objects_list:
+            solid_brick.update(self.internal_surface)
+
+        
+        # Can be used later when debugging.
+        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+        
+        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
+        
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
@@ -376,15 +390,15 @@ class Farmbotany:
 
         # Creates a viewport rectangle and then subsurfaces it.
         self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
-        
+        #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
+        self.viewport_surface = self.internal_surface
 
         #self.scailing_surface = pygame.transform.scale(self.viewport_surface, pygame.display.get_window_size())
         self.scailing_surface = self.viewport_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
 
-
+    
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface)
         update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)

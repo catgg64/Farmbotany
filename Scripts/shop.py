@@ -2,6 +2,7 @@ import pygame
 from globals import *
 import fbbutton
 import inventorymanager
+import spritemanager
 
 # Constants for shop and UI dimensions
 SHOP_TILE_SIZE = 64
@@ -65,16 +66,21 @@ class Shop:
 
     def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
         """Update shop state and render it."""
-        surface.blit(self.image, self.rect)
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x - SHOP_SCALED_SIZE, self.rect.y - SHOP_SCALED_SIZE))
+        
+        """Updates the "Actual" version of the rect."""
+        self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
+
+        #surface.blit(self.image, self.rect)
         #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
 
         # Check collision only if shop is not already open
-        if not self.shop_open and self.rect.colliderect(self.floutwitch.rect) and self.floutwitch.is_walking:
+        if not self.shop_open and self.actual_rect.colliderect(self.floutwitch.actual_rect) and self.floutwitch.is_walking:
             self._open_shop()
-        elif self.shop_open and not self.rect.colliderect(self.floutwitch.rect):
+        elif self.shop_open and not self.actual_rect.colliderect(self.floutwitch.actual_rect):
             self._close_shop()
         
 
@@ -216,6 +222,8 @@ class ProductSlot:
             if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
                 inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
                 floutwitch.gold -= self.item_data["value"]
+        print(self.rect.x, self.rect.y)
+        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x, self.rect.y))
         surface.blit(self.image, self.rect)
         pygame.draw.rect(surface, self.color, self.rect, self.width)
         text = self.text_font.render(str(self.item_data["value"]), True, (255, 255, 255))
