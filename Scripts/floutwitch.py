@@ -65,19 +65,19 @@ class Floutwitch():
             self.direction_faced[3] = False
             
         if self.direction_faced[2]:
-            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_right, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_right, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
             #self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[3]:
-            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_left, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_left, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
             #self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[0]:
-            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_up, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_up, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
             #self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
         elif self.direction_faced[1]:
-            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
             #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
-            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50))
+            self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image_down, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
             #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)

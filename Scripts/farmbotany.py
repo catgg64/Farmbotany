@@ -333,6 +333,16 @@ class Farmbotany:
                 self.location_after_change_y = 100
                 self.room_to_change = self.farm
         
+        
+        # Split sprites into those with y_sort=True and y_sort=False
+        y_sort_sprites = [sprite for sprite in self.sprite_list if sprite.y_sort]
+        no_sort_sprites = [sprite for sprite in self.sprite_list if not sprite.y_sort]
+
+        # Sort only the y_sort=True sprites by top_left_y
+        y_sort_sprites = sorted(y_sort_sprites, key=lambda sprite: sprite.botton_right_y)
+
+        # Combine the sorted and unsorted sprites
+        self.sprite_list = no_sort_sprites + y_sort_sprites
         self.internal_surface.fill("cadetblue1")
         self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)

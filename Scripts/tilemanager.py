@@ -262,14 +262,16 @@ def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world,
             (tile_idx // width) * tile_size,
             (tile_idx % width) * tile_size,
             (tile_idx // width) * tile_size + tile_size,
-            (tile_idx // width) * tile_size + tile_size
+            (tile_idx // width) * tile_size + tile_size,
+            False
         ))
         sprite_list.append(spritemanager.SpriteData(
             tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
             (tile_idx // width) * tile_size,
             (tile_idx % width) * tile_size,
             (tile_idx // width) * tile_size + tile_size,
-            (tile_idx // width) * tile_size + tile_size
+            (tile_idx // width) * tile_size + tile_size,
+            False
         ))
 
 def check_collision_in_all_tiles(point, tile_slot_list):
