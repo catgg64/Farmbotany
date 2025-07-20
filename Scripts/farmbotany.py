@@ -192,9 +192,10 @@ class Farmbotany:
             
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-                if self.current_room.world[pos_y][pos_x] == "2" and special_tiles_world[pos_x][pos_y] is None:
-                    special_slot_data.quantity -= 1
-                    special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1], self)
+                if self.current_room.world[pos_y][pos_x] == "2":
+                    if special_tiles_world[pos_x][pos_y] is None:
+                        special_slot_data.quantity -= 1
+                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1], self)
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop):
@@ -216,10 +217,11 @@ class Farmbotany:
             tile_x = int(round(tile_x))
             tile_y = int(round(tile_y))
             
-            if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length and farmbotany.current_room.sub_world[tile_y][tile_x] == "1":
-                tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
-                if tile_index < len(farmbotany.current_room.tiles_world):
-                    farmbotany.current_room.world[tile_y][tile_x] = "2"
+            if farmbotany.current_room.sub_world[tile_y][tile_x] == "1" or self.current_room.sub_world[tile_y][tile_x] == "22":
+                if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length:
+                    tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
+                    if tile_index < len(farmbotany.current_room.tiles_world):
+                        farmbotany.current_room.world[tile_y][tile_x] = "2"
                     
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
