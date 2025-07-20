@@ -74,6 +74,7 @@ class Farmbotany:
 
         self.current_room = self.farm        
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, self.screen_height + 20, self.screen_width + 20)
+        self.update_tilemap_terrain = True
 
         # Use this to help me for later in case i forget.
 
@@ -252,6 +253,9 @@ class Farmbotany:
 
         self.floutwitch.actual_rect_update(self.viewport)
         
+        if self.update_tilemap_terrain:
+            update_tilemap_terrain(self.current_room.world)
+
         if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
             self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
         if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:

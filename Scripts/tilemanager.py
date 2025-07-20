@@ -286,16 +286,21 @@ def check_for_harvest_in_all_crops(special_items_list, point):
             return tile.check_for_harvest(point)
     return None
 
-def get_neighbors(tile_value, width, tile_map):
+def get_neighbors(x, y, width, tile_map):
     neighbors = [None, None, None, None, None, None, None, None]
-    neighbors[0] = tile_map[tile_value - width - 1]
-    neighbors[1] = tile_map[tile_value - width]
-    neighbors[2] = tile_map[tile_value - width + 1]
-    neighbors[3] = tile_map[tile_value - 1]
-    neighbors[4] = tile_map[tile_value + 1]
-    neighbors[5] = tile_map[tile_value + width - 1]
-    neighbors[6] = tile_map[tile_value + width]
-    neighbors[7] = tile_map[tile_value + width + 1]
+    #neighbors[0] = tile_map[tile_value - width - 1]
+    #neighbors[1] = tile_map[tile_value - width]
+    #neighbors[2] = tile_map[tile_value - width + 1]
+    #neighbors[3] = tile_map[tile_value - 1]
+    #neighbors[4] = tile_map[tile_value + 1]
+    #neighbors[5] = tile_map[tile_value + width - 1]
+    #neighbors[6] = tile_map[tile_value + width]
+    #neighbors[7] = tile_map[tile_value + width + 1]
     return neighbors
 
-
+def update_tilemap_terrain(world):
+    for row_idx, row in enumerate(world):
+        for column_idx, column in enumerate(row):
+            if column == "2":
+                world[row_idx][column_idx] = "4"
+                
