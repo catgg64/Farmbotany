@@ -2,7 +2,7 @@ import pygame
 from globals import *
 import spritemanager
 
-class Axe:
+class Hoe:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -12,19 +12,19 @@ class Axe:
         self.in_animation = False
         self.just_exited_animation = False
         self.exited_animation = False
-        self.axe_size = 80
+        self.hoe_size = 80
         self.frame_one = sprite_sheet.subsurface(pygame.Rect(768, 2976, 32, 32))
         self.frame_two = sprite_sheet.subsurface(pygame.Rect(800, 2976, 32, 32))
         self.frame_three = sprite_sheet.subsurface(pygame.Rect(832, 2976, 32, 32))
         self.frame_four = sprite_sheet.subsurface(pygame.Rect(864, 2976, 32, 32))
         self.frame_five = sprite_sheet.subsurface(pygame.Rect(896, 2976, 32, 32))
         self.frame_six = sprite_sheet.subsurface(pygame.Rect(928, 2976, 32, 32))
-        self.frame_one = pygame.transform.scale(self.frame_one, (self.axe_size, self.axe_size))
-        self.frame_two = pygame.transform.scale(self.frame_two, (self.axe_size, self.axe_size))
-        self.frame_three = pygame.transform.scale(self.frame_three, (self.axe_size, self.axe_size))
-        self.frame_four = pygame.transform.scale(self.frame_four, (self.axe_size, self.axe_size))
-        self.frame_five = pygame.transform.scale(self.frame_five, (self.axe_size, self.axe_size))
-        self.frame_six = pygame.transform.scale(self.frame_six, (self.axe_size, self.axe_size))
+        self.frame_one = pygame.transform.scale(self.frame_one, (self.hoe_size, self.hoe_size))
+        self.frame_two = pygame.transform.scale(self.frame_two, (self.hoe_size, self.hoe_size))
+        self.frame_three = pygame.transform.scale(self.frame_three, (self.hoe_size, self.hoe_size))
+        self.frame_four = pygame.transform.scale(self.frame_four, (self.hoe_size, self.hoe_size))
+        self.frame_five = pygame.transform.scale(self.frame_five, (self.hoe_size, self.hoe_size))
+        self.frame_six = pygame.transform.scale(self.frame_six, (self.hoe_size, self.hoe_size))
         self.flipped_frame_one = pygame.transform.flip(self.frame_one, True, False)
         self.flipped_frame_two = pygame.transform.flip(self.frame_two, True, False)
         self.flipped_frame_three = pygame.transform.flip(self.frame_three, True, False)
@@ -37,12 +37,12 @@ class Axe:
         self.up_view_frame_four = sprite_sheet.subsurface(pygame.Rect(864, 2944, 32, 32))
         self.up_view_frame_five = sprite_sheet.subsurface(pygame.Rect(896, 2944, 32, 32))
         self.up_view_frame_six = sprite_sheet.subsurface(pygame.Rect(928, 2944, 32, 32))
-        self.up_view_frame_one = pygame.transform.scale(self.up_view_frame_one, (self.axe_size, self.axe_size))
-        self.up_view_frame_two = pygame.transform.scale(self.up_view_frame_two, (self.axe_size, self.axe_size))
-        self.up_view_frame_three = pygame.transform.scale(self.up_view_frame_three, (self.axe_size, self.axe_size))
-        self.up_view_frame_four = pygame.transform.scale(self.up_view_frame_four, (self.axe_size, self.axe_size))
-        self.up_view_frame_five = pygame.transform.scale(self.up_view_frame_five, (self.axe_size, self.axe_size))
-        self.up_view_frame_six = pygame.transform.scale(self.up_view_frame_six, (self.axe_size, self.axe_size))
+        self.up_view_frame_one = pygame.transform.scale(self.up_view_frame_one, (self.hoe_size, self.hoe_size))
+        self.up_view_frame_two = pygame.transform.scale(self.up_view_frame_two, (self.hoe_size, self.hoe_size))
+        self.up_view_frame_three = pygame.transform.scale(self.up_view_frame_three, (self.hoe_size, self.hoe_size))
+        self.up_view_frame_four = pygame.transform.scale(self.up_view_frame_four, (self.hoe_size, self.hoe_size))
+        self.up_view_frame_five = pygame.transform.scale(self.up_view_frame_five, (self.hoe_size, self.hoe_size))
+        self.up_view_frame_six = pygame.transform.scale(self.up_view_frame_six, (self.hoe_size, self.hoe_size))
         self.flipped_up_view_frame_one = pygame.transform.flip(self.up_view_frame_one, False, True)
         self.flipped_up_view_frame_two = pygame.transform.flip(self.up_view_frame_two, False, True)
         self.flipped_up_view_frame_three = pygame.transform.flip(self.up_view_frame_three, False, True)

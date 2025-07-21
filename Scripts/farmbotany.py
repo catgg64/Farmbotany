@@ -163,7 +163,7 @@ class Farmbotany:
         return my_special_slot
 
 
-    def check_if_axe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
+    def check_if_hoe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
         if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "5" and mouse_just_clicked:
             return True
         return False
@@ -207,12 +207,12 @@ class Farmbotany:
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (10, 10))
 
-    def _makes_the_axe_work(self, axe_pos_x, axe_pos_y, farmbotany):
+    def _makes_the_hoe_work(self, hoe_pos_x, hoe_pos_y, farmbotany):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
 
-        if axe_pos_x and axe_pos_y:
-            world_x = axe_pos_x + farmbotany.viewport.pos_x
-            world_y = axe_pos_y + farmbotany.viewport.pos_y
+        if hoe_pos_x and hoe_pos_y:
+            world_x = hoe_pos_x + farmbotany.viewport.pos_x
+            world_y = hoe_pos_y + farmbotany.viewport.pos_y
             tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
             tile_x = int(round(tile_x))
             tile_y = int(round(tile_y))
@@ -260,8 +260,8 @@ class Farmbotany:
 
         # Here we must do everything that requires the child tiles.
         
-        axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
-        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
+        hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
+        self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self)
 
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
@@ -283,13 +283,13 @@ class Farmbotany:
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
                                 self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys, self)
-        self.floutwitch.updates_the_axe(self.internal_surface, self.viewport)
+        self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 
         if not self.shop.shop_open:
 
-            self.floutwitch.axe_action = self.check_if_axe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
+            self.floutwitch.hoe_action = self.check_if_hoe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
 
             # This part is useful when debugging
             #if self.right_just_clicked:
@@ -408,7 +408,7 @@ class Farmbotany:
 
         
         # Can be used later when debugging.
-        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
+        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (hoe_pos_x, hoe_pos_y), 50, 5)
         
         
                 

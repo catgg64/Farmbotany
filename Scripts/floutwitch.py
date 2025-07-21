@@ -1,7 +1,7 @@
 import pygame
 
 from tilemanager import *
-from axe import *
+from hoe import *
 import spritemanager
 
 class Floutwitch():
@@ -21,12 +21,12 @@ class Floutwitch():
         self.substract_rect_up = pygame.Rect(2048, 2912, 32, 32)
         self.image_up = self.image_up.subsurface(self.substract_rect_up)
         self.image_up = pygame.transform.scale(self.image_up, (100, 100))
-        self.axe = Axe(self.rect.x, self.rect.y)
+        self.hoe = Hoe(self.rect.x, self.rect.y)
         self.can_move = True
         self.front_pos_x = 0
         self.front_pos_y = 0
         self.is_key_v_pressed = False
-        self.axe_action = False
+        self.hoe_action = False
         self.direction = [False, False, False, False]
         self.direction_faced = [False, False, False, False]
         self.in_close_animation = False
@@ -82,14 +82,14 @@ class Floutwitch():
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
         
-    def make_axe_interaction(self, internal_surface, viewport, farmbotany):
+    def make_hoe_interaction(self, internal_surface, viewport, farmbotany):
 
         result_x = 0
         result_y = 0
         
         if not farmbotany.paused:
 
-            # if self.axe_action:
+            # if self.hoe_action:
 
             #     is_done = False
 
@@ -118,94 +118,94 @@ class Floutwitch():
             #         elif actual_pos[1] > 0:
             #             self.facing_direction[1] = True
                         
-            #         if actual_pos[0] > 60 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #         if actual_pos[0] > 60 and not self.hoe.in_animation and not self.hoe.just_exited_animation:
             #             self.front_pos_x = (self.rect.x) + 80
             #             self.front_pos_y = (self.rect.y) + 0
-            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
             #             self.in_close_animation = True
 
 
-            #         elif actual_pos[0] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #         elif actual_pos[0] < 0 and not self.hoe.in_animation and not self.hoe.just_exited_animation:
             #             self.front_pos_x = (self.rect.x) + (280 - 350)
             #             self.front_pos_y = (self.rect.y) + 0
-            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
             #             self.in_close_animation = True
 
 
-            #         elif actual_pos[1] > 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #         elif actual_pos[1] > 0 and not self.hoe.in_animation and not self.hoe.just_exited_animation:
             #             self.front_pos_x = (self.rect.x) + 10
             #             self.front_pos_y = (self.rect.y) + (90 - 350)
-            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
             #             self.in_close_animation = True
 
 
-            #         elif actual_pos[1] < 0 and not self.axe.in_animation and not self.axe.just_exited_animation:
+            #         elif actual_pos[1] < 0 and not self.hoe.in_animation and not self.hoe.just_exited_animation:
             #             self.front_pos_x = (self.rect.x) + 10
             #             self.front_pos_y = (self.rect.y) + (240 - 350)
-            #             self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
             #             self.in_close_animation = True
 
-            #         self.axe.make_animation(internal_surface, self, self.facing_direction)
+            #         self.hoe.make_animation(internal_surface, self, self.facing_direction)
 
 
 
-            if self.axe_action:
-                if self.direction_faced[3] and not self.axe.in_animation and not self.axe.just_exited_animation:
+            if self.hoe_action:
+                if self.direction_faced[3] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
-                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + 150)
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction_faced[2] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[2] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + (280 - 350)
                     self.front_pos_y = self.image_rect.y + 0
-                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + -70)
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction_faced[1] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[1] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (240 - 150)
-                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + 50)
                     result_y = (self.image_rect.y + 130)
                     
 
-                elif self.direction_faced[0] and not self.axe.in_animation and not self.axe.just_exited_animation:
+                elif self.direction_faced[0] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
                     self.front_pos_x = self.image_rect.x + 10
                     self.front_pos_y = self.image_rect.y + (90 - 150)
-                    self.axe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + 50)
                     result_y = (self.image_rect.y + -10)
                     
 
-                self.axe.make_animation(internal_surface, self, self.direction_faced)
+                self.hoe.make_animation(internal_surface, self, self.direction_faced)
 
 
 
 
 
 
-        elif not self.axe.in_animation:
+        elif not self.hoe.in_animation:
             result_x = 0
             result_y = 0
 
 
-        self.axe.just_exited_animation = False
+        self.hoe.just_exited_animation = False
         return result_x, result_y
 
-    def updates_the_axe(self, internal_surface, viewport):
-        self.axe.update()
-        if self.axe.in_animation:
-            self.axe.make_animation(internal_surface, self, self.direction_faced)
+    def updates_the_hoe(self, internal_surface, viewport):
+        self.hoe.update()
+        if self.hoe.in_animation:
+            self.hoe.make_animation(internal_surface, self, self.direction_faced)
 
         if self.in_close_animation:
-            self.axe.make_animation(internal_surface, self, self.facing_direction_faced)
+            self.hoe.make_animation(internal_surface, self, self.facing_direction_faced)
 
-        if not self.axe.in_animation:
+        if not self.hoe.in_animation:
             self.in_close_animation = False
 
     def move(self, keys, farmbotany):
