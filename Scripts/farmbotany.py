@@ -254,7 +254,17 @@ class Farmbotany:
         self.sprite_list = []
 
         self.floutwitch.actual_rect_update(self.viewport)
+
+        switch_tilemap_to_child(self.current_room.world)
+        switch_tilemap_to_child(self.current_room.sub_world)
+
+        # Here we must do everything that requires the child tiles.
         
+        axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
+        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
+
+        # Checks and collects the wheat if the mouse clicks on top of one.
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
 
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
@@ -273,7 +283,8 @@ class Farmbotany:
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
                                 self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys, self)
-        
+        self.floutwitch.updates_the_axe(self.internal_surface, self.viewport)
+
         self.slot_class_selected = self.inventory[self.slot_selected]
 
         if not self.shop.shop_open:
@@ -304,7 +315,6 @@ class Farmbotany:
                 else:
                     self.slot_selected = 11
         
-        axe_pos_x, axe_pos_y = self.floutwitch.make_axe_interaction(self.internal_surface, self.viewport, self)
 
         if self.current_room == self.farm:
             # Updates the shop.
@@ -374,8 +384,6 @@ class Farmbotany:
 
 
 
-        # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport)
 
         # Lights up the selected slot.
         light_slot_by_number(self.slot_selected, self.slot_list)
@@ -402,7 +410,6 @@ class Farmbotany:
         # Can be used later when debugging.
         #pygame.draw.circle(self.internal_surface, (255, 255, 255), (axe_pos_x, axe_pos_y), 50, 5)
         
-        self._makes_the_axe_work(axe_pos_x, axe_pos_y, self)
         
                 
 

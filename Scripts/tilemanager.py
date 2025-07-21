@@ -28,11 +28,11 @@ tiles = {
     "22": [{"name": "Sand", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 80, "size_x": 16, "size_y": 16, "terrain": False}],
     "23": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "24": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "25": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "26": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "27": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "28": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "29": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "25": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "26": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "27": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "28": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "29": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "30": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "31": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 240, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "32": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
@@ -40,7 +40,7 @@ tiles = {
     "34": [{"name": "Hoed Ground top: false, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "35": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "36": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
 }
 
 def setup_surfaces(tile_exspansion):
@@ -54,11 +54,9 @@ def setup_surfaces(tile_exspansion):
 
                 surface = pygame.image.load(tile["texture"]).convert_alpha()
 
-                try: 
-                    tile["child"]
-                except KeyError:
-                    tile["child"] = tile
-
+                if not "child" in tile:
+                    tile["child"] = tile_id
+                    
                 if tile["requires_rect"]:
                     rect = pygame.Rect(tile["rect_x"], tile["rect_y"], tile["size_x"], tile["size_y"])
                     # Verify rect is valid
@@ -307,29 +305,115 @@ def check_for_harvest_in_all_crops(special_items_list, point):
             return tile.check_for_harvest(point)
     return None
 
-def get_neighbors(x, y, tile_map, tile_width, tile_height):
-    neighbors = [None, None, None, None, None, None, None, None]
-    neighbors[0] = tile_map[y - 1][x - 1]
-    neighbors[1] = tile_map[y - 1][x]
-    neighbors[2] = tile_map[y - 1][x + 1]
-    neighbors[3] = tile_map[y][x - 1]
-    neighbors[4] = tile_map[y][x + 1]
-    neighbors[5] = tile_map[y + 1][x - 1]
-    neighbors[6] = tile_map[y + 1][x]
-    neighbors[7] = tile_map[y + 1][x + 1]
-    #neighbors[0] = tile_map[tile_value - width - 1]
-    #neighbors[1] = tile_map[tile_value - width]
-    #neighbors[2] = tile_map[tile_value - width + 1]
-    #neighbors[3] = tile_map[tile_value - 1]
-    #neighbors[4] = tile_map[tile_value + 1]
-    #neighbors[5] = tile_map[tile_value + width - 1]
-    #neighbors[6] = tile_map[tile_value + width]
-    #neighbors[7] = tile_map[tile_value + width + 1]
+def get_neighbors(x, y, tile_map):
+    neighbors = [None] * 8
+    height, width = len(tile_map), len(tile_map[0]) if tile_map else 0
+    
+    # Top-left (y-1, x-1)
+    if y > 0 and x > 0:
+        neighbors[0] = tile_map[y-1][x-1]
+    # Top (y-1, x)
+    if y > 0:
+        neighbors[1] = tile_map[y-1][x]
+    # Top-right (y-1, x+1)
+    if y > 0 and x < width-1:
+        neighbors[2] = tile_map[y-1][x+1]
+    # Left (y, x-1)
+    if x > 0:
+        neighbors[3] = tile_map[y][x-1]
+    # Right (y, x+1)
+    if x < width-1:
+        neighbors[4] = tile_map[y][x+1]
+    # Bottom-left (y+1, x-1)
+    if y < height-1 and x > 0:
+        neighbors[5] = tile_map[y+1][x-1]
+    # Bottom (y+1, x)
+    if y < height-1:
+        neighbors[6] = tile_map[y+1][x]
+    # Bottom-right (y+1, x+1)
+    if y < height-1 and x < width-1:
+        neighbors[7] = tile_map[y+1][x+1]
+    
     return neighbors
+    # 0 1 2
+    # 3   4
+    # 5 6 7
+
+def switch_tilemap_to_child(world):
+    for row_idx, row in enumerate(world):
+        for col_idx, col in enumerate(row):
+            world[row_idx][col_idx] = tiles[col][0]["child"]
 
 def update_tilemap_terrain(world):
-    for row_idx, row in enumerate(world):
-        for column_idx, column in enumerate(row):
-            if column == "2":
-                world[row_idx][column_idx] = "4"
+    height, width = len(world), len(world[0]) if world else 0
+    new_world = [row[:] for row in world]  # Create a copy to avoid modifying during iteration
+
+
+    for row_idx in range(height):
+        for column_idx in range(width):
+            if world[row_idx][column_idx] == "2":  # Check for Hoed Ground
+                init_neighbors = get_neighbors(column_idx, row_idx, world)
+                # Select top, left, right, bottom neighbors (indices 1, 3, 4, 6)
+                nb = [
+                    init_neighbors[1] == "2" or init_neighbors[1] in [str(i) for i in range(23, 38)],  # Top
+                    init_neighbors[3] == "2" or init_neighbors[3] in [str(i) for i in range(23, 38)],  # Left
+                    init_neighbors[4] == "2" or init_neighbors[4] in [str(i) for i in range(23, 38)],  # Right
+                    init_neighbors[6] == "2" or init_neighbors[6] in [str(i) for i in range(23, 38)]   # Bottom
+                ]
+                # Convert None to False (for boundary tiles)
+                nb = [n if n is not None else False for n in nb]
                 
+                # Assign tile ID based on neighbor configuration
+                if nb[0] and nb[1] and nb[2] and nb[3]:    # top: true, left: true, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "23"
+                elif nb[0] and nb[1] and nb[2] and not nb[3]:  # top: true, left: true, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "24"
+                elif nb[0] and not nb[1] and nb[2] and not nb[3]:  # top: true, left: false, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "25"
+                elif nb[0] and not nb[1] and nb[2] and nb[3]:  # top: true, left: false, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "26"
+                elif nb[0] and nb[1] and not nb[2] and not nb[3]:  # top: true, left: true, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "27"
+                elif nb[0] and nb[1] and not nb[2] and nb[3]:  # top: true, left: true, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "28"
+                elif nb[0] and not nb[1] and not nb[2] and not nb[3]:  # top: true, left: false, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "29"
+                elif nb[0] and not nb[1] and not nb[2] and nb[3]:  # top: true, left: false, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "30"
+                elif not nb[0] and nb[1] and nb[2] and not nb[3]:  # top: false, left: true, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "31"
+                elif not nb[0] and nb[1] and nb[2] and nb[3]:  # top: false, left: true, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "32"
+                elif not nb[0] and not nb[1] and nb[2] and not nb[3]:  # top: false, left: false, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "33"
+                elif not nb[0] and not nb[1] and nb[2] and nb[3]:  # top: false, left: false, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "34"
+                elif not nb[0] and nb[1] and not nb[2] and not nb[3]:  # top: false, left: true, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "35"
+                elif not nb[0] and nb[1] and not nb[2] and nb[3]:  # top: false, left: true, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "36"
+                elif not nb[0] and not nb[1] and not nb[2] and nb[3]:  # top: false, left: false, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "37"
+                else:  # top: false, left: false, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "2"  # Default Hoed Ground
+
+    # Update the world with the new tile IDs
+    for row_idx in range(height):
+        for column_idx in range(width):
+            world[row_idx][column_idx] = new_world[row_idx][column_idx]
+
+# "23": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "24": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "25": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "26": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "27": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "28": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "29": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "30": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "31": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 240, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "32": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "33": [{"name": "Hoed Ground top: false, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 288, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "34": [{"name": "Hoed Ground top: false, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "35": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "36": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+# "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],

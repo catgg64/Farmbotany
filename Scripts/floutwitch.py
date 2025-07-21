@@ -83,7 +83,6 @@ class Floutwitch():
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
         
     def make_axe_interaction(self, internal_surface, viewport, farmbotany):
-        self.axe.update()
 
         result_x = 0
         result_y = 0
@@ -185,14 +184,6 @@ class Floutwitch():
 
                 self.axe.make_animation(internal_surface, self, self.direction_faced)
 
-        if self.axe.in_animation:
-            self.axe.make_animation(internal_surface, self, self.direction_faced)
-
-        if self.in_close_animation:
-            self.axe.make_animation(internal_surface, self, self.facing_direction_faced)
-
-        if not self.axe.in_animation:
-            self.in_close_animation = False
 
 
 
@@ -205,6 +196,17 @@ class Floutwitch():
 
         self.axe.just_exited_animation = False
         return result_x, result_y
+
+    def updates_the_axe(self, internal_surface, viewport):
+        self.axe.update()
+        if self.axe.in_animation:
+            self.axe.make_animation(internal_surface, self, self.direction_faced)
+
+        if self.in_close_animation:
+            self.axe.make_animation(internal_surface, self, self.facing_direction_faced)
+
+        if not self.axe.in_animation:
+            self.in_close_animation = False
 
     def move(self, keys, farmbotany):
         if not farmbotany.paused:
