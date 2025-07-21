@@ -45,6 +45,7 @@ class Shop:
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         
         self.mouse_realeased = False
+
         self.brick = solid_object.Brick(pos_x, pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
         self.brick.append_self_to_list(farmbotany.solid_objects_list)
 
@@ -74,7 +75,7 @@ class Shop:
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
 
-        self.brick.append_self_to_list(self.farmbotany.solid_objects_list)
+        #self.brick.append_self_to_list(self.farmbotany.solid_objects_list)
 
         #surface.blit(self.image, self.rect)
         #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
@@ -82,11 +83,13 @@ class Shop:
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
 
+        print(self.shop_ui.status)
+
         # Check collision only if shop is not already open
-        if not self.shop_open and self.actual_rect.colliderect(self.floutwitch.actual_rect) and self.floutwitch.is_walking:
+        if not self.shop_open and self.actual_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
             self._open_shop()
-        elif self.shop_open and not self.actual_rect.colliderect(self.floutwitch.actual_rect):
-            self._close_shop()
+        #elif self.shop_open:
+        #    self._close_shop()
         
 
 
