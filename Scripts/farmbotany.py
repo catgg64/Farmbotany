@@ -255,6 +255,7 @@ class Farmbotany:
 
         self.floutwitch.actual_rect_update(self.viewport)
         
+
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
@@ -353,15 +354,15 @@ class Farmbotany:
         self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
 
-        for tile in self.current_room.tile_slot_list:
-            if tile.is_colliding_with_rect(self.screen_rect):
-                self.draw_queue.append(tile)
-
-        for row_idx, row in enumerate(self.current_room.special_tiles_world):
-            for column_idx, column in enumerate(row):
-                if self.current_room.special_tiles_world[row_idx][column_idx]:
-                    if self.current_room.special_tiles_world[row_idx][column_idx].is_colliding_with_rect(self.screen_rect):
-                        self.special_draw_queue.append(self.current_room.special_tiles_world[row_idx][column_idx])
+#        for tile in self.current_room.tile_slot_list:
+#            if tile.is_colliding_with_rect(self.screen_rect):
+#                self.draw_queue.append(tile)
+#
+#        for row_idx, row in enumerate(self.current_room.special_tiles_world):
+#            for column_idx, column in enumerate(row):
+#                if self.current_room.special_tiles_world[row_idx][column_idx]:
+#                    if self.current_room.special_tiles_world[row_idx][column_idx].is_colliding_with_rect(self.screen_rect):
+#                        self.special_draw_queue.append(self.current_room.special_tiles_world[row_idx][column_idx])
 
         #self.my_tween.update()
         #print(self.my_tween.value)
@@ -384,6 +385,13 @@ class Farmbotany:
         #update_tile_map(self.current_room.world, self.current_room.sub_world, self.current_room.tile_slot_list,
         #                self.current_room.tile_world_width, self.current_room.tile_size,
         #                0, 0, self.internal_surface, self.draw_queue)
+        
+#        print((self.mouse_pos[0] - self.viewport.pos_x) // self.current_room.tile_size)
+
+#        print(get_neighbors(int((self.mouse_pos[0] + self.viewport.pos_x) // self.current_room.tile_size), int((self.mouse_pos[1] + self.viewport.pos_y)) // self.current_room.tile_size, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_world_length))
+
+        #for neighbor_idx, neighbor in enumerate(get_neighbors(int((self.mouse_pos[0] + self.viewport.pos_x) // self.current_room.tile_size), int((self.mouse_pos[1] + self.viewport.pos_y)) // self.current_room.tile_size, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_world_length)):
+        #    self.internal_surface.blit(tiles[neighbor][0]["surface"], (neighbor_idx * 64, 0))
 
 
 
