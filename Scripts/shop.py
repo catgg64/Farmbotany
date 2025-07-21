@@ -3,6 +3,7 @@ from globals import *
 import fbbutton
 import inventorymanager
 import spritemanager
+import solid_object
 
 # Constants for shop and UI dimensions
 SHOP_TILE_SIZE = 64
@@ -44,7 +45,9 @@ class Shop:
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         
         self.mouse_realeased = False
-        
+        self.brick = solid_object.Brick(pos_x, pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
+        self.brick.append_self_to_list(farmbotany.solid_objects_list)
+
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
                                                                                                     self.sell_slot_list, self.sell_slot_data_list, 
@@ -70,6 +73,8 @@ class Shop:
         
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
+
+        self.brick.append_self_to_list(self.farmbotany.solid_objects_list)
 
         #surface.blit(self.image, self.rect)
         #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)

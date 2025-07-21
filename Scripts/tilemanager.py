@@ -181,7 +181,7 @@ class Crop(SpecialTile):
             self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
     def check_for_harvest(self):
-        if pygame.mouse.get_pressed()[0] and self.can_collect:
+        if pygame.mouse.get_pressed()[2] and self.can_collect:
             return True
         return False
 

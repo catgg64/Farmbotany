@@ -260,7 +260,7 @@ class Floutwitch():
                     self.rect.x += self.speed
                     self.needs_reverse = True
                     for solid_object in self.solid_objects_list:
-                        if solid_object.rect.colliderect(self.rect):
+                        if self.rect.collidepoint((solid_object.rect.x - self.farmbotany.viewport.pos_x, solid_object.rect.y - self.farmbotany.viewport.pos_y)):
                             self.rect.x -= self.speed
                 
                     self.direction[3] = True
@@ -281,3 +281,5 @@ class Floutwitch():
             self.rect.y - viewport.pos_y - 50,  # Apply the same y-offset as image_rect
             50, 25
         )
+
+        self.nearby_rect = pygame.Rect(self.rect.x - 64, self.rect.y - 64, 128, 128)

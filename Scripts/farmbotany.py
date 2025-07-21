@@ -195,11 +195,11 @@ class Farmbotany:
                 if self.current_room.world[pos_y][pos_x] == "2":
                     if special_tiles_world[pos_x][pos_y] is None:
                         special_slot_data.quantity -= 1
-                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 20, mouse_pos[0], mouse_pos[1], self)
+                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 2, mouse_pos[0], mouse_pos[1], self)
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop):
-                    if special_tiles_world[pos_x][pos_y].check_for_harvest():
+                    if special_tiles_world[pos_x][pos_y].check_for_harvest() and special_tiles_world[pos_x][pos_y].rect.colliderect(self.floutwitch.nearby_rect):
                         special_tiles_world[pos_x][pos_y] = None
                         add_item_to_inventory(inventory, ItemData("4", 1))
                 
@@ -276,9 +276,15 @@ class Farmbotany:
         
         self.floutwitch.actual_rect_update(self.viewport)
         
+        
+
         append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
+        if self.current_room == self.farm:
+            # Updates the shop.
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
+
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
                                 self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
@@ -317,8 +323,6 @@ class Farmbotany:
         
 
         if self.current_room == self.farm:
-            # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
             
             pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
 

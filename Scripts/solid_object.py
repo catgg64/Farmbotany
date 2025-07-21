@@ -1,8 +1,8 @@
 import pygame
 
 class Brick:
-    def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, 64, 64)
+    def __init__(self, x, y, size_x, size_y):
+        self.rect = pygame.Rect(x, y, size_x, size_y)
     
     def append_self_to_list(self, list):
         list.append(self)
