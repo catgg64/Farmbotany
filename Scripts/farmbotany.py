@@ -38,7 +38,7 @@ class Farmbotany:
         self.draw_queue = []
         self.special_draw_queue = []
         
-        self.floutwitch = Floutwitch(0, 0, self.internal_surface, self)
+        self.floutwitch = Floutwitch(500, 500, self.internal_surface, self)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         self.fadeinout_start_time = 0
@@ -110,7 +110,7 @@ class Farmbotany:
         self.is_picking_up = False
 
         # Now Shop is defined and can be used
-        self.shop = Shop(500, 500, self.floutwitch, self)
+        self.shop = Shop(1000, 1000, self.floutwitch, self)
 
     # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
