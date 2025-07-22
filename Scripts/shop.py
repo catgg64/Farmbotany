@@ -83,8 +83,6 @@ class Shop:
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
 
-        print(self.shop_ui.status)
-
         # Check collision only if shop is not already open
         if not self.shop_open and self.actual_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
             self._open_shop()

@@ -178,10 +178,10 @@ class Crop(SpecialTile):
             self.can_collect = True
             self.texture = "Sprites/wheat.png"
             self.image = pygame.image.load(self.texture)
-            self.image = pygame.transform.scale(self.image, (self.size, self.size))
+        self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
-    def check_for_harvest(self):
-        if pygame.mouse.get_pressed()[2] and self.can_collect:
+    def check_for_harvest(self, mouse_realed):
+        if mouse_realed and self.can_collect:
             return True
         return False
 
@@ -402,18 +402,9 @@ def update_tilemap_terrain(world):
         for column_idx in range(width):
             world[row_idx][column_idx] = new_world[row_idx][column_idx]
 
-# "23": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "24": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "25": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "26": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "27": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "28": [{"name": "Hoed Ground top: true, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "29": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "30": [{"name": "Hoed Ground top: true, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "31": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 240, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "32": [{"name": "Hoed Ground top: false, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "33": [{"name": "Hoed Ground top: false, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 288, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "34": [{"name": "Hoed Ground top: false, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "35": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "36": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-# "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+def distance_in_tiles(x, y, tx, ty, offset_x, offset_y, tile_size):
+    distance = [0, 0]
+    distance[0] = ((tx - x) + offset_x) // tile_size
+    distance[1] = ((ty - y) + offset_y) // tile_size
+    
+    return distance
