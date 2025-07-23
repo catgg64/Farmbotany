@@ -40,6 +40,10 @@ class Floutwitch():
         self.pickaxe_tick = False
         self.pickaxe_action = False
         
+        self.in_animation = False
+        self.animation = ""
+        self.anim_frame = 0
+
         self.speed = 5
         self.is_walking = False
         self.needs_reverse = False
@@ -68,22 +72,26 @@ class Floutwitch():
             self.direction_faced[0] = True
             self.direction_faced[2] = False
             self.direction_faced[3] = False
-            
-        if self.direction_faced[2]:
-            self.image = self.image_right
-            #self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
-        elif self.direction_faced[3]:
-            self.image = self.image_left
-            #self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
-        elif self.direction_faced[0]:
-            self.image = self.image_up
-            #self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
-        elif self.direction_faced[1]:
-            self.image = self.image_down
-            #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+        
+        if not self.in_animation:
+            self.anim_frame = 0
+            if self.direction_faced[2]:
+                self.image = self.image_right
+                #self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
+            elif self.direction_faced[3]:
+                self.image = self.image_left
+                #self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
+            elif self.direction_faced[0]:
+                self.image = self.image_up
+                #self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
+            elif self.direction_faced[1]:
+                self.image = self.image_down
+                #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+            else:
+                self.image = self.image_down
+                #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
-            self.image = self.image_down
-            #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
+            self.anim_frame += 1
         
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
         
@@ -299,7 +307,7 @@ class Floutwitch():
 
             #         self.pickaxe.make_animation(internal_surface, self, self.facing_direction)
 
-            if self.pickaxe_tick:
+            if self.pickaxe_tick and self.pickaxe.in_animation:
                 if self.direction_faced[3]:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
@@ -454,3 +462,6 @@ class Floutwitch():
         )
 
         self.nearby_rect = pygame.Rect(self.rect.x - 64, self.rect.y - 64, 128, 128)
+    
+    def start_collecting_animation(self):
+        pass

@@ -285,7 +285,7 @@ class Farmbotany:
 
         self.floutwitch.actual_rect_update(self.viewport)
         
-        # Updates the mouse distance from the floutwitch.        '
+        # Updates the mouse distance from the floutwitch.
 
         switch_tilemap_to_child(self.current_room.world)
         switch_tilemap_to_child(self.current_room.sub_world)
@@ -469,7 +469,7 @@ class Farmbotany:
 
         self.fadeinout.update(self.screen)
 
-        pygame.draw.circle(self.screen, (255, 255, 255), (pickaxe_pos_x - self.viewport.pos_x, pickaxe_pos_y - self.viewport.pos_y), 10, 5)
+        #pygame.draw.circle(self.screen, (255, 255, 255), (pickaxe_pos_x - self.viewport.pos_x, pickaxe_pos_y - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
