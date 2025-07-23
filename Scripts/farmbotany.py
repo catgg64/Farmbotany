@@ -90,6 +90,8 @@ class Farmbotany:
 
         self.inventory[0].id = "5"
         self.inventory[0].quantity = 1
+        self.inventory[1].id = "6"
+        self.inventory[1].quantity = 1
         self.inventory[3].id = "2"
         self.inventory[2].id = "3"
         self.inventory[3].quantity = 3
@@ -165,6 +167,12 @@ class Farmbotany:
 
     def check_if_hoe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
         if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "5" and mouse_just_clicked:
+            return True
+        return False
+    
+    
+    def check_if_pickaxe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
+        if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "6" and mouse_just_clicked:
             return True
         return False
     
@@ -270,6 +278,10 @@ class Farmbotany:
         hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
 
+        pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
+        #self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
+
+
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked)
 
@@ -295,6 +307,7 @@ class Farmbotany:
                                 self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys, self)
         self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
+        self.floutwitch.updates_the_pickaxe(self.internal_surface, self.viewport)
         self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
@@ -303,6 +316,10 @@ class Farmbotany:
 
             self.floutwitch.hoe_action = self.floutwitch.hoe.in_animation
             self.floutwitch.hoe_tick = self.check_if_hoe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
+            self.floutwitch.pickaxe_action = self.floutwitch.pickaxe.in_animation
+            self.floutwitch.pickaxe_tick = self.check_if_pickaxe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
+
+
 
             # This part is useful when debugging
             #if self.right_just_clicked:

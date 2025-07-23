@@ -3,6 +3,7 @@ import pygame
 from tilemanager import *
 from hoe import *
 import spritemanager
+import pickaxe
 
 class Floutwitch():
     def __init__(self, pos_x, pos_y, internal_surface, farmbotany):
@@ -22,6 +23,7 @@ class Floutwitch():
         self.image_up = self.image_up.subsurface(self.substract_rect_up)
         self.image_up = pygame.transform.scale(self.image_up, (100, 100))
         self.hoe = Hoe(self.rect.x, self.rect.y)
+        self.pickaxe = pickaxe.PickAxe(self.rect.x, self.rect.y)
         self.can_move = True
         self.front_pos_x = 0
         self.front_pos_y = 0
@@ -35,6 +37,8 @@ class Floutwitch():
         self.internal_surface = internal_surface
         self.gold = 0
         self.farmbotany = farmbotany
+        self.pickaxe_tick = False
+        self.pickaxe_action = False
         
         self.speed = 5
         self.is_walking = False
@@ -150,7 +154,7 @@ class Floutwitch():
 
             #         self.hoe.make_animation(internal_surface, self, self.facing_direction)
 
-            if self.hoe_tick:
+            if self.hoe_tick and not self.hoe.in_animation:
                 if self.direction_faced[3]:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
@@ -228,6 +232,151 @@ class Floutwitch():
             self.hoe.make_animation(internal_surface, self, self.facing_direction_faced)
 
         if not self.hoe.in_animation:
+            self.in_close_animation = False
+    
+    def make_pickaxe_interaction(self, internal_surface, viewport, farmbotany):
+
+        result_x = 0
+        result_y = 0
+        
+        if not farmbotany.paused:
+
+            # if self.pickaxe_action:
+
+            #     is_done = False
+
+            #     distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.rect.x - self.viewport.pos_x,
+            #                                                                          self.mouse_pos[1] - self.rect.y - self.viewport.pos_y)
+
+            #     if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
+            #         pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
+            #                                      self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
+            #         grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
+            #         actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
+            #         print(actual_pos)
+            #         pos = round(pos)
+            #         self.tile_map[pos].id = "2"
+            #         is_done = True
+            #         print(actual_pos)
+
+            #         self.facing_direction = [False, False, False, False]
+
+            #         if actual_pos[0] < 0:
+            #             self.facing_direction[2] = True
+            #         elif actual_pos[0] > 60:
+            #             self.facing_direction[3] = True
+            #         elif actual_pos[1] < 0:
+            #             self.facing_direction[0] = True
+            #         elif actual_pos[1] > 0:
+            #             self.facing_direction[1] = True
+                        
+            #         if actual_pos[0] > 60 and not self.pickaxe.in_animation and not self.pickaxe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 80
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[0] < 0 and not self.pickaxe.in_animation and not self.pickaxe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + (280 - 350)
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] > 0 and not self.pickaxe.in_animation and not self.pickaxe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (90 - 350)
+            #             self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] < 0 and not self.pickaxe.in_animation and not self.pickaxe.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (240 - 350)
+            #             self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+            #         self.pickaxe.make_animation(internal_surface, self, self.facing_direction)
+
+            if self.pickaxe_tick:
+                if self.direction_faced[3]:
+                    self.front_pos_x = self.image_rect.x + 80
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 150)
+                    result_y = (self.image_rect.y + 70)
+                    
+
+                elif self.direction_faced[2]:
+                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + -70)
+                    result_y = (self.image_rect.y + 70)
+                    
+
+                elif self.direction_faced[1]:
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (240 - 150)
+                    self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + 130)
+                    
+
+                elif self.direction_faced[0]:
+                    self.front_pos_x = self.image_rect.x + 10
+                    self.front_pos_y = self.image_rect.y + (90 - 150)
+                    self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + -10)
+                    
+
+                self.pickaxe.make_animation(internal_surface, self, self.direction_faced)
+
+            if self.pickaxe_action:
+                if self.direction_faced[3]:
+                    result_x = (self.image_rect.x + 150)
+                    result_y = (self.image_rect.y + 70)
+                
+
+                elif self.direction_faced[2]:
+                    result_x = (self.image_rect.x + -70)
+                    result_y = (self.image_rect.y + 70)
+                    
+
+                elif self.direction_faced[1]:
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + 130)
+                    
+
+                elif self.direction_faced[0]:
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + -10)
+                
+
+
+
+
+
+
+        elif not self.pickaxe.in_animation:
+            result_x = 0
+            result_y = 0
+
+
+        self.pickaxe.just_exited_animation = False
+        return result_x, result_y
+
+    def updates_the_pickaxe(self, internal_surface, viewport):
+        self.pickaxe.update()
+        if self.pickaxe.in_animation:
+            self.pickaxe.make_animation(internal_surface, self, self.direction_faced)
+
+        if self.in_close_animation:
+            self.pickaxe.make_animation(internal_surface, self, self.facing_direction_faced)
+
+        if not self.pickaxe.in_animation:
             self.in_close_animation = False
 
     def move(self, keys, farmbotany):
