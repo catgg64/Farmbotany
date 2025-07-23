@@ -47,7 +47,7 @@ class Farmbotany:
         self.location_after_change_y = 0
         self.room_to_change = None
         
-        self.text_font = pygame.font.SysFont("Ariel", 30)
+        self.text_font = pygame.font.Font("Fonts/HelvetiPixel.ttf", 30)
 
         self.solid_objects_list = []
         #self.brick = solid_object.Brick(100, 100)
@@ -200,19 +200,18 @@ class Farmbotany:
             
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-                if self.current_room.world[pos_y][pos_x] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                if self.current_room.world[pos_y][pos_x] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y] is None:
                         special_slot_data.quantity -= 1
                         special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
-                if isinstance(special_tiles_world[pos_x][pos_y], Crop):
+                if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                         special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
-                        #special_tiles_world[pos_x][pos_y] = None
-                        #add_item_to_inventory(inventory, ItemData("4", 1))
-                
+                        self.floutwitch.start_collecting_animation()
+        
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (10, 10))

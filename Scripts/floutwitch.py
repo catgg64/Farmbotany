@@ -1,4 +1,5 @@
 import pygame
+import time
 
 from tilemanager import *
 from hoe import *
@@ -42,7 +43,7 @@ class Floutwitch():
         
         self.in_animation = False
         self.animation = ""
-        self.anim_frame = 0
+        self.anim_time = 0
 
         self.speed = 5
         self.is_walking = False
@@ -72,27 +73,36 @@ class Floutwitch():
             self.direction_faced[0] = True
             self.direction_faced[2] = False
             self.direction_faced[3] = False
-        
+
         if not self.in_animation:
-            self.anim_frame = 0
+            self.anim_time = 0
             if self.direction_faced[2]:
                 self.image = self.image_right
-                #self.internal_surface.blit(self.image_right, ((self.rect.x) + -25, (self.rect.y) + -50))
             elif self.direction_faced[3]:
                 self.image = self.image_left
-                #self.internal_surface.blit(self.image_left, ((self.rect.x) + -25, (self.rect.y) + -50))
             elif self.direction_faced[0]:
                 self.image = self.image_up
-                #self.internal_surface.blit(self.image_up, ((self.rect.x) + -25, (self.rect.y) + -50))
             elif self.direction_faced[1]:
                 self.image = self.image_down
-                #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
             else:
                 self.image = self.image_down
-                #self.internal_surface.blit(self.image_down, ((self.rect.x) + -25, (self.rect.y) + -50))
         else:
-            self.anim_frame += 1
-        
+            if self.animation == "collecting":
+                if time.time() - self.anim_time > 0:
+                    if self.direction_faced[2]:
+                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100))
+                    elif self.direction_faced[3]:
+                        self.image = pygame.transform.flip(pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100)), True, False)
+                    elif self.direction_faced[0]:
+                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2048, 2848, 32, 32)), (100, 100))
+                    elif self.direction_faced[1]:
+                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2016, 2848, 32, 32)), (100, 100))
+                if time.time() - self.anim_time >= 0.50:
+                    self.in_animation = False
+                    self.animation = ""
+                    self.can_move = True
+
+
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
@@ -307,7 +317,7 @@ class Floutwitch():
 
             #         self.pickaxe.make_animation(internal_surface, self, self.facing_direction)
 
-            if self.pickaxe_tick and self.pickaxe.in_animation:
+            if self.pickaxe_tick and not self.pickaxe.in_animation:
                 if self.direction_faced[3]:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
@@ -464,4 +474,7 @@ class Floutwitch():
         self.nearby_rect = pygame.Rect(self.rect.x - 64, self.rect.y - 64, 128, 128)
     
     def start_collecting_animation(self):
-        pass
+        self.in_animation = True
+        self.animation = "collecting"
+        self.can_move = False
+        self.anim_time = time.time()
