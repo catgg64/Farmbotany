@@ -31,6 +31,7 @@ class Floutwitch():
         self.direction_faced = [False, False, False, False]
         self.in_close_animation = False
         self.facing_direction = False
+        self.hoe_tick = False
         self.internal_surface = internal_surface
         self.gold = 0
         self.farmbotany = farmbotany
@@ -149,10 +150,8 @@ class Floutwitch():
 
             #         self.hoe.make_animation(internal_surface, self, self.facing_direction)
 
-
-
-            if self.hoe_action:
-                if self.direction_faced[3] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
+            if self.hoe_tick:
+                if self.direction_faced[3]:
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -160,7 +159,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction_faced[2] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
+                elif self.direction_faced[2]:
                     self.front_pos_x = self.image_rect.x + (280 - 350)
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -168,7 +167,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 70)
                     
 
-                elif self.direction_faced[1] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
+                elif self.direction_faced[1]:
                     self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (240 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -176,7 +175,7 @@ class Floutwitch():
                     result_y = (self.image_rect.y + 130)
                     
 
-                elif self.direction_faced[0] and not self.hoe.in_animation and not self.hoe.just_exited_animation:
+                elif self.direction_faced[0]:
                     self.front_pos_x = self.image_rect.x + 10
                     self.front_pos_y = self.image_rect.y + (90 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
@@ -185,6 +184,27 @@ class Floutwitch():
                     
 
                 self.hoe.make_animation(internal_surface, self, self.direction_faced)
+
+            if self.hoe_action:
+                if self.direction_faced[3]:
+                    result_x = (self.image_rect.x + 150)
+                    result_y = (self.image_rect.y + 70)
+                
+
+                elif self.direction_faced[2]:
+                    result_x = (self.image_rect.x + -70)
+                    result_y = (self.image_rect.y + 70)
+                    
+
+                elif self.direction_faced[1]:
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + 130)
+                    
+
+                elif self.direction_faced[0]:
+                    result_x = (self.image_rect.x + 50)
+                    result_y = (self.image_rect.y + -10)
+                
 
 
 

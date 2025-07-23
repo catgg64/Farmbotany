@@ -2,6 +2,7 @@ import pygame
 import os
 import time
 import spritemanager
+import inventorymanager
 
 tiles = {
     "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
@@ -159,8 +160,9 @@ class SpecialTile:
         return False
 
 class Crop(SpecialTile):
-    def __init__(self, size, plant_time, pos_x, pos_y, farmbotany):
-        self.texture = "Sprites/wheat_growing.png"
+    def __init__(self, size, plant_time, pos_x, pos_y, farmbotany, texture, finished_texture, item_id):
+        self.texture = texture
+        self.finished_texture = finished_texture
         self.image = pygame.image.load(self.texture)
         super().__init__(self.texture, size, pos_x, pos_y, farmbotany)
         self.start_time = time.time()
@@ -168,15 +170,18 @@ class Crop(SpecialTile):
         self.can_collect = False
         self.time_passed_since_beguining = 0
         self.time_passed_since_beguining = time.time() - self.start_time
+        self.item = item_id
 
 
     def update(self, screen, pos_x, pos_y):
         super().update(screen, pos_x, pos_y)
+        self.x = pos_x
+        self.y = pos_y
         self.rect = self.image.get_rect(topleft = (pos_x, pos_y))
         self.time_passed_since_beguining = time.time() - self.start_time
         if self.time_passed_since_beguining >= self.plant_time:
             self.can_collect = True
-            self.texture = "Sprites/wheat.png"
+            self.texture = self.finished_texture
             self.image = pygame.image.load(self.texture)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
@@ -184,6 +189,10 @@ class Crop(SpecialTile):
         if mouse_realed and self.can_collect:
             return True
         return False
+    
+    def collect(self, special_tiles_world, inventory, x, y):
+        special_tiles_world[x][y] = None
+        inventorymanager.add_item_to_inventory(inventory, self.item)
 
 
 
