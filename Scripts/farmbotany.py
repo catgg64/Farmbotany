@@ -220,7 +220,7 @@ class Farmbotany:
     def _makes_the_hoe_work(self, hoe_pos_x, hoe_pos_y, farmbotany, hoe_anim_frames, hoe_animation_speed):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
 
-        if hoe_anim_frames >= hoe_animation_speed * 5:
+        if hoe_anim_frames >= hoe_animation_speed * 6:
             if hoe_pos_x and hoe_pos_y:
                 world_x = hoe_pos_x + farmbotany.viewport.pos_x
                 world_y = hoe_pos_y + farmbotany.viewport.pos_y
@@ -233,7 +233,24 @@ class Farmbotany:
                         tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                         if tile_index < len(farmbotany.current_room.tiles_world):
                             farmbotany.current_room.world[tile_y][tile_x] = "2"
+    
+    def _makes_the_pickaxe_work(self, pickaxe_pos_x, pickaxe_pos_y, farmbotany, pickaxe_anim_frames, pickaxe_animation_speed):
+        # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
+
+        if pickaxe_anim_frames == pickaxe_animation_speed * 6:
+            if pickaxe_pos_x and pickaxe_pos_y:
+                world_x = pickaxe_pos_x + farmbotany.viewport.pos_x
+                world_y = pickaxe_pos_y + farmbotany.viewport.pos_y
+                tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
+                tile_x = int(round(tile_x))
+                tile_y = int(round(tile_y))
                 
+                if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
+                    farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
+                else:
+                    if farmbotany.current_room.world[tile_y][tile_x] == "2":
+                        farmbotany.current_room.world[tile_y][tile_x] = "1"
+
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
             current_time = time.time() - start_time
@@ -279,7 +296,7 @@ class Farmbotany:
         self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
 
         pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
-        #self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
+        self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
 
 
         # Checks and collects the wheat if the mouse clicks on top of one.
@@ -416,7 +433,7 @@ class Farmbotany:
 
         
         # Can be used later when debugging.
-        #pygame.draw.circle(self.internal_surface, (255, 255, 255), (hoe_pos_x, hoe_pos_y), 50, 5)
+        #pygame.draw.cir#cle(self.internal_surface, (255, 255, 255), (pickaxe_pos_x, pickaxe_pos_y), 50, 5)
         
         
                 
@@ -452,7 +469,7 @@ class Farmbotany:
 
         self.fadeinout.update(self.screen)
 
-        #pygame.draw.circle(self.screen, (255, 255, 255), (hoe_pos_x - self.viewport.pos_x, hoe_pos_y - self.viewport.pos_y), 10, 5)
+        pygame.draw.circle(self.screen, (255, 255, 255), (pickaxe_pos_x - self.viewport.pos_x, pickaxe_pos_y - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False

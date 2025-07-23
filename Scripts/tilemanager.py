@@ -193,6 +193,9 @@ class Crop(SpecialTile):
     def collect(self, special_tiles_world, inventory, x, y):
         special_tiles_world[x][y] = None
         inventorymanager.add_item_to_inventory(inventory, self.item)
+    
+    def erase(self, special_tiles_world, x, y):
+        special_tiles_world[x][y] = None
 
 
 
