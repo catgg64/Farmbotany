@@ -1,11 +1,11 @@
 import pygame
 
 class FBButton:
-    def __init__(self, pos_x, pos_y, size_x, size_y, text):
+    def __init__(self, pos_x, pos_y, size_x, size_y, text, font):
 
         pygame.font.init()
 
-        self.text_font = pygame.font.SysFont("Ariel", 30)
+        self.text_font = pygame.font.Font(font, 30)
 
         self.pos_x = pos_x
         self.pos_y = pos_y

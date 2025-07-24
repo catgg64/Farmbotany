@@ -1,6 +1,6 @@
 import pygame
 from globals import *
-import fbbutton
+import ui
 import inventorymanager
 import spritemanager
 import solid_object
@@ -31,14 +31,16 @@ class Shop:
         self.shop_open = False
         self.shop_ui = ShopUI(100, 100)
         
-        self.exit_button = fbbutton.FBButton(150, 150, 100, 50, "Exit")
+        self.font = "Fonts/HelvetiPixel.ttf"
+
+        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font)
         
-        self.buy_button = fbbutton.FBButton(200, 250, 100, 50, "Buy")
-        self.exit_buy_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
+        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font)
+        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
         
-        self.sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
-        self.actual_sell_button = fbbutton.FBButton(550, 250, 100, 50, "Sell")
-        self.exit_sell_menu_button = fbbutton.FBButton(150, 150, 100, 50, "Back")
+        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
+        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
+        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
