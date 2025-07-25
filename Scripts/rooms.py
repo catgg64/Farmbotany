@@ -21,3 +21,9 @@ class Room:
         self.tiles_world = tilemanager.setup_tile_data(self.tile_world_width, self.tile_world_length)
 
         self.tile_slot_list = []
+
+def update_all_screens_acording_to_new_screen(room_list):
+    for room in room_list:
+        room.maxcornerx = room.tile_world_width * room.tile_size - pygame.display.get_window_size()[0] / 2
+        room.maxcornery = room.tile_world_length * room.tile_size - pygame.display.get_window_size()[1] / 2
+        

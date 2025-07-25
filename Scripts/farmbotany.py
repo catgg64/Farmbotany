@@ -69,10 +69,11 @@ class Farmbotany:
 
         self.worlds = worlds.Worlds()
 
-        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, 900, 0, 900, 20, 20)
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, self.worlds.farm.tile_world_width * 64 - pygame.display.get_window_size()[0] / 2, 0, self.worlds.farm.tile_world_heigt * 64 - pygame.display.get_window_size()[1] / 2, 20, 20)
         self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 30, 30)
 
-        self.current_room = self.farm        
+        self.current_room = self.farm
+        self.room_list = [self.farm, self.my_room]
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, self.screen_height + 20, self.screen_width + 20)
         self.update_tilemap_terrain = True
 
@@ -147,6 +148,7 @@ class Farmbotany:
                     page_down_pressed = True
                 if event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
+                    rooms.update_all_screens_acording_to_new_screen(self.room_list)
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
             #    self.window_width, self.window_height = event.w, event.h
