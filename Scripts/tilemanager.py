@@ -42,6 +42,15 @@ tiles = {
     "35": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "36": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
+    "38": [{"name": "Dirt Hill left top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
+    "39": [{"name": "Dirt Hill left center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
+    "40": [{"name": "Dirt Hill left bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
+    "41": [{"name": "Dirt Hill center top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
+    "42": [{"name": "Dirt Hill center center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
+    "43": [{"name": "Dirt Hill center bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
+    "44": [{"name": "Dirt Hill right top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
+    "45": [{"name": "Dirt Hill right center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
+    "46": [{"name": "Dirt Hill right bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
 }
 
 def setup_surfaces(tile_exspansion):
