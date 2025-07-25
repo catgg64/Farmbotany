@@ -449,7 +449,7 @@ class Floutwitch():
                     self.rect.x += self.speed
                     self.needs_reverse = True
                     for solid_object in self.solid_objects_list:
-                        if self.rect.collidepoint((solid_object.rect.x - self.farmbotany.viewport.pos_x, solid_object.rect.y - self.farmbotany.viewport.pos_y)):
+                        if solid_object.rect.colliderect(self.rect):
                             self.rect.x -= self.speed
                 
                     self.direction[3] = True

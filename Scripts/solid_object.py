@@ -13,8 +13,9 @@ class Brick:
         else:
             return False
     
-    def update(self, surface):
-        pygame.draw.rect(surface, (100, 100, 100), self.rect, 0)
+    def update(self, surface, pos_x, pos_y, offset_x, offset_y):
+        sim_rect = pygame.Rect(pos_x - offset_x, pos_y - offset_y, self.rect.bottom, self.rect.right)
+        pygame.draw.rect(surface, (100, 100, 100), sim_rect, 5)
 
 
 def update_solid_object_tilemap(tilemap, solid_objects_list, tile_size):

@@ -282,6 +282,10 @@ class Farmbotany:
         self.special_draw_queue = []
         self.sprite_list = []
 
+        for tile in self.current_room.tile_slot_list:
+            if tiles[tile.sub_id][0]["collision"]:
+                self.solid_objects_list.append(tile.brick)
+
         self.floutwitch.actual_rect_update(self.viewport)
         
         # Updates the mouse distance from the floutwitch.
@@ -427,8 +431,8 @@ class Farmbotany:
 
 
 
-        for solid_brick in self.solid_objects_list:
-            solid_brick.update(self.internal_surface)
+        #for solid_brick in self.solid_objects_list:
+        #    solid_brick.update(self.internal_surface, solid_brick.rect.x, solid_brick.rect.y, self.viewport.pos_x, self.viewport.pos_y)
 
         
         # Can be used later when debugging.

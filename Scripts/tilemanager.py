@@ -3,6 +3,7 @@ import os
 import time
 import spritemanager
 import inventorymanager
+import solid_object
 
 tiles = {
     "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
@@ -42,15 +43,27 @@ tiles = {
     "35": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "36": [{"name": "Hoed Ground top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "37": [{"name": "Hoed Ground top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
-    "38": [{"name": "Dirt Hill left top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
-    "39": [{"name": "Dirt Hill left center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
-    "40": [{"name": "Dirt Hill left bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
-    "41": [{"name": "Dirt Hill center top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
-    "42": [{"name": "Dirt Hill center center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
-    "43": [{"name": "Dirt Hill center bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
-    "44": [{"name": "Dirt Hill right top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False}],
-    "45": [{"name": "Dirt Hill right center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False}],
-    "46": [{"name": "Dirt Hill right bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False}],
+    "38": [{"name": "Dirt Hill left top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "39": [{"name": "Dirt Hill left center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "40": [{"name": "Dirt Hill left bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "41": [{"name": "Dirt Hill center top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "42": [{"name": "Dirt Hill center center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "43": [{"name": "Dirt Hill center bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "44": [{"name": "Dirt Hill right top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 192, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "45": [{"name": "Dirt Hill right center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 208, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "46": [{"name": "Dirt Hill right bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 224, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "47": [{"name": "Dirt Hill left single grass block", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 176, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "48": [{"name": "Dirt Hill center single grass block", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 176, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "49": [{"name": "Dirt Hill right single grass block", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 176, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "50": [{"name": "Dirt Hill left side", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 240, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "51": [{"name": "Dirt Hill right side", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 240, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "52": [{"name": "Dirt Hill bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 304, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "53": [{"name": "Dirt Hill right side with top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 256, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "54": [{"name": "Dirt Hill left side with top", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 256, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "55": [{"name": "Dirt Hill right side with center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 272, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "56": [{"name": "Dirt Hill left side with center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 272, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "57": [{"name": "Dirt Hill right side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "58": [{"name": "Dirt Hill left side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
 }
 
 def setup_surfaces(tile_exspansion):
@@ -66,7 +79,10 @@ def setup_surfaces(tile_exspansion):
 
                 if not "child" in tile:
                     tile["child"] = tile_id
-                    
+
+                if not "collision" in tile:
+                    tile["collision"] = False
+
                 if tile["requires_rect"]:
                     rect = pygame.Rect(tile["rect_x"], tile["rect_y"], tile["size_x"], tile["size_y"])
                     # Verify rect is valid
@@ -102,9 +118,11 @@ class Tile:
         self.tile_size = tile_size
         self.rect = pygame.Rect(pos_x, pos_y, tile_size, tile_size)
         slot_list.append(self)
+        self.brick = solid_object.Brick(pos_y, pos_x, tile_size, tile_size)
 
     # Then it updates (draws it every frame).
-    def update(self, id, sub_id, screen, pos_x, pos_y):
+    def update(self, id, sub_id, screen, pos_x, pos_y, solid_objects_list):
+        solid_objects_list.append(self.brick)
         self.rect = pygame.Rect(pos_x, pos_y, self.tile_size, self.tile_size)
         self.id = id
         self.sub_id = sub_id
@@ -277,13 +295,13 @@ def initialize_tilemap(tile_list, sub_tile_list, width, tile_size, offset_x, off
 
 
 # Updates all the slots.
-def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue):   
+def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue, solid_objects_list):   
     for row_idx in range(len(tile_list)):
         for col_idx in range(len(tile_list[row_idx])):
             if tile_slot_list[row_idx * width + col_idx] in draw_queue:
                 tile_data = TileData(sub_tile_list[row_idx][col_idx], tile_list[row_idx][col_idx])
                 pos = tile_value_to_position(col_idx, row_idx, width, tile_size)
-                tile_slot_list[row_idx * width + col_idx].update(tile_data.id, tile_data.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
+                tile_slot_list[row_idx * width + col_idx].update(tile_data.id, tile_data.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1], solid_objects_list)
 
 
     # for index, tile in enumerate(tile_list):
