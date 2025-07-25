@@ -82,6 +82,10 @@ class TileData:
 class Tile:
     # At first initializes the tile.
     def __init__(self, pos_x, pos_y, id, sub_id, tile_size, slot_list):
+        if not id in tiles:
+            print(f"{id} does not exist in the tiles dictionary.")
+        if not sub_id in tiles:
+            print(f"{sub_id} does not exist in the tiles dictionary.")
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.id = id
@@ -136,8 +140,14 @@ class Tile:
             return False
     
     def return_surface(self, id, sub_id):
-        tile_data = tiles[id][0]
-        sub_tile_data = tiles[sub_id][0]
+        if id in tiles:
+            tile_data = tiles[id][0]
+        else:
+            tile_data = tiles['4'][0]
+        if sub_id in tiles:
+            sub_tile_data = tiles[sub_id][0]
+        else:
+            sub_tile_data = tiles['4'][0]
         return tile_data["surface"], sub_tile_data["surface"]
     
 
@@ -354,7 +364,10 @@ def get_neighbors(x, y, tile_map):
 def switch_tilemap_to_child(world):
     for row_idx, row in enumerate(world):
         for col_idx, col in enumerate(row):
-            world[row_idx][col_idx] = tiles[col][0]["child"]
+            if col in tiles:
+                world[row_idx][col_idx] = tiles[col][0]["child"]
+            else:
+                print(f"{col} does not exist in the tiles dictionary.")
 
 def update_tilemap_terrain(world):
     height, width = len(world), len(world[0]) if world else 0
