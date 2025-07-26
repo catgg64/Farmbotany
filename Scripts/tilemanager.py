@@ -64,6 +64,22 @@ tiles = {
     "56": [{"name": "Dirt Hill left side with center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 272, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "57": [{"name": "Dirt Hill right side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "58": [{"name": "Dirt Hill left side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "59": [{"name": "Shop dirt 1x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "60": [{"name": "Shop dirt 2x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "61": [{"name": "Shop dirt 3x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "62": [{"name": "Shop dirt 4x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "63": [{"name": "Shop dirt 1x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "64": [{"name": "Shop dirt 2x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "65": [{"name": "Shop dirt 3x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "66": [{"name": "Shop dirt 4x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "67": [{"name": "Shop dirt 1x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "68": [{"name": "Shop dirt 2x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "69": [{"name": "Shop dirt 3x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "70": [{"name": "Shop dirt 4x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "71": [{"name": "Shop dirt 1x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
 }
 
 def setup_surfaces(tile_exspansion):

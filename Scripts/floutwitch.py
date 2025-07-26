@@ -87,20 +87,21 @@ class Floutwitch():
             else:
                 self.image = self.image_down
         else:
-            if self.animation == "collecting":
-                if time.time() - self.anim_time > 0:
-                    if self.direction_faced[2]:
-                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100))
-                    elif self.direction_faced[3]:
-                        self.image = pygame.transform.flip(pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100)), True, False)
-                    elif self.direction_faced[0]:
-                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2048, 2848, 32, 32)), (100, 100))
-                    elif self.direction_faced[1]:
-                        self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2016, 2848, 32, 32)), (100, 100))
-                if time.time() - self.anim_time >= 0.50:
-                    self.in_animation = False
-                    self.animation = ""
-                    self.can_move = True
+            if not self.farmbotany.paused:
+                if self.animation == "collecting":
+                    if time.time() - self.anim_time > 0:
+                        if self.direction_faced[2]:
+                            self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100))
+                        elif self.direction_faced[3]:
+                            self.image = pygame.transform.flip(pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2080, 2848, 32, 32)), (100, 100)), True, False)
+                        elif self.direction_faced[0]:
+                            self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2048, 2848, 32, 32)), (100, 100))
+                        elif self.direction_faced[1]:
+                            self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2016, 2848, 32, 32)), (100, 100))
+                    if time.time() - self.anim_time >= 0.50:
+                        self.in_animation = False
+                        self.animation = ""
+                        self.can_move = True
 
 
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))

@@ -25,7 +25,7 @@ class Farmbotany:
         
         self.screen_width = 680
         self.screen_height = 720
-        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA)
+        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA, pygame.SCALED, vsync=1)
         pygame.display.set_caption("Farmbotany")
         self.clock = pygame.time.Clock()
         self.running = True
@@ -70,7 +70,7 @@ class Farmbotany:
         self.worlds = worlds.Worlds()
 
         self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, self.worlds.farm.tile_world_width * 64 - pygame.display.get_window_size()[0] / 2, 0, self.worlds.farm.tile_world_heigt * 64 - pygame.display.get_window_size()[1] / 2, 20, 20)
-        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, 1000, 0, 1000, 30, 30)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, self.worlds.my_room_world.tile_world_width * 64 - pygame.display.get_window_size()[0] / 2, 0, self.worlds.my_room_world.tile_world_heigt * 64 - pygame.display.get_window_size()[1] / 2, 30, 30)
 
         self.current_room = self.farm
         self.room_list = [self.farm, self.my_room]
