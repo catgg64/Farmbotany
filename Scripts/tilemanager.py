@@ -64,22 +64,22 @@ tiles = {
     "56": [{"name": "Dirt Hill left side with center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 272, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "57": [{"name": "Dirt Hill right side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "58": [{"name": "Dirt Hill left side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "59": [{"name": "Shop dirt 1x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "60": [{"name": "Shop dirt 2x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "61": [{"name": "Shop dirt 3x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "62": [{"name": "Shop dirt 4x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "63": [{"name": "Shop dirt 1x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "64": [{"name": "Shop dirt 2x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "65": [{"name": "Shop dirt 3x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "66": [{"name": "Shop dirt 4x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "67": [{"name": "Shop dirt 1x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "68": [{"name": "Shop dirt 2x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "69": [{"name": "Shop dirt 3x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "70": [{"name": "Shop dirt 4x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "71": [{"name": "Shop dirt 1x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
+    "59": [{"name": "Shop dirt 1x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4}],
+    "60": [{"name": "Shop dirt 2x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4}],
+    "61": [{"name": "Shop dirt 3x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4}],
+    "62": [{"name": "Shop dirt 4x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4}],
+    "63": [{"name": "Shop dirt 1x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3}],
+    "64": [{"name": "Shop dirt 2x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3}],
+    "65": [{"name": "Shop dirt 3x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3}],
+    "66": [{"name": "Shop dirt 4x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3}],
+    "67": [{"name": "Shop dirt 1x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2}], # Collision starts from here (delete this later)
+    "68": [{"name": "Shop dirt 2x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2}],
+    "69": [{"name": "Shop dirt 3x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2}],
+    "70": [{"name": "Shop dirt 4x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2}],
+    "71": [{"name": "Shop dirt 1x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1}],
+    "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1}],
+    "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1}],
+    "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1}],
 }
 
 def setup_surfaces(tile_exspansion):
@@ -99,6 +99,9 @@ def setup_surfaces(tile_exspansion):
                 if not "collision" in tile:
                     tile["collision"] = False
 
+                if not "ysort" in tile:
+                    tile["ysort"] = False
+                
                 if tile["requires_rect"]:
                     rect = pygame.Rect(tile["rect_x"], tile["rect_y"], tile["size_x"], tile["size_y"])
                     # Verify rect is valid
@@ -114,6 +117,8 @@ def setup_surfaces(tile_exspansion):
                 tile["surface"] = pygame.Surface((16, 16))  # Fallback surface
                 tile["surface"].fill((255, 0, 0))  # Red for debugging
                 del tile["texture"]
+            
+
 
 class TileData:
     def __init__(self, sub_id, id):
@@ -338,25 +343,49 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
     #         pos = tile_value_to_position(index, width, tile_size)
     #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size):
+def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size, no_ysort_sprite_list):
     for tile_idx, tile in enumerate(tile_slot_list):
         tile.update_id_and_sub_id(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])
-        sprite_list.append(spritemanager.SpriteData(
-            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
-            (tile_idx // width) * tile_size,
-            (tile_idx % width) * tile_size,
-            (tile_idx // width) * tile_size + tile_size,
-            (tile_idx // width) * tile_size + tile_size,
-            False
-        ))
-        sprite_list.append(spritemanager.SpriteData(
-            tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
-            (tile_idx // width) * tile_size,
-            (tile_idx % width) * tile_size,
-            (tile_idx // width) * tile_size + tile_size,
-            (tile_idx // width) * tile_size + tile_size,
-            False
-        ))
+        if tiles[tile.sub_id][0]["ysort"]:
+            sprite_list.append(spritemanager.SpriteData(
+                tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
+                (tile_idx // width) * tile_size,
+                (tile_idx % width) * tile_size,
+                (tile_idx // width) * tile_size + tile_size,
+                (tile_idx % width) * tile_size + tile_size,
+                True,
+                ((tile_idx // width) * tile_size) + tiles[tile.sub_id][0]["ysortx"],
+                ((tile_idx % width) * tile_size) + tiles[tile.sub_id][0]["ysorty"],
+            ))
+        else: 
+            no_ysort_sprite_list.append(spritemanager.SpriteData(
+                tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
+                (tile_idx // width) * tile_size,
+                (tile_idx % width) * tile_size,
+                (tile_idx // width) * tile_size + tile_size,
+                (tile_idx % width) * tile_size + tile_size,
+                False,
+            ))
+        if tiles[tile.id][0]["ysort"]:
+            sprite_list.append(spritemanager.SpriteData(
+                tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
+                (tile_idx // width) * tile_size,
+                (tile_idx % width) * tile_size,
+                (tile_idx // width) * tile_size + tile_size,
+                (tile_idx % width) * tile_size + tile_size,
+                True,
+                ((tile_idx // width) * tile_size) + tiles[tile.id][0]["ysortx"],
+                ((tile_idx % width) * tile_size) + tiles[tile.id][0]["ysorty"],
+            ))
+        else:
+            no_ysort_sprite_list.append(spritemanager.SpriteData(
+                tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[0],
+                (tile_idx // width) * tile_size,
+                (tile_idx % width) * tile_size,
+                (tile_idx // width) * tile_size + tile_size,
+                (tile_idx % width) * tile_size + tile_size,
+                False,
+            ))
 
 def check_collision_in_all_tiles(point, tile_slot_list):
     for tile in tile_slot_list:

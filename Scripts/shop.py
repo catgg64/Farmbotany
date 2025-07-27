@@ -72,7 +72,7 @@ class Shop:
 
     def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
         """Update shop state and render it."""
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x + SHOP_SCALED_SIZE, self.rect.y + SHOP_SCALED_SIZE, True))
+        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x + SHOP_SCALED_SIZE, self.rect.y + SHOP_SCALED_SIZE, True))
         
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)

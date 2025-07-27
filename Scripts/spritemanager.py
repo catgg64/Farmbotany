@@ -5,12 +5,18 @@ class SpriteManagerContext:
         self.screen = screen
 
 class SpriteData:
-    def __init__(self, surface, top_left_x, top_left_y, bottom_right_x, botton_right_y, y_sort=False):
+    def __init__(self, surface, top_left_x, top_left_y, bottom_right_x, botton_right_y, y_sort=False, y_sort_x=2763, y_sort_y=2763): # 2763 sets it to the default value. Don't ask me why. Because it's a secret.
         self.surface = surface
         self.top_left_x = top_left_x
         self.top_left_y = top_left_y
         self.botton_right_x = bottom_right_x
         self.botton_right_y = botton_right_y
+        self.y_sort_x = y_sort_x
+        self.y_sort_y = y_sort_y
+        if self.y_sort_x == 2763:
+            self.y_sort_x = self.botton_right_x
+        if self.y_sort_y == 2763:
+            self.y_sort_y = self.botton_right_y
         self.y_sort = y_sort
 
 def update_sprite_list(surface, sprite_list, offset_x, offset_y, window_size):

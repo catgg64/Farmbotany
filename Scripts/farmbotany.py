@@ -18,6 +18,7 @@ import spritemanager
 pygame.init()
 pygame.font.init()
 
+
 class Farmbotany:
     def __init__(self):
         # Import Shop inside the __init__ method to avoid circular import
@@ -27,6 +28,8 @@ class Farmbotany:
         self.screen_height = 720
         self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA, pygame.SCALED, vsync=1)
         pygame.display.set_caption("Farmbotany")
+        icon = pygame.image.load("icon.png")
+        pygame.display.set_icon(icon)
         self.clock = pygame.time.Clock()
         self.running = True
         self.paused = False
@@ -113,7 +116,7 @@ class Farmbotany:
         self.is_picking_up = False
 
         # Now Shop is defined and can be used
-        self.shop = Shop(1000, 1000, self.floutwitch, self)
+        self.shop = Shop(960, 1020, self.floutwitch, self)
 
     # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
@@ -283,6 +286,7 @@ class Farmbotany:
         self.draw_queue = []
         self.special_draw_queue = []
         self.sprite_list = []
+        self.true_no_y_sort_sprite_list = []
 
         for tile in self.current_room.tile_slot_list:
             if tiles[tile.sub_id][0]["collision"]:
@@ -317,7 +321,7 @@ class Farmbotany:
         
         self.floutwitch.actual_rect_update(self.viewport)
         
-        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size)
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
         if self.current_room == self.farm:
@@ -403,10 +407,10 @@ class Farmbotany:
         
         # Split sprites into those with y_sort=True and y_sort=False
         y_sort_sprites = [sprite for sprite in self.sprite_list if sprite.y_sort]
-        no_sort_sprites = [sprite for sprite in self.sprite_list if not sprite.y_sort]
+        no_sort_sprites = [sprite for sprite in self.sprite_list if not sprite.y_sort] + self.true_no_y_sort_sprite_list
 
         # Sort only the y_sort=True sprites by top_left_y
-        y_sort_sprites = sorted(y_sort_sprites, key=lambda sprite: sprite.botton_right_y)
+        y_sort_sprites = sorted(y_sort_sprites, key=lambda sprite: sprite.y_sort_y)
 
         # Combine the sorted and unsorted sprites
         self.sprite_list = no_sort_sprites + y_sort_sprites
@@ -466,6 +470,7 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
+        pygame.draw.rect(self.screen, (255, 255, 255), self.shop.rect, 5)
         #pygame.draw.rect()
 
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
@@ -487,6 +492,7 @@ class Farmbotany:
 
 farmbotany = Farmbotany()
 
+#setup_tile_paramaters()
 setup_surfaces(farmbotany.current_room.tile_size)
 initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.farm.tile_world_width, farmbotany.farm.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.farm.tile_slot_list)
 initialize_tilemap(farmbotany.worlds.my_room_world.my_room_world, farmbotany.worlds.my_room_world.my_room_sub_world, farmbotany.my_room.tile_world_width, farmbotany.my_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
