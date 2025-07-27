@@ -104,7 +104,7 @@ class Floutwitch():
                         self.can_move = True
 
 
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 25, self.rect.y + 50, True))
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 50, self.rect.y + 25, True))
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
         
