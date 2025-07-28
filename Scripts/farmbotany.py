@@ -205,10 +205,10 @@ class Farmbotany:
             
             special_slot_data = inventory[special_slot]
             if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
-                if self.current_room.world[pos_y][pos_x] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y] is None:
                         special_slot_data.quantity -= 1
-                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 50, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
@@ -232,11 +232,12 @@ class Farmbotany:
                 tile_x = int(round(tile_x))
                 tile_y = int(round(tile_y))
                 
-                if farmbotany.current_room.sub_world[tile_y][tile_x] == "1" or self.current_room.sub_world[tile_y][tile_x] == "22":
+                if tiles[farmbotany.current_room.sub_world[tile_y][tile_x]][0]["hoable"] == True:
                     if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length:
                         tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                         if tile_index < len(farmbotany.current_room.tiles_world):
                             farmbotany.current_room.world[tile_y][tile_x] = "2"
+                            self.update_tilemap_terrain = True
     
     def _makes_the_pickaxe_work(self, pickaxe_pos_x, pickaxe_pos_y, farmbotany, pickaxe_anim_frames, pickaxe_animation_speed):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
@@ -252,8 +253,9 @@ class Farmbotany:
                 if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
                     farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
                 else:
-                    if farmbotany.current_room.world[tile_y][tile_x] == "2":
+                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["hoable"] == "2":
                         farmbotany.current_room.world[tile_y][tile_x] = "1"
+                        self.update_tilemap_terrain = True
 
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
@@ -294,10 +296,6 @@ class Farmbotany:
 
         self.floutwitch.actual_rect_update(self.viewport)
         
-        # Updates the mouse distance from the floutwitch.
-
-        switch_tilemap_to_child(self.current_room.world)
-        switch_tilemap_to_child(self.current_room.sub_world)
 
         # Here we must do everything that requires the child tiles.
         
@@ -334,6 +332,7 @@ class Farmbotany:
         self.floutwitch.move(self.keys, self)
         self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
         self.floutwitch.updates_the_pickaxe(self.internal_surface, self.viewport)
+        # Updates the mouse distance from the floutwitch.
         self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
@@ -444,7 +443,7 @@ class Farmbotany:
         # Can be used later when debugging.
         #pygame.draw.cir#cle(self.internal_surface, (255, 255, 255), (pickaxe_pos_x, pickaxe_pos_y), 50, 5)
         
-        
+
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
@@ -486,6 +485,8 @@ class Farmbotany:
         self.right_just_clicked = False
         self.page_up_just_clicked = False
         self.page_down_just_clicked = False
+
+        self.update_tilemap_terrain = False
         
         pygame.display.update() # Udates the screen.
         self.clock.tick(60) # The clock ticks. This is used for the framerate adjustments.

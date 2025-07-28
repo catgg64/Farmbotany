@@ -6,7 +6,7 @@ import inventorymanager
 import solid_object
 
 tiles = {
-    "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
+    "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "hoable": True}],
     "2": [{"name": "Hoed Ground", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False}],
     "3": [{"name": "Empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "terrain": False}],
     "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "terrain": False}],
@@ -27,7 +27,7 @@ tiles = {
     "19": [{"name": "Top Right Corner Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False}],
     "20": [{"name": "Right Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
     "21": [{"name": "Botton Right Grass Dirt Out", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False}],
-    "22": [{"name": "Sand", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 80, "size_x": 16, "size_y": 16, "terrain": False}],
+    "22": [{"name": "Sand", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 80, "rect_y": 80, "size_x": 16, "size_y": 16, "terrain": False, "hoable": True}],
     "23": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "24": [{"name": "Hoed Ground top: true, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
     "25": [{"name": "Hoed Ground top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False, "child": "2"}],
@@ -64,22 +64,22 @@ tiles = {
     "56": [{"name": "Dirt Hill left side with center", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 272, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "57": [{"name": "Dirt Hill right side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
     "58": [{"name": "Dirt Hill left side with bottom", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 288, "size_x": 16, "size_y": 16, "terrain": False, "collision": True}],
-    "59": [{"name": "Shop dirt 1x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4}],
-    "60": [{"name": "Shop dirt 2x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 3}],
-    "61": [{"name": "Shop dirt 3x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 2}],
-    "62": [{"name": "Shop dirt 4x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 1}],
-    "63": [{"name": "Shop dirt 1x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 4}],
-    "64": [{"name": "Shop dirt 2x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3}],
-    "65": [{"name": "Shop dirt 3x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 2}],
-    "66": [{"name": "Shop dirt 4x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 1}],
-    "67": [{"name": "Shop dirt 1x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 4}], # Collision starts from here (delete this later)
-    "68": [{"name": "Shop dirt 2x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 3}],
-    "69": [{"name": "Shop dirt 3x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2}],
-    "70": [{"name": "Shop dirt 4x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 1}],
-    "71": [{"name": "Shop dirt 1x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 4}],
-    "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 3}],
-    "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 2}],
-    "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1}],
+    "59": [{"name": "Shop dirt 1x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 4 - 35}],
+    "60": [{"name": "Shop dirt 2x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 3 - 35}],
+    "61": [{"name": "Shop dirt 3x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 2 - 35}],
+    "62": [{"name": "Shop dirt 4x1", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision":  False, "ysort": True, "ysortx": 64 * 4, "ysorty": 64 * 1 - 35}],
+    "63": [{"name": "Shop dirt 1x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 4 - 35}],
+    "64": [{"name": "Shop dirt 2x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 3 - 35}],
+    "65": [{"name": "Shop dirt 3x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 2 - 35}],
+    "66": [{"name": "Shop dirt 4x2", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 3, "ysorty": 64 * 1 - 35}],
+    "67": [{"name": "Shop dirt 1x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 4 - 35}], # Collision starts from here (delete this later)
+    "68": [{"name": "Shop dirt 2x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 3 - 35}],
+    "69": [{"name": "Shop dirt 3x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 2 - 35}],
+    "70": [{"name": "Shop dirt 4x3", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 32, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 2, "ysorty": 64 * 1 - 35}],
+    "71": [{"name": "Shop dirt 1x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2880, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 4 - 35}],
+    "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 3 - 35}],
+    "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 2 - 35}],
+    "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1 - 35}],
 }
 
 def setup_surfaces(tile_exspansion):
@@ -101,6 +101,9 @@ def setup_surfaces(tile_exspansion):
 
                 if not "ysort" in tile:
                     tile["ysort"] = False
+                
+                if not "hoable" in tile:
+                    tile["hoable"] = False
                 
                 if tile["requires_rect"]:
                     rect = pygame.Rect(tile["rect_x"], tile["rect_y"], tile["size_x"], tile["size_y"])
@@ -200,16 +203,18 @@ class Tile:
     
 
 class SpecialTile:
-    def __init__(self, texture, size, pos_x, pos_y, farmbotany):
+    def __init__(self, texture, size, pos_x, pos_y, farmbotany, ysort=False, ysorty=0):
         self.texture = texture
         self.size = size
         self.image = pygame.image.load(self.texture)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
         self.rect = pygame.Rect(pos_x, pos_y, size, size)
         self.farmbotany = farmbotany
+        self.ysort = ysort
+        self.ysorty = ysorty
 
     def update(self, screen, pos_x, pos_y):
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, pos_x, pos_y, pos_x + self.size, pos_y + self.size))
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, pos_x, pos_y, pos_x + self.size, pos_y + self.size, self.ysort, (pos_y + self.size) + self.ysorty, (pos_y + self.size) + self.ysorty))
         screen.blit(self.image, (pos_x, pos_y))
         
     def is_colliding_with_rect(self, rect):
@@ -222,26 +227,32 @@ class Crop(SpecialTile):
         self.texture = texture
         self.finished_texture = finished_texture
         self.image = pygame.image.load(self.texture)
-        super().__init__(self.texture, size, pos_x, pos_y, farmbotany)
+        self.ysorty = -30
+        super().__init__(self.texture, size, pos_x, pos_y, farmbotany, True, self.ysorty)
         self.start_time = time.time()
         self.plant_time = plant_time
         self.can_collect = False
         self.time_passed_since_beguining = 0
         self.time_passed_since_beguining = time.time() - self.start_time
         self.item = item_id
-
+        self.distance_from_init_x = 0
+        self.distance_from_init_y = 0
 
     def update(self, screen, pos_x, pos_y):
-        super().update(screen, pos_x, pos_y)
-        self.x = pos_x
-        self.y = pos_y
-        self.rect = self.image.get_rect(topleft = (pos_x, pos_y))
+        super().update(screen, pos_x  + self.distance_from_init_x, pos_y + self.distance_from_init_y)
+        self.x = pos_x + self.distance_from_init_x
+        self.y = pos_y + self.distance_from_init_y
+        self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
         self.time_passed_since_beguining = time.time() - self.start_time
+        self.image = pygame.transform.scale(self.image, (self.size, self.size))
         if self.time_passed_since_beguining >= self.plant_time:
             self.can_collect = True
             self.texture = self.finished_texture
             self.image = pygame.image.load(self.texture)
-        self.image = pygame.transform.scale(self.image, (self.size, self.size))
+            self.image = pygame.transform.scale(self.image, (self.size + 20, self.size + 20))
+            self.distance_from_init_x = -10
+            self.distance_from_init_y = -30
+            self.ysorty = 10
 
     def check_for_harvest(self, mouse_realed):
         if mouse_realed and self.can_collect:
@@ -347,6 +358,7 @@ def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world,
     for tile_idx, tile in enumerate(tile_slot_list):
         tile.update_id_and_sub_id(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])
         if tiles[tile.sub_id][0]["ysort"]:
+            #print(((tile_idx // width) * tile_size) + tiles[tile.sub_id][0]["ysortx"])
             sprite_list.append(spritemanager.SpriteData(
                 tile.return_surface(world[tile_idx % width][tile_idx // width], sub_world[tile_idx % width][tile_idx // width])[1],
                 (tile_idx // width) * tile_size,
@@ -448,7 +460,7 @@ def update_tilemap_terrain(world):
 
     for row_idx in range(height):
         for column_idx in range(width):
-            if world[row_idx][column_idx] == "2":  # Check for Hoed Ground
+            if tiles[world[row_idx][column_idx]][0]["child"] == "2":  # Check for Hoed Ground
                 init_neighbors = get_neighbors(column_idx, row_idx, world)
                 # Select top, left, right, bottom neighbors (indices 1, 3, 4, 6)
                 nb = [

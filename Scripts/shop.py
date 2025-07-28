@@ -71,9 +71,6 @@ class Shop:
             raise
 
     def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
-        """Update shop state and render it."""
-        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x + SHOP_SCALED_SIZE, self.rect.y + SHOP_SCALED_SIZE, True))
-        
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
 
@@ -226,13 +223,13 @@ class ProductSlot:
         self.slot_size = slot_size
 
     def update(self, surface, mouse_realeased, inventory, floutwitch):
-        if floutwitch.gold >= self.item_data["value"]:
+        if floutwitch.gold >= self.price:
             if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
                 inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
-                floutwitch.gold -= self.item_data["value"]
+                floutwitch.gold -= self.price
         #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x + SHOP_SCALED_SIZE, self.rect.y + SHOP_SCALED_SIZE))
         #print(self.rect.x)
         surface.blit(self.image, self.rect)
         pygame.draw.rect(surface, self.color, self.rect, self.width)
-        text = self.text_font.render(str(self.item_data["value"]), True, (255, 255, 255))
+        text = self.text_font.render(str(self.price), True, (255, 255, 255))
         surface.blit(text, (self.rect.x + self.slot_size + 10, self.rect.y + self.slot_size + 10))
