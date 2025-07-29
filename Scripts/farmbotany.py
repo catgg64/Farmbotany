@@ -215,11 +215,11 @@ class Farmbotany:
             pos = pos_y * tile_world_width + pos_x
             
             special_slot_data = inventory[special_slot]
-            if mouse_just_clicked and check_collision_in_all_tiles(mouse_pos, tile_slot_list) and special_slot_data.id == "3":
+            if mouse_just_clicked and special_slot_data.id == "3":
                 if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y] is None:
                         special_slot_data.quantity -= 1
-                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 50, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                        special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
@@ -260,11 +260,11 @@ class Farmbotany:
                 tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
                 tile_x = int(round(tile_x))
                 tile_y = int(round(tile_y))
-                
+
                 if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
                     farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
                 else:
-                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["hoable"] == "2":
+                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
                         farmbotany.current_room.world[tile_y][tile_x] = "1"
                         self.update_tilemap_terrain = True
 
@@ -300,10 +300,6 @@ class Farmbotany:
         self.special_draw_queue = []
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
-
-        #for tile in self.current_room.tile_slot_list:
-        #    if tiles[tile.sub_id][0]["collision"]:
-        #        self.solid_objects_list.append(tile.rect)
 
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
@@ -506,10 +502,7 @@ class Farmbotany:
 
 farmbotany = Farmbotany()
 
-#setup_tile_paramaters()
 setup_surfaces(farmbotany.current_room.tile_size)
-initialize_tilemap(farmbotany.worlds.farm.world, farmbotany.worlds.farm.sub_world, farmbotany.farm.tile_world_width, farmbotany.farm.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.farm.tile_slot_list)
-initialize_tilemap(farmbotany.worlds.my_room_world.my_room_world, farmbotany.worlds.my_room_world.my_room_sub_world, farmbotany.my_room.tile_world_width, farmbotany.my_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y, farmbotany.my_room.tile_slot_list)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame
