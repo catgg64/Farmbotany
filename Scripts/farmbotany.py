@@ -15,6 +15,17 @@ import spritemanager
 # Remove the import of shop here
 # from shop import *
 
+"""
+Future Note here:
+I really regret not having the start date of this file
+written down. However, I am 99% sure that it started on
+last Sunday (08/06/2025). Just taking this as a note. 
+
+Future Note 2 (28/07/2025, 20:31) here:
+OMG i can't belive that something erased that future note!
+Really hope this doesen't happend again!
+I have also encountered huge optimizasion issues with the game.
+"""
 pygame.init()
 pygame.font.init()
 
@@ -183,7 +194,7 @@ class Farmbotany:
     
     def _check_for_solid_object_colision(self, solid_objects_list, rect):
         for solid_object in solid_objects_list:
-            if solid_object.rect.colliderect(rect):
+            if solid_object.colliderect(rect):
                 return True
         return False
 
@@ -290,9 +301,11 @@ class Farmbotany:
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
 
-        for tile in self.current_room.tile_slot_list:
-            if tiles[tile.sub_id][0]["collision"]:
-                self.solid_objects_list.append(tile.brick)
+        #for tile in self.current_room.tile_slot_list:
+        #    if tiles[tile.sub_id][0]["collision"]:
+        #        self.solid_objects_list.append(tile.rect)
+
+        append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
         self.floutwitch.actual_rect_update(self.viewport)
         

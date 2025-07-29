@@ -409,7 +409,7 @@ class Floutwitch():
                 if keys[pygame.K_w]:
                     self.rect.y -= self.speed
                     for solid_object in self.solid_objects_list:
-                        if solid_object.rect.colliderect(self.rect):
+                        if solid_object.colliderect(self.rect):
                             self.rect.y += self.speed
 
                     self.direction[0] = True
@@ -422,7 +422,7 @@ class Floutwitch():
                 if keys[pygame.K_s]:
                     self.rect.y += self.speed
                     for solid_object in self.solid_objects_list:
-                        if solid_object.rect.colliderect(self.rect):
+                        if solid_object.colliderect(self.rect):
                             self.rect.y -= self.speed
 
                     self.direction[1] = True
@@ -435,7 +435,7 @@ class Floutwitch():
                 if keys[pygame.K_a]:
                     self.rect.x -= self.speed
                     for solid_object in self.solid_objects_list:
-                        if solid_object.rect.colliderect(self.rect):
+                        if solid_object.colliderect(self.rect):
                             self.rect.x += self.speed
                     
                     self.needs_reverse = False
@@ -450,7 +450,7 @@ class Floutwitch():
                     self.rect.x += self.speed
                     self.needs_reverse = True
                     for solid_object in self.solid_objects_list:
-                        if solid_object.rect.colliderect(self.rect):
+                        if solid_object.colliderect(self.rect):
                             self.rect.x -= self.speed
                 
                     self.direction[3] = True

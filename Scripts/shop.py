@@ -48,8 +48,8 @@ class Shop:
         
         self.mouse_realeased = False
 
-        self.brick = solid_object.Brick(pos_x, pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
-        self.brick.append_self_to_list(farmbotany.solid_objects_list)
+        #self.brick = solid_object.Brick(pos_x, pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
+        #self.brick.append_self_to_list(farmbotany.solid_objects_list)
 
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,

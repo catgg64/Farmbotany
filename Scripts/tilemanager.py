@@ -142,20 +142,21 @@ class Tile:
         self.tile_size = tile_size
         self.rect = pygame.Rect(pos_x, pos_y, tile_size, tile_size)
         slot_list.append(self)
-        self.brick = solid_object.Brick(pos_y, pos_x, tile_size, tile_size)
+        #self.brick = solid_object.Brick(pos_y, pos_x, tile_size, tile_size)
 
     # Then it updates (draws it every frame).
     def update(self, id, sub_id, screen, pos_x, pos_y, solid_objects_list):
-        solid_objects_list.append(self.brick)
         self.rect = pygame.Rect(pos_x, pos_y, self.tile_size, self.tile_size)
+        #solid_objects_list.append(pygame.Rect(self.rect.y, self.rect.x, self.tile_size, self.tile_size))
         self.id = id
         self.sub_id = sub_id
-        if sub_id != "3":
-            tile_data = tiles[sub_id][0]
-            screen.blit(tile_data["surface"], (pos_x, pos_y))
-        if id != "3":
-            tile_data = tiles[id][0]
-            screen.blit(tile_data["surface"], (pos_x, pos_y))
+        #pygame.draw.rect(screen, (255, 255, 255), self.rect, 5)
+        #if sub_id != "3":
+        #    tile_data = tiles[sub_id][0]
+        #    screen.blit(tile_data["surface"], (pos_x, pos_y))
+        #if id != "3":
+        #    tile_data = tiles[id][0]
+        #    screen.blit(tile_data["surface"], (pos_x, pos_y))
         
     # Pretty self-explanatory, right?
     def update_id_and_sub_id(self, id, sub_id):
@@ -517,3 +518,11 @@ def distance_in_tiles(x, y, tx, ty, offset_x, offset_y, tile_size):
     distance[1] = ((ty - y) + offset_y) // tile_size
     
     return distance
+
+def append_all_rect_to_solid_object_list(world, tile_size, solid_objects_list):
+    for row_idx, row in enumerate(world):
+        for col_idx, col in enumerate(row):
+            if tiles[col][0]["collision"]:
+                x = col_idx * tile_size
+                y = row_idx * tile_size
+                solid_objects_list.append(pygame.Rect(x, y, tile_size, tile_size))
