@@ -1,7 +1,7 @@
 import pygame
 
 class FBButton:
-    def __init__(self, pos_x, pos_y, size_x, size_y, text, font):
+    def __init__(self, pos_x, pos_y, size_x, size_y, text, font, key=None):
 
         pygame.font.init()
 
@@ -15,6 +15,7 @@ class FBButton:
         self.state: str = "none"
         self.pressed: bool = False
         self.text = text
+        self.key = key
 
     def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
         self.pressed = False
@@ -36,8 +37,16 @@ class FBButton:
         if self.rect.collidepoint(mouse_pos):
             self.state = "hover"
             if mouse_realeased:
-                self.state = "pressed"
-                self.pressed = True
+                self._get_pressed()
         else:
             self.state = "none"
-            
+        
+        keys = pygame.key.get_pressed()
+
+        if self.key:
+            if keys[self.key]:
+                self._get_pressed()
+        
+    def _get_pressed(self):
+        self.state = "pressed"
+        self.pressed = True

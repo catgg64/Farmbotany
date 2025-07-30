@@ -6,11 +6,11 @@ import inventorymanager
 import solid_object
 
 tiles = {
-    "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "hoable": True}],
+    "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
     "2": [{"name": "Hoed Ground", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False}],
     "3": [{"name": "Empty", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 16,"size_x": 16, "size_y": 16, "terrain": False}],
     "4": [{"name": "Crop", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 720, "rect_y": 32,"size_x": 16, "size_y": 16, "terrain": False}],
-    "5": [{"name": "Dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
+    "5": [{"name": "Dirt", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 64, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False, "hoable": True}],
     "6": [{"name": "Top Left Corner Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 32, "size_x": 16, "size_y": 16, "terrain": False}],
     "7": [{"name": "Left Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
     "8": [{"name": "Botton Left Grass Dirt In", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 0, "rect_y": 64, "size_x": 16, "size_y": 16, "terrain": False}],

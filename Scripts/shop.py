@@ -33,14 +33,14 @@ class Shop:
         
         self.font = "Fonts/HelvetiPixel.ttf"
 
-        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font)
+        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font, pygame.K_e)
         
-        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font)
-        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
+        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, pygame.K_b)
+        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, pygame.K_e)
         
-        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
-        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
-        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
+        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
+        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
+        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, pygame.K_e)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
