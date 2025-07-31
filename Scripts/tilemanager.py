@@ -4,6 +4,7 @@ import time
 import spritemanager
 import inventorymanager
 import solid_object
+import random
 
 tiles = {
     "1": [{"name": "Grass", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 16, "rect_y": 48, "size_x": 16, "size_y": 16, "terrain": False}],
@@ -238,6 +239,8 @@ class Crop(SpecialTile):
         self.item = item_id
         self.distance_from_init_x = 0
         self.distance_from_init_y = 0
+        self.flipped = bool(random.getrandbits(1))
+        self.image = pygame.transform.flip(self.image, self.flipped, False)
 
     def update(self, screen, pos_x, pos_y):
         super().update(screen, pos_x  + self.distance_from_init_x, pos_y + self.distance_from_init_y)

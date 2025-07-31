@@ -1,4 +1,5 @@
 import pygame
+import time
 
 class FBButton:
     def __init__(self, pos_x, pos_y, size_x, size_y, text, font, key=None):
@@ -16,6 +17,8 @@ class FBButton:
         self.pressed: bool = False
         self.text = text
         self.key = key
+        self.press_cooldown = 0
+        self.press_cooldown_time = 2
 
     def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
         self.pressed = False
@@ -50,3 +53,4 @@ class FBButton:
     def _get_pressed(self):
         self.state = "pressed"
         self.pressed = True
+        self.press_cooldown = time.time()

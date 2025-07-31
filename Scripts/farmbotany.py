@@ -231,7 +231,7 @@ class Farmbotany:
                     if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                         if special_tiles_world[pos_x][pos_y] is None:
                             special_slot_data.quantity -= 1
-                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, 60, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
@@ -247,7 +247,7 @@ class Farmbotany:
     def _makes_the_hoe_work(self, hoe_pos_x, hoe_pos_y, farmbotany, hoe_anim_frames, hoe_animation_speed):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
 
-        if hoe_anim_frames >= hoe_animation_speed * 6:
+        if hoe_anim_frames <= hoe_animation_speed * 6:
             if hoe_pos_x and hoe_pos_y:
                 world_x = hoe_pos_x + farmbotany.viewport.pos_x
                 world_y = hoe_pos_y + farmbotany.viewport.pos_y
@@ -277,7 +277,7 @@ class Farmbotany:
                     farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
                 else:
                     if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
-                        farmbotany.current_room.world[tile_y][tile_x] = "1"
+                        farmbotany.current_room.world[tile_y][tile_x] = "3"
                         self.update_tilemap_terrain = True
 
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
