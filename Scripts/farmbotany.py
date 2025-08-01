@@ -445,8 +445,6 @@ class Farmbotany:
         self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
 
-        pygame.draw.rect(self.internal_surface, (255, 255, 255), self.floutwitch.actual_rect, 5)
-
         # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
 
