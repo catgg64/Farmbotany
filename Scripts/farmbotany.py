@@ -33,6 +33,21 @@ project, and no one else is even thankfull. They are
 way too focused on the idea and forget the execution.
 The optimizations were really good, but it still
 doesen't run flawlessly.
+
+Note 4 (01/08/2025, 18:32):
+Hi! Me here from in the travel. It's been going OK
+but far from icredible. I've got little to no time
+to program so the progress is and is going to be
+really slow. That's it!
+
+Note 5 (02/08/2025, 09:21):
+I started writing this everyday. This is basicly
+my diary lol. So, this time i started adding
+keyboard integration. I higly appreciate when
+i can only use the keyboard. That's pretty much
+my workflow. I wasen't able to do much again,
+because i am traveling. Good luck for me!
+
 """
 pygame.init()
 pygame.font.init()
@@ -128,6 +143,7 @@ class Farmbotany:
         self.page_down_pressed = False
         self.mouse_wheel_up = False
         self.mouse_wheel_down = False
+        self.space_just_pressed = False
 
         self.mouse_pos = 0
         self.slot_class_selected = 0
@@ -146,6 +162,7 @@ class Farmbotany:
         right_just_clicked = False
         mouse_wheel_up = False
         mouse_wheel_down = False
+        space_just_pressed = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -167,6 +184,8 @@ class Farmbotany:
                     page_up_pressed = True
                 if event.key == pygame.K_PAGEDOWN:
                     page_down_pressed = True
+                if event.key == pygame.K_SPACE:
+                    space_just_pressed = True
                 if event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
                     rooms.update_all_screens_acording_to_new_screen(self.room_list)
@@ -178,7 +197,7 @@ class Farmbotany:
             #    # Resize the display surface
             #    self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
 
-        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down, space_just_pressed
 
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -296,7 +315,11 @@ class Farmbotany:
             
 
     def update(self):
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down = self._event_handling()
+        self.running, self.mouse_just_clicked, 
+        self.page_up_just_clicked, self.page_down_just_clicked,
+        self.mouse_realeased, self.right_just_clicked, 
+        self.mouse_wheel_up, self.mouse_wheel_down, 
+        self.space_just_pressed = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
