@@ -8,6 +8,7 @@ class FBButton:
 
         self.text_font = pygame.font.Font(font, 30)
 
+        self.keyboard = keyboard
         self.pos_x = pos_x
         self.pos_y = pos_y
         self.size_x = size_x
@@ -27,6 +28,7 @@ class FBButton:
         self.down_neightboor = down_neighboor
         self.left_neightboor = left_neighboor
         self.right_neightboor = right_neighboor
+        
     def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
         self.pressed = False
         
@@ -45,17 +47,36 @@ class FBButton:
         text = self.text_font.render(str(self.text), True, (255, 255, 255))
         surface.blit(text, (self.pos_x + self.size_x / 2, self.pos_y + self.size_y / 2))
 
-        if keyboard == False:
+        if self.keyboard == False or not self.key:
             if self.rect.collidepoint(mouse_pos):
                 self.state = "hover"
                 if mouse_realeased:
                     self._get_pressed()
             else:
                 self.state = "none"
-
-        if self.key:
-            if keys[self.key]:
-                self._get_pressed()
+        else:
+            if self.focus:
+                self.state = "hover"
+                if keys[pygame.K_SPACE]:
+                    self._get_pressed()
+                if keys[pygame.K_UP]:
+                    if self.up_neightboor:
+                        self.focus = False
+                        self.up_neightboor.focus = True
+                if keys[pygame.K_DOWN]:
+                    if self.down_neightboor:
+                        self.focus = False
+                        self.down_neightboor.focus = True
+                if keys[pygame.K_LEFT]:
+                    if self.left_neightboor:
+                        self.focus = False
+                        self.left_neightboor.focus = True
+                if keys[pygame.K_RIGHT]:
+                    if self.right_neightboor:
+                        self.focus = False
+                        self.right_neightboor.focus = True
+            else:
+                self.state = "none"
 
     def _get_pressed(self):
         self.state = "pressed"

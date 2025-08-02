@@ -37,6 +37,7 @@ class Shop:
         
         self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, pygame.K_b)
         self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, pygame.K_e)
+
         
         self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
         self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
@@ -45,19 +46,25 @@ class Shop:
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
+        self.product_slot_list = []
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch)
         
         self.mouse_realeased = False
 
-        #self.brick = solid_object.Brick(pos_x, pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
-        #self.brick.append_self_to_list(farmbotany.solid_objects_list)
+        self.exit_button.focus = True
+
+        self.exit_button.down_neightboor = self.buy_button
+        self.buy_button.up_neightboor = self.exit_button
+        self.buy_button.right_neightboor = self.sell_button
+        self.sell_button.left_neightboor = self.buy_button
+        self.exit_buy_menu_button.right_neightboor = self.wheat_seed_slot
+        self.wheat_seed_slot.left_neightboor = self.exit_buy_menu_button
 
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
                                                                                                     self.sell_slot_list, self.sell_slot_data_list, 
                                                                                                     farmbotany.clicked_slot_data, farmbotany.is_picking_up)
         
-        self.product_slot_list = []
-        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch)
 
     def _load_image(self) -> pygame.Surface:
         """Load and prepare the shop image."""
@@ -151,19 +158,23 @@ class Shop:
 
     def _open_buy_menu(self):
         self.shop_ui.status = "buy_menu"
-        
+        self.exit_buy_menu_button.focus = True
+
     def _close_buy_menu(self):
         self.shop_ui.status = "menu"
         self.exit_buy_menu_button.status = "none"
         self.exit_buy_menu_button.pressed = False
-    
+        self.buy_button.focus = True
+
     def _open_sell_menu(self):
         self.shop_ui.status = "sell_menu"
-    
+        self.actual_sell_button.focus = True
+
     def _close_sell_menu(self):
-        self.shop_ui.status = "menu"
+        self.shop_ui.status = "me0nu"
         self.exit_sell_menu_button.status = "none"
         self.exit_sell_menu_button.pressed = False
+        self.sell_button.focus = True
 
     def _sell(self, item_data, floutwitch):
         items = inventorymanager.items
@@ -203,7 +214,7 @@ class ShopUI:
             internal_surface.blit(self.image, self.rect)
 
 class ProductSlot:
-    def __init__(self, x, y, item, price, product_slot_list, slot_size, color, width, floutwitch):
+    def __init__(self, x, y, item, price, product_slot_list, slot_size, color, width, floutwitch, key, keyboard=True, up_neighboor=None, down_neighboor=None, left_neighboor=None, right_neighboor=None):
         self.text_font = pygame.font.SysFont("Ariel", 30)
         
         product_slot_list.append(self)
@@ -217,19 +228,55 @@ class ProductSlot:
         self.rect = pygame.Rect(x, y, slot_size, slot_size)
         self.item = item
 
+        self.focus = False
+        self.keyboard = keyboard
+        self.up_neightboor = up_neighboor
+        self.down_neightboor = down_neighboor
+        self.left_neightboor = left_neighboor
+        self.right_neightboor = right_neighboor
+        
+
         self.color = color
         self.width = width
 
         self.slot_size = slot_size
 
     def update(self, surface, mouse_realeased, inventory, floutwitch):
-        if floutwitch.gold >= self.price:
-            if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
-                inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
-                floutwitch.gold -= self.price
-        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x, self.rect.y, self.rect.x + SHOP_SCALED_SIZE, self.rect.y + SHOP_SCALED_SIZE))
-        #print(self.rect.x)
+        draw_color = (255, 255, 255)
+        keys = pygame.key.get_pressed()
+
+        if not self.keyboard:
+            if floutwitch.gold >= self.price:
+                if mouse_realeased and self.rect.collidepoint(pygame.mouse.get_pos()):
+                    inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
+                    floutwitch.gold -= self.price
+        else:
+            if self.focus:
+                draw_color = (204, 204, 204)        
+                if keys[pygame.K_SPACE]:
+                    if floutwitch.gold >= self.price:
+                        inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
+                        floutwitch.gold -= self.price    
+                if keys[pygame.K_UP]:
+                    if self.up_neightboor:
+                        self.focus = False
+                        self.up_neightboor.focus = True
+                if keys[pygame.K_DOWN]:
+                    if self.down_neightboor:
+                        self.focus = False
+                        self.down_neightboor.focus = True
+                if keys[pygame.K_LEFT]:
+                    if self.left_neightboor:
+                        self.focus = False
+                        self.left_neightboor.focus = True
+                if keys[pygame.K_RIGHT]:
+                    if self.right_neightboor:
+                        self.focus = False
+                        self.right_neightboor.focus = True
+
+                    
+
         surface.blit(self.image, self.rect)
         pygame.draw.rect(surface, self.color, self.rect, self.width)
-        text = self.text_font.render(str(self.price), True, (255, 255, 255))
+        text = self.text_font.render(str(self.price), True, draw_color)
         surface.blit(text, (self.rect.x + self.slot_size + 10, self.rect.y + self.slot_size + 10))
