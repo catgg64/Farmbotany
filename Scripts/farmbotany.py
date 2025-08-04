@@ -315,11 +315,7 @@ class Farmbotany:
             
 
     def update(self):
-        self.running, self.mouse_just_clicked, 
-        self.page_up_just_clicked, self.page_down_just_clicked,
-        self.mouse_realeased, self.right_just_clicked, 
-        self.mouse_wheel_up, self.mouse_wheel_down, 
-        self.space_just_pressed = self._event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked,self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()

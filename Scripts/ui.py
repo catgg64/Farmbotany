@@ -23,6 +23,7 @@ class FBButton:
         self.press_cooldown_time = 2
         self.last_mouse_key = False
         self.current_mouse_key = False
+
         self.focus = False
         self.up_neightboor = up_neighboor
         self.down_neightboor = down_neighboor
@@ -71,10 +72,12 @@ class FBButton:
                     if self.left_neightboor:
                         self.focus = False
                         self.left_neightboor.focus = True
+                        print("left")
                 if keys[pygame.K_RIGHT]:
                     if self.right_neightboor:
                         self.focus = False
                         self.right_neightboor.focus = True
+                        print("right")
             else:
                 self.state = "none"
 

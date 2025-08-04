@@ -47,7 +47,7 @@ class Shop:
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.product_slot_list = []
-        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch)
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch, farmbotany.space_just_pressed)
         
         self.mouse_realeased = False
 
@@ -59,6 +59,8 @@ class Shop:
         self.sell_button.left_neightboor = self.buy_button
         self.exit_buy_menu_button.right_neightboor = self.wheat_seed_slot
         self.wheat_seed_slot.left_neightboor = self.exit_buy_menu_button
+        self.actual_sell_button.left_neighboor = self.wheat_seed_slot
+        self.wheat_seed_slot.right_neighboor = self.actual_sell_button
 
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
@@ -86,6 +88,8 @@ class Shop:
         #surface.blit(self.image, self.rect)
         #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
+        print(self.wheat_seed_slot.right_neighboor)
+
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
 
