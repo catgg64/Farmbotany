@@ -33,21 +33,20 @@ class Shop:
         
         self.font = "Fonts/HelvetiPixel.ttf"
 
-        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font, pygame.K_e)
+        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font)
         
-        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, pygame.K_b)
-        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, pygame.K_e)
-
+        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font)
+        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
         
-        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
-        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, pygame.K_s)
-        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, pygame.K_e)
+        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
+        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
+        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.product_slot_list = []
-        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, self.floutwitch, farmbotany.space_just_pressed)
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, floutwitch, key=farmbotany.space_just_pressed)
         
         self.mouse_realeased = False
 
@@ -61,6 +60,11 @@ class Shop:
         self.wheat_seed_slot.left_neightboor = self.exit_buy_menu_button
         self.actual_sell_button.left_neighboor = self.wheat_seed_slot
         self.wheat_seed_slot.right_neighboor = self.actual_sell_button
+
+
+        self.button_list = [
+            self.exit_button, self.buy_button, self.sell_button, self.exit_buy_menu_button
+        ]
 
         self.farmbotany = farmbotany
         self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
@@ -82,13 +86,9 @@ class Shop:
     def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
-
-        #self.brick.append_self_to_list(self.farmbotany.solid_objects_list)
-
-        #surface.blit(self.image, self.rect)
-        #pygame.draw.rect(surface, BORDER_COLOR, self.rect, BORDER_WIDTH)
         
-        print(self.wheat_seed_slot.right_neighboor)
+        
+        #print(self.actual_sell_button.focus, self.exit_buy_menu_button.focus)
 
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
@@ -109,31 +109,28 @@ class Shop:
 
         if self.shop_open:
     
-            self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+            self.exit_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
 
             if self.shop_ui.status == "menu":
-                self.buy_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
-                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+                self.buy_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
+                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
 
             if self.shop_ui.status == "buy_menu":
-                self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+                self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
 
                 for product_slot in self.product_slot_list:
                     product_slot.update(screen, self.mouse_realeased, self.inventory, self.floutwitch)
 
-            if self.shop_ui.status == "menu":
-                self.sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
-
             if self.shop_ui.status == "sell_menu":
-                self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+                self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
                 inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40, 10)
                 inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.farmbotany.right_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data, self.farmbotany.is_picking_up)
-                self.actual_sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased)
+                self.actual_sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed)
 
             if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._close_shop()
 
-            if self.buy_button.state == "pressed":
+            if self.buy_button.pressed and self.shop_ui.status == "menu":
                 self._open_buy_menu()
 
             if self.exit_buy_menu_button.pressed:
@@ -161,6 +158,7 @@ class Shop:
         self.shop_ui.visibility = False
 
     def _open_buy_menu(self):
+        print("opened buy menu")
         self.shop_ui.status = "buy_menu"
         self.exit_buy_menu_button.focus = True
 
@@ -231,6 +229,7 @@ class ProductSlot:
         self.price = price
         self.rect = pygame.Rect(x, y, slot_size, slot_size)
         self.item = item
+        self.key = key
 
         self.focus = False
         self.keyboard = keyboard
@@ -257,7 +256,7 @@ class ProductSlot:
         else:
             if self.focus:
                 draw_color = (204, 204, 204)        
-                if keys[pygame.K_SPACE]:
+                if self.key:
                     if floutwitch.gold >= self.price:
                         inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
                         floutwitch.gold -= self.price    

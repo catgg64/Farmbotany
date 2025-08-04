@@ -17,7 +17,6 @@ class FBButton:
         self.state: str = "none"
         self.pressed: bool = False
         self.text = text
-        self.key = key
         self.press_cooldown = 0
         keys = pygame.key.get_pressed()
         self.press_cooldown_time = 2
@@ -30,7 +29,7 @@ class FBButton:
         self.left_neightboor = left_neighboor
         self.right_neightboor = right_neighboor
         
-    def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
+    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, key=False):
         self.pressed = False
         
         keys = pygame.key.get_pressed()
@@ -48,7 +47,7 @@ class FBButton:
         text = self.text_font.render(str(self.text), True, (255, 255, 255))
         surface.blit(text, (self.pos_x + self.size_x / 2, self.pos_y + self.size_y / 2))
 
-        if self.keyboard == False or not self.key:
+        if self.keyboard == False:
             if self.rect.collidepoint(mouse_pos):
                 self.state = "hover"
                 if mouse_realeased:
@@ -58,7 +57,7 @@ class FBButton:
         else:
             if self.focus:
                 self.state = "hover"
-                if keys[pygame.K_SPACE]:
+                if key:
                     self._get_pressed()
                 if keys[pygame.K_UP]:
                     if self.up_neightboor:
@@ -69,15 +68,17 @@ class FBButton:
                         self.focus = False
                         self.down_neightboor.focus = True
                 if keys[pygame.K_LEFT]:
+                    print(self.left_neightboor)
                     if self.left_neightboor:
+                        print("left")
                         self.focus = False
                         self.left_neightboor.focus = True
-                        print("left")
                 if keys[pygame.K_RIGHT]:
+                    print(self.right_neightboor)
                     if self.right_neightboor:
+                        print("right")
                         self.focus = False
                         self.right_neightboor.focus = True
-                        print("right")
             else:
                 self.state = "none"
 

@@ -48,6 +48,13 @@ i can only use the keyboard. That's pretty much
 my workflow. I wasen't able to do much again,
 because i am traveling. Good luck for me!
 
+Note 6 (04/08/2025, 14:00):
+Got home from the travel yesterday. Now i am pretty
+sure that i am can consistenly deliver commits. I am
+glad that everything went OK. Working on the ui has
+been a nightmare, and i really hope i can get over
+this as quickly as possible. Good luck for me!
+
 """
 pygame.init()
 pygame.font.init()
