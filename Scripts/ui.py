@@ -24,12 +24,12 @@ class FBButton:
         self.current_mouse_key = False
 
         self.focus = False
-        self.up_neightboor = up_neighboor
-        self.down_neightboor = down_neighboor
-        self.left_neightboor = left_neighboor
-        self.right_neightboor = right_neighboor
+        self.up_neighboor = up_neighboor
+        self.down_neighboor = down_neighboor
+        self.left_neighboor = left_neighboor
+        self.right_neighboor = right_neighboor
         
-    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, key=False):
+    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, key=False, name='Carlos'):
         self.pressed = False
         
         keys = pygame.key.get_pressed()
@@ -60,25 +60,21 @@ class FBButton:
                 if key:
                     self._get_pressed()
                 if keys[pygame.K_UP]:
-                    if self.up_neightboor:
+                    if self.up_neighboor:
                         self.focus = False
-                        self.up_neightboor.focus = True
+                        self.up_neighboor.focus = True
                 if keys[pygame.K_DOWN]:
-                    if self.down_neightboor:
+                    if self.down_neighboor:
                         self.focus = False
-                        self.down_neightboor.focus = True
+                        self.down_neighboor.focus = True
                 if keys[pygame.K_LEFT]:
-                    print(self.left_neightboor)
-                    if self.left_neightboor:
-                        print("left")
+                    if self.left_neighboor:
                         self.focus = False
-                        self.left_neightboor.focus = True
+                        self.left_neighboor.focus = True
                 if keys[pygame.K_RIGHT]:
-                    print(self.right_neightboor)
-                    if self.right_neightboor:
-                        print("right")
+                    if self.right_neighboor:
                         self.focus = False
-                        self.right_neightboor.focus = True
+                        self.right_neighboor.focus = True
             else:
                 self.state = "none"
 
