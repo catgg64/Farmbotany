@@ -522,11 +522,11 @@ class Farmbotany:
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
         pygame.draw.rect(self.screen, (255, 255, 255), self.shop.rect, 5)
-        #pygame.draw.rect()
+        self.floutwitch.update_adjecent_pos(self.screen)
 
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
-        self.screen.blit(self.ui_surface, (0, 0))        
+        self.screen.blit(self.ui_surface, (0, 0))
 
         self.fadeinout.update(self.screen)
 

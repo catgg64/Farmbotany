@@ -41,6 +41,9 @@ class Floutwitch():
         self.pickaxe_tick = False
         self.pickaxe_action = False
         
+        self.adjesent_pos_x = 0
+        self.adjesent_pos_y = 0
+
         self.in_animation = False
         self.animation = ""
         self.anim_time = 0
@@ -107,6 +110,9 @@ class Floutwitch():
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 50, self.rect.y + 25, True))
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
+        
+    def update_adjecent_pos(self, surface):
+        pygame.draw.circle(surface, (255, 255, 255), (self.adjesent_pos_x, self.adjesent_pos_y), 4, 4)
         
     def make_hoe_interaction(self, internal_surface, viewport, farmbotany):
 
@@ -406,46 +412,6 @@ class Floutwitch():
                 self.is_walking = False
 
             if self.can_move:
-                if keys[pygame.K_w]:
-                    self.rect.y -= self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.y += self.speed
-
-                    self.direction[0] = True
-                    self.direction_faced[0] = True
-                    self.direction_faced[1] = False
-                    self.direction_faced[2] = False
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[0] = False
-                if keys[pygame.K_s]:
-                    self.rect.y += self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.y -= self.speed
-
-                    self.direction[1] = True
-                    self.direction_faced[0] = False
-                    self.direction_faced[1] = True
-                    self.direction_faced[2] = False
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[1] = False
-                if keys[pygame.K_a]:
-                    self.rect.x -= self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.x += self.speed
-                    
-                    self.needs_reverse = False
-                    self.direction[2] = True
-                    self.direction_faced[0] = False
-                    self.direction_faced[1] = False
-                    self.direction_faced[2] = True
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[2] = False
                 if keys[pygame.K_d]:
                     self.rect.x += self.speed
                     self.needs_reverse = True
@@ -460,6 +426,46 @@ class Floutwitch():
                     self.direction_faced[3] = True
                 else:
                     self.direction[3] = False
+                if keys[pygame.K_a]:
+                    self.rect.x -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.x += self.speed
+                    
+                    self.needs_reverse = False
+                    self.direction[2] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = True
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[2] = False
+                if keys[pygame.K_s]:
+                    self.rect.y += self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.y -= self.speed
+
+                    self.direction[1] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = True
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[1] = False
+                if keys[pygame.K_w]:
+                    self.rect.y -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.y += self.speed
+
+                    self.direction[0] = True
+                    self.direction_faced[0] = True
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[0] = False
                 if keys[pygame.K_v]:
                     self.is_key_v_pressed = True
                 else:
