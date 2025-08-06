@@ -512,8 +512,6 @@ class Farmbotany:
         #self.scailing_surface = self.internal_surface
 
         self.screen.blit(self.internal_surface, (0, 0))
-
-        self.floutwitch.gold = 10875098174509187250987509872450798745098710598709857430975108750981745091872509875098724507987450987105987098574309751087509817450918725098750987245079874509871059870985743097510875098174509187250987509872450798745098710598709857430975
     
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface)

@@ -111,8 +111,19 @@ class Floutwitch():
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
         
-    def update_adjecent_pos(self, surface):
-        pygame.draw.circle(surface, (255, 255, 255), (self.adjesent_pos_x, self.adjesent_pos_y), 4, 4)
+    def update_adjecent_pos(self):
+        if self.direction_faced[0]:
+            self.adjesent_pos_x = self.rect.x + 25
+            self.adjesent_pos_y = self.rect.y + -40
+        elif self.direction_faced[1]:
+            self.adjesent_pos_x = self.rect.x + 25
+            self.adjesent_pos_y = self.rect.y + 40
+        elif self.direction_faced[2]:
+            self.adjesent_pos_x = self.rect.x + -25
+            self.adjesent_pos_y = self.rect.y + 12
+        elif self.direction_faced[3]:
+            self.adjesent_pos_x = self.rect.x + 75
+            self.adjesent_pos_y = self.rect.y + 12
         
     def make_hoe_interaction(self, internal_surface, viewport, farmbotany):
 
