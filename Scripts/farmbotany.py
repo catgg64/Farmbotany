@@ -341,16 +341,20 @@ class Farmbotany:
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
         self.floutwitch.actual_rect_update(self.viewport)
-        
+        self.floutwitch.update_adjecent_pos()
+        adjecent_tile = (self.floutwitch.adjesent_pos_x // self.current_room.tile_size, self.floutwitch.adjesent_pos_y // self.current_room.tile_size)
 
-        # Here we must do everything that requires the child tiles.
-        
-        hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
+        hoe_pos_x, hoe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
+        self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self, hoe_pos_x, hoe_pos_y)
+        #hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
+        print(hoe_pos_x, hoe_pos_y)
 
-        pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
+        pickaxe_pos_x, pickaxe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
+        self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
+        #pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
-
+        print(pickaxe_pos_x, pickaxe_pos_y)
 
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked)
@@ -520,7 +524,6 @@ class Farmbotany:
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
         pygame.draw.rect(self.screen, (255, 255, 255), self.shop.rect, 5)
-        self.floutwitch.update_adjecent_pos(self.screen)
 
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 

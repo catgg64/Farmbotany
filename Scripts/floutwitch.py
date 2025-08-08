@@ -125,7 +125,7 @@ class Floutwitch():
             self.adjesent_pos_x = self.rect.x + 75
             self.adjesent_pos_y = self.rect.y + 12
         
-    def make_hoe_interaction(self, internal_surface, viewport, farmbotany):
+    def make_hoe_interaction(self, internal_surface, viewport, farmbotany, adjecent_pos_x, adjecent_pos_y):
 
         result_x = 0
         result_y = 0
@@ -257,8 +257,7 @@ class Floutwitch():
 
 
         self.hoe.just_exited_animation = False
-        return result_x, result_y
-
+        
     def updates_the_hoe(self, internal_surface, viewport):
         self.hoe.update()
         if self.hoe.in_animation:
