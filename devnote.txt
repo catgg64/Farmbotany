@@ -1,0 +1,38 @@
+Future Note here:
+I really regret not having the start date of this file
+written down. However, I am 99% sure that it started on
+last Sunday (08/06/2025). Just taking this as a note. 
+
+Future Note 2 (28/07/2025, 20:31) here:
+OMG i can't belive that something erased that future note!
+Really hope this doesen't happend again!
+I have also encountered huge optimizasion issues with the game.
+
+Future Note 3 (30/07/2025, 11:38):
+I am going to go traveling tomorrow, so don't expect
+much of Farmbotany. I am the one that carys the entire
+project, and no one else is even thankfull. They are
+way too focused on the idea and forget the execution.
+The optimizations were really good, but it still
+doesen't run flawlessly.
+
+Note 4 (01/08/2025, 18:32):
+Hi! Me here from in the travel. It's been going OK
+but far from icredible. I've got little to no time
+to program so the progress is and is going to be
+really slow. That's it!
+
+Note 5 (02/08/2025, 09:21):
+I started writing this everyday. This is basicly
+my diary lol. So, this time i started adding
+keyboard integration. I higly appreciate when
+i can only use the keyboard. That's pretty much
+my workflow. I wasen't able to do much again,
+because i am traveling. Good luck for me!
+
+Note 6 (04/08/2025, 14:00):
+Got home from the travel yesterday. Now i am pretty
+sure that i am can consistenly deliver commits. I am
+glad that everything went OK. Working on the ui has
+been a nightmare, and i really hope i can get over
+this as quickly as possible. Good luck for me!
