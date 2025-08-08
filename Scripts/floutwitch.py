@@ -195,55 +195,51 @@ class Floutwitch():
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 150)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
 
                 elif self.direction_faced[2]:
                     self.front_pos_x = self.image_rect.x + (280 - 350)
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + -70)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
 
                 elif self.direction_faced[1]:
                     self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (240 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + 130)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 elif self.direction_faced[0]:
                     self.front_pos_x = self.image_rect.x + 10
                     self.front_pos_y = self.image_rect.y + (90 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + -10)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 self.hoe.make_animation(internal_surface, self, self.direction_faced)
 
             if self.hoe_action:
                 if self.direction_faced[3]:
-                    result_x = (self.image_rect.x + 150)
-                    result_y = (self.image_rect.y + 70)
-                
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                
 
                 elif self.direction_faced[2]:
-                    result_x = (self.image_rect.x + -70)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
 
                 elif self.direction_faced[1]:
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + 130)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 elif self.direction_faced[0]:
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + -10)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                 
 
 

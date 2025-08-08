@@ -232,8 +232,10 @@ class Farmbotany:
     def _makes_the_hoe_work(self, hoe_pos_x, hoe_pos_y, farmbotany, hoe_anim_frames, hoe_animation_speed):
         # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
 
+        print(hoe_anim_frames)
         if hoe_anim_frames <= hoe_animation_speed * 6:
             if hoe_pos_x and hoe_pos_y:
+                print("ticking!")
                 world_x = hoe_pos_x + farmbotany.viewport.pos_x
                 world_y = hoe_pos_y + farmbotany.viewport.pos_y
                 tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
