@@ -15,47 +15,6 @@ import spritemanager
 # Remove the import of shop here
 # from shop import *
 
-"""
-Future Note here:
-I really regret not having the start date of this file
-written down. However, I am 99% sure that it started on
-last Sunday (08/06/2025). Just taking this as a note. 
-
-Future Note 2 (28/07/2025, 20:31) here:
-OMG i can't belive that something erased that future note!
-Really hope this doesen't happend again!
-I have also encountered huge optimizasion issues with the game.
-
-Future Note 3 (30/07/2025, 11:38):
-I am going to go traveling tomorrow, so don't expect
-much of Farmbotany. I am the one that carys the entire
-project, and no one else is even thankfull. They are
-way too focused on the idea and forget the execution.
-The optimizations were really good, but it still
-doesen't run flawlessly.
-
-Note 4 (01/08/2025, 18:32):
-Hi! Me here from in the travel. It's been going OK
-but far from icredible. I've got little to no time
-to program so the progress is and is going to be
-really slow. That's it!
-
-Note 5 (02/08/2025, 09:21):
-I started writing this everyday. This is basicly
-my diary lol. So, this time i started adding
-keyboard integration. I higly appreciate when
-i can only use the keyboard. That's pretty much
-my workflow. I wasen't able to do much again,
-because i am traveling. Good luck for me!
-
-Note 6 (04/08/2025, 14:00):
-Got home from the travel yesterday. Now i am pretty
-sure that i am can consistenly deliver commits. I am
-glad that everything went OK. Working on the ui has
-been a nightmare, and i really hope i can get over
-this as quickly as possible. Good luck for me!
-
-"""
 pygame.init()
 pygame.font.init()
 
@@ -341,16 +300,20 @@ class Farmbotany:
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
         self.floutwitch.actual_rect_update(self.viewport)
-        
+        self.floutwitch.update_adjecent_pos()
+        adjecent_tile = (self.floutwitch.adjesent_pos_x // self.current_room.tile_size, self.floutwitch.adjesent_pos_y // self.current_room.tile_size)
 
-        # Here we must do everything that requires the child tiles.
-        
-        hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
+        hoe_pos_x, hoe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
+        self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self, hoe_pos_x, hoe_pos_y)
+        #hoe_pos_x, hoe_pos_y = self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_hoe_work(hoe_pos_x, hoe_pos_y, self, self.floutwitch.hoe.anim_frames, self.floutwitch.hoe.animation_speed)
+        print(hoe_pos_x, hoe_pos_y)
 
-        pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
+        pickaxe_pos_x, pickaxe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
+        self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
+        #pickaxe_pos_x, pickaxe_pos_y = self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
-
+        print(pickaxe_pos_x, pickaxe_pos_y)
 
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked)
@@ -520,7 +483,6 @@ class Farmbotany:
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
         pygame.draw.rect(self.screen, (255, 255, 255), self.shop.rect, 5)
-        self.floutwitch.update_adjecent_pos(self.screen)
 
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
