@@ -196,7 +196,7 @@ class Floutwitch():
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = adjecent_pos_x
-                    result_y = adjecent_pos_y                    
+                    result_y = adjecent_pos_y
 
                 elif self.direction_faced[2]:
                     self.front_pos_x = self.image_rect.x + (280 - 350)
@@ -214,8 +214,8 @@ class Floutwitch():
                     
 
                 elif self.direction_faced[0]:
-                    self.front_pos_x = self.image_rect.x + 10
-                    self.front_pos_y = self.image_rect.y + (90 - 150)
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (100 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = adjecent_pos_x                    
                     result_y = adjecent_pos_y

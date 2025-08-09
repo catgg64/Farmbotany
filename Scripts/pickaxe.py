@@ -52,7 +52,8 @@ class PickAxe:
 
 
     def update(self):
-        self.anim_frames += 1
+        if self.in_animation:
+            self.anim_frames += 1
 
     def reset_animation_frames(self):
         self.anim_frames = 0
