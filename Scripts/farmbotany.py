@@ -194,34 +194,40 @@ class Farmbotany:
                 return True
         return False
 
-    def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot, viewport, right_mouse_just_clicked):
+    def check_for_wheat_harvest(self, special_tiles_world, mouse_pos, tile_world_width, tile_world_length, tile_slot_list, tile_size, inventory, mouse_just_clicked, special_slot, viewport, right_mouse_just_clicked, adjesent_tile):
         if not self.shop.shop_open:
             world_x = mouse_pos[0] + viewport.pos_x
             world_y = mouse_pos[1] + viewport.pos_y
             # Use fixed tilemap offsets (adjust if tilemap has a non-zero origin)
             offset_x = 0  # e.g., 100 if tilemap starts at x=100
             offset_y = 0  # e.g., 200 if tilemap starts at y=200
-            pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
-            pos_x, pos_y = pos  # Unpack tuple
+            #pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
+            #pos_x, pos_y = pos  # Unpack tuple
             # Ensure integer indices
-            pos_x = int(pos_x)
-            pos_y = int(pos_y)
+            #pos_x = int(pos_x)
+            #pos_y = int(pos_y)
+            pos_x = adjesent_tile[0]
+            pos_y = adjesent_tile[1]
 
 
             pos = pos_y * tile_world_width + pos_x
             
             special_slot_data = inventory[special_slot]
-            if mouse_just_clicked or self.keys[pygame.K_c]:
+            if self.keys[pygame.K_c]:
                 if special_slot_data.id == "3":
-                    if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                    if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
+                        #if self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                        #    print("is in the right distance")
                         if special_tiles_world[pos_x][pos_y] is None:
                             special_slot_data.quantity -= 1
-                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, 60, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
+                print("boundrie checks")
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
-                    if special_tiles_world[pos_x][pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                    print("is a crop and can move")
+                    if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
                         special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
                         self.floutwitch.start_collecting_animation()
         
@@ -301,7 +307,7 @@ class Farmbotany:
 
         self.floutwitch.actual_rect_update(self.viewport)
         self.floutwitch.update_adjecent_pos()
-        adjecent_tile = (self.floutwitch.adjesent_pos_x // self.current_room.tile_size, self.floutwitch.adjesent_pos_y // self.current_room.tile_size)
+        adjesent_tile = [int(self.floutwitch.adjesent_pos_x // self.current_room.tile_size), int(self.floutwitch.adjesent_pos_y // self.current_room.tile_size)]
 
         hoe_pos_x, hoe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
         self.floutwitch.make_hoe_interaction(self.internal_surface, self.viewport, self, hoe_pos_x, hoe_pos_y)
@@ -312,7 +318,7 @@ class Farmbotany:
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
         
         # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked)
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
@@ -479,7 +485,7 @@ class Farmbotany:
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
         
-        self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
+        #self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
         self.screen.blit(self.ui_surface, (0, 0))
 
