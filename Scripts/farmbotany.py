@@ -152,10 +152,10 @@ class Farmbotany:
                     page_down_pressed = True
                 if event.key == pygame.K_SPACE:
                     space_just_pressed = True
-                if event.key == pygame.K_F11:
-                    pygame.display.toggle_fullscreen()
-                    rooms.update_all_screens_acording_to_new_screen(self.room_list)
-                    self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
+                #if event.key == pygame.K_F11:
+                #    pygame.display.toggle_fullscreen()
+                #    rooms.update_all_screens_acording_to_new_screen(self.room_list)
+                #    self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
 
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
@@ -440,7 +440,7 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size())
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
 
         #for neighbor_idx, neighbor in enumerate(get_neighbors(int((self.mouse_pos[0] + self.viewport.pos_x) // self.current_room.tile_size), int((self.mouse_pos[1] + self.viewport.pos_y)) // self.current_room.tile_size, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_world_length)):
         #    self.internal_surface.blit(tiles[neighbor][0]["surface"], (neighbor_idx * 64, 0))
@@ -464,7 +464,7 @@ class Farmbotany:
         
 
         # Creates a viewport rectangle and then subsurfaces it.
-        self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        #self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
         
         #self.scailing_surface = pygame.transform.scale(self.internal_surface, pygame.display.get_window_size())
@@ -478,8 +478,7 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
-        pygame.draw.rect(self.screen, (255, 255, 255), self.shop.rect, 5)
-
+        
         self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
         self.screen.blit(self.ui_surface, (0, 0))

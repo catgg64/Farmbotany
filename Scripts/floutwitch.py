@@ -114,15 +114,15 @@ class Floutwitch():
     def update_adjecent_pos(self):
         if self.direction_faced[0]:
             self.adjesent_pos_x = self.rect.x + 25
-            self.adjesent_pos_y = self.rect.y + -40
+            self.adjesent_pos_y = self.rect.y + -80
         elif self.direction_faced[1]:
             self.adjesent_pos_x = self.rect.x + 25
-            self.adjesent_pos_y = self.rect.y + 40
+            self.adjesent_pos_y = self.rect.y + 80
         elif self.direction_faced[2]:
-            self.adjesent_pos_x = self.rect.x + -25
+            self.adjesent_pos_x = self.rect.x + -50
             self.adjesent_pos_y = self.rect.y + 12
         elif self.direction_faced[3]:
-            self.adjesent_pos_x = self.rect.x + 75
+            self.adjesent_pos_x = self.rect.x + 100
             self.adjesent_pos_y = self.rect.y + 12
         
     def make_hoe_interaction(self, internal_surface, viewport, farmbotany, adjecent_pos_x, adjecent_pos_y):
