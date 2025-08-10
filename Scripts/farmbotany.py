@@ -156,11 +156,10 @@ class Farmbotany:
                     space_just_pressed = True
                 if event.key == pygame.K_e:
                     e_just_pressed = True
-                #if event.key == pygame.K_F11:
-                #    pygame.display.toggle_fullscreen()
-                #    rooms.update_all_screens_acording_to_new_screen(self.room_list)
-                #    self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
-
+                if event.key == pygame.K_F11:
+                    pygame.display.toggle_fullscreen()
+                    rooms.update_all_screens_acording_to_new_screen(self.room_list)
+                    
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
             #    self.window_width, self.window_height = event.w, event.h
@@ -361,18 +360,21 @@ class Farmbotany:
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
-        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > pygame.display.get_window_size()[0] / 2:
-            self.viewportx = self.floutwitch.rect.x - pygame.display.get_window_size()[0] / 2
+        viewport_window_size = (self.screen_height, self.screen_width)
+        window_size = (self.screen_width, self.screen_height)
+
+        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > viewport_window_size[0] / 2:
+            self.viewportx = self.floutwitch.rect.x - viewport_window_size[0] / 2
         elif self.floutwitch.rect.x < self.current_room.maxcornerx:
             self.viewportx = 0
         elif self.floutwitch.rect.x >= self.current_room.maxcornerx:
-            self.viewportx = self.current_room.maxcornerx - pygame.display.get_window_size()[0] / 2
-        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > pygame.display.get_window_size()[1] / 2:
-            self.viewporty = self.floutwitch.rect.y - pygame.display.get_window_size()[1] / 2
+            self.viewportx = self.current_room.maxcornerx - viewport_window_size[0] / 2
+        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > viewport_window_size[1] / 2:
+            self.viewporty = self.floutwitch.rect.y - viewport_window_size[1] / 2
         elif self.floutwitch.rect.y < self.current_room.maxcornery:
             self.viewporty = 0
         elif self.floutwitch.rect.y >= self.current_room.maxcornery:
-            self.viewporty = self.current_room.maxcornery - pygame.display.get_window_size()[1] / 2
+            self.viewporty = self.current_room.maxcornery - viewport_window_size[1] / 2
 
         self.floutwitch.actual_rect_update(self.viewport)
         
@@ -500,10 +502,10 @@ class Farmbotany:
         #self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
         
-        #self.scailing_surface = pygame.transform.scale(self.internal_surface, pygame.display.get_window_size())
+        self.scailing_surface = pygame.transform.scale(self.internal_surface, pygame.display.get_window_size())
         #self.scailing_surface = self.internal_surface
 
-        self.screen.blit(self.internal_surface, (0, 0))
+        self.screen.blit(self.scailing_surface, (0, 0))
     
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface)
@@ -511,15 +513,13 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
-        pygame.draw.circle(self.screen, (255, 255, 255), (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y), 4)
+        #pygame.draw.circle(self.screen, (255, 255, 255), (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y), 4)
 
         #self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
         self.screen.blit(self.ui_surface, (0, 0))
 
         self.fadeinout.update(self.screen)
-
-        #pygame.draw.circle(self.screen, (255, 255, 255), (pickaxe_pos_x - self.viewport.pos_x, pickaxe_pos_y - self.viewport.pos_y), 10, 5)
 
         # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False

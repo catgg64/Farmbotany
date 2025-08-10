@@ -126,8 +126,7 @@ class Shop:
 
             if self.buy_button.state == "pressed" and self.shop_ui.status == "menu":
                 self._open_buy_menu()
-                print("opened buy menu")
-
+                
             if self.exit_buy_menu_button.pressed and self.shop_ui.status == "buy_menu":
                 self._close_buy_menu()
 
