@@ -114,15 +114,15 @@ class Floutwitch():
     def update_adjecent_pos(self):
         if self.direction_faced[0]:
             self.adjesent_pos_x = self.rect.x + 25
-            self.adjesent_pos_y = self.rect.y + -80
+            self.adjesent_pos_y = self.rect.y + -60
         elif self.direction_faced[1]:
             self.adjesent_pos_x = self.rect.x + 25
-            self.adjesent_pos_y = self.rect.y + 80
+            self.adjesent_pos_y = self.rect.y + 60
         elif self.direction_faced[2]:
-            self.adjesent_pos_x = self.rect.x + -50
+            self.adjesent_pos_x = self.rect.x + -40
             self.adjesent_pos_y = self.rect.y + 12
         elif self.direction_faced[3]:
-            self.adjesent_pos_x = self.rect.x + 100
+            self.adjesent_pos_x = self.rect.x + 90
             self.adjesent_pos_y = self.rect.y + 12
         
     def make_hoe_interaction(self, internal_surface, viewport, farmbotany, adjecent_pos_x, adjecent_pos_y):
@@ -199,7 +199,7 @@ class Floutwitch():
                     result_y = adjecent_pos_y
 
                 elif self.direction_faced[2]:
-                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_x = self.image_rect.x + -45
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = adjecent_pos_x
@@ -340,7 +340,7 @@ class Floutwitch():
                     
 
                 elif self.direction_faced[2]:
-                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_x = self.image_rect.x + -45
                     self.front_pos_y = self.image_rect.y + 0
                     self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + -70)
@@ -356,7 +356,7 @@ class Floutwitch():
                     
 
                 elif self.direction_faced[0]:
-                    self.front_pos_x = self.image_rect.x + 10
+                    self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (90 - 150)
                     self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + 50)

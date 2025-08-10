@@ -154,7 +154,7 @@ class Farmbotany:
                     page_down_pressed = True
                 if event.key == pygame.K_SPACE:
                     space_just_pressed = True
-                if event.key == pygame.K_E:
+                if event.key == pygame.K_e:
                     e_just_pressed = True
                 #if event.key == pygame.K_F11:
                 #    pygame.display.toggle_fullscreen()
@@ -212,10 +212,18 @@ class Farmbotany:
             #pos_y = int(pos_y)
             pos_x = adjesent_tile[0]
             pos_y = adjesent_tile[1]
+            mouse_pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
+            mouse_pos_x, mouse_pos_y = mouse_pos  # Unpack tuple
+            # Ensure integer indices
+            mouse_pos_x = int(mouse_pos_x)
+            mouse_pos_y = int(mouse_pos_y)
+            
 
 
             pos = pos_y * tile_world_width + pos_x
             
+            grow_time = 1
+
             special_slot_data = inventory[special_slot]
             if self.keys[pygame.K_c]:
                 if special_slot_data.id == "3":
@@ -224,14 +232,29 @@ class Farmbotany:
                         #    print("is in the right distance")
                         if special_tiles_world[pos_x][pos_y] is None:
                             special_slot_data.quantity -= 1
-                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, 1, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
-
+                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+            else:
+                if mouse_just_clicked:
+                    if special_slot_data.id == "3":
+                        if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 2 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 2 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                            if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
+                                special_slot_data.quantity -= 1
+                                special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                                
+            done = False
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
                         special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
                         self.floutwitch.start_collecting_animation()
+                        done = True
+            if not done:
+                if pos_x < tile_world_width and pos_y < tile_world_length:
+                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and self.floutwitch.can_move:
+                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                            special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
+                            self.floutwitch.start_collecting_animation()
         
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
@@ -286,7 +309,19 @@ class Farmbotany:
                     self.paused = False
                     self.is_fading_out = False
 
-            
+    def _update_selected_hotbar_slot(self, if_not):
+        if not if_not:
+            if self.mouse_wheel_down or self.page_down_just_clicked:
+                if self.slot_selected < len(self.inventory) - 1:
+                    self.slot_selected += 1
+                else:
+                    self.slot_selected = 0
+
+            if self.mouse_wheel_up or self.page_up_just_clicked:
+                if self.slot_selected > 0:
+                    self.slot_selected -= 1
+                else:
+                    self.slot_selected = 11
 
     def update(self):
         self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked,self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed, self.e_just_pressed = self._event_handling()
@@ -303,6 +338,8 @@ class Farmbotany:
         self.special_draw_queue = []
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
+
+        using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
 
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
@@ -378,18 +415,7 @@ class Farmbotany:
                 #hoe_tile.sub_id = "2"
 
             # This part updates the selected slot in the hotbar.
-            if self.mouse_wheel_down or self.page_down_just_clicked:
-                if self.slot_selected < len(self.inventory) - 1:
-                    self.slot_selected += 1
-                else:
-                    self.slot_selected = 0
-
-            if self.mouse_wheel_up or self.page_up_just_clicked:
-                if self.slot_selected > 0:
-                    self.slot_selected -= 1
-                else:
-                    self.slot_selected = 11
-        
+            self._update_selected_hotbar_slot(using_tool)
 
         if self.current_room == self.farm:
             
@@ -485,7 +511,8 @@ class Farmbotany:
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
-        
+        pygame.draw.circle(self.screen, (255, 255, 255), (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y), 4)
+
         #self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
         self.screen.blit(self.ui_surface, (0, 0))

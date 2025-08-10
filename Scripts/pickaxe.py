@@ -12,7 +12,7 @@ class PickAxe:
         self.in_animation = False
         self.just_exited_animation = False
         self.exited_animation = False
-        self.pickaxe_size = 80
+        self.pickaxe_size = 64
         self.frame_one = sprite_sheet.subsurface(pygame.Rect(768, 2864, 32, 32))
         self.frame_two = sprite_sheet.subsurface(pygame.Rect(800, 2864, 32, 32))
         self.frame_three = sprite_sheet.subsurface(pygame.Rect(832, 2864, 32, 32))
