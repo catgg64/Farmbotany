@@ -25,7 +25,8 @@ class Shop:
         
         self.image = self._load_image()
         self.rect = self.image.get_rect(center=(pos_x, pos_y))
-        
+        self.keyboard = False
+
         self.floutwitch = floutwitch
         
         self.shop_open = False
@@ -33,20 +34,20 @@ class Shop:
         
         self.font = "Fonts/HelvetiPixel.ttf"
 
-        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font)
+        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font, keyboard=self.keyboard)
         
-        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font)
-        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
+        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, keyboard=self.keyboard)
+        self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, keyboard=self.keyboard)
         
-        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
-        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font)
-        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font)
+        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, keyboard=self.keyboard)
+        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, keyboard=self.keyboard)
+        self.exit_sell_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, keyboard=self.keyboard)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.product_slot_list = []
-        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, floutwitch, key=farmbotany.space_just_pressed)
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, floutwitch, key=farmbotany.space_just_pressed, keyboard=self.keyboard)
         
         self.mouse_realeased = False
 

@@ -47,7 +47,7 @@ class FBButton:
         text = self.text_font.render(str(self.text), True, (255, 255, 255))
         surface.blit(text, (self.pos_x + self.size_x / 2, self.pos_y + self.size_y / 2))
 
-        if self.keyboard == False:
+        if not self.keyboard:
             if self.rect.collidepoint(mouse_pos):
                 self.state = "hover"
                 if mouse_realeased:
