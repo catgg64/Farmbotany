@@ -158,7 +158,7 @@ class Farmbotany:
                     e_just_pressed = True
                 if event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
-                    rooms.update_all_screens_acording_to_new_screen(self.room_list)
+                    #rooms.update_all_screens_acording_to_new_screen(self.room_list)
                     
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
@@ -221,7 +221,7 @@ class Farmbotany:
 
             pos = pos_y * tile_world_width + pos_x
             
-            grow_time = 1
+            grow_time = 60
 
             special_slot_data = inventory[special_slot]
             if self.keys[pygame.K_c]:
@@ -249,7 +249,7 @@ class Farmbotany:
                         self.floutwitch.start_collecting_animation()
                         done = True
             if not done:
-                if pos_x < tile_world_width and pos_y < tile_world_length:
+                if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
                     if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and self.floutwitch.can_move:
                         if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
@@ -338,6 +338,8 @@ class Farmbotany:
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
 
+        surface_to_window_ratio = (self.screen_height / pygame.display.get_window_size()[0], self.screen_width / pygame.display.get_window_size()[1])
+
         using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
 
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
@@ -355,7 +357,7 @@ class Farmbotany:
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
         
         # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.mouse_pos, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
@@ -431,7 +433,7 @@ class Farmbotany:
                 self.fadeinout_start_time = time.time()
                 self.is_fading_out = True
 
-                self.location_after_change_x = 200
+                self.location_after_change_x = 225
                 self.location_after_change_y = self.my_room.tile_world_length * self.current_room.tile_size - 200
                 self.room_to_change = self.my_room
 
@@ -447,7 +449,7 @@ class Farmbotany:
                 self.is_fading_out = True
 
                 
-                self.location_after_change_x = 200
+                self.location_after_change_x = 225
                 self.location_after_change_y = 100
                 self.room_to_change = self.farm
         
@@ -502,7 +504,7 @@ class Farmbotany:
         #self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
         
-        self.scailing_surface = pygame.transform.scale(self.internal_surface, pygame.display.get_window_size())
+        self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
         #self.scailing_surface = self.internal_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
