@@ -90,7 +90,7 @@ class Farmbotany:
         self.slot_list = []
         self.spacement = 40
         initialize_inventory(self.inventory, self.slot_list, 20, 20, 10, 40, self.spacement)
-
+        
         self.inventory[0].id = "5"
         self.inventory[0].quantity = 1
         self.inventory[1].id = "6"
@@ -110,6 +110,7 @@ class Farmbotany:
         self.mouse_wheel_up = False
         self.mouse_wheel_down = False
         self.space_just_pressed = False
+        self.e_just_pressed = False
 
         self.mouse_pos = 0
         self.slot_class_selected = 0
@@ -129,6 +130,7 @@ class Farmbotany:
         mouse_wheel_up = False
         mouse_wheel_down = False
         space_just_pressed = False
+        e_just_pressed = False
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -152,6 +154,8 @@ class Farmbotany:
                     page_down_pressed = True
                 if event.key == pygame.K_SPACE:
                     space_just_pressed = True
+                if event.key == pygame.K_E:
+                    e_just_pressed = True
                 #if event.key == pygame.K_F11:
                 #    pygame.display.toggle_fullscreen()
                 #    rooms.update_all_screens_acording_to_new_screen(self.room_list)
@@ -163,7 +167,7 @@ class Farmbotany:
             #    # Resize the display surface
             #    self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
 
-        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down, space_just_pressed
+        return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down, space_just_pressed, e_just_pressed
 
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -224,9 +228,7 @@ class Farmbotany:
 
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
-                print("boundrie checks")
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
-                    print("is a crop and can move")
                     if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
                         special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
                         self.floutwitch.start_collecting_animation()
@@ -287,7 +289,7 @@ class Farmbotany:
             
 
     def update(self):
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked,self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed = self._event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked,self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed, self.e_just_pressed = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
@@ -295,7 +297,6 @@ class Farmbotany:
         self.mouse_pos = pygame.mouse.get_pos()
         # Check to see if the mouse is clicked.
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
-        
 
         self.solid_objects_list = []
         self.draw_queue = []
