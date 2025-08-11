@@ -23,19 +23,18 @@ class Farmbotany:
     def __init__(self):
         # Import Shop inside the __init__ method to avoid circular import
         from shop import Shop
+
         
         self.screen_width = 680
         self.screen_height = 720
-        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA, pygame.SCALED, vsync=1)
+        self.screen = pygame.display.set_mode((1, 1), pygame.NOFRAME)
         pygame.display.set_caption("Farmbotany")
         icon = pygame.image.load("icon.png")
         pygame.display.set_icon(icon)
         self.clock = pygame.time.Clock()
         self.running = True
         self.paused = False
-        
-        self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
-        pygame.mixer.music.play(-1)
+
 
         self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
         self.scailing_surface = pygame.Surface((self.screen_height, self.screen_width), pygame.SRCALPHA)
@@ -46,12 +45,6 @@ class Farmbotany:
         
         self.floutwitch = Floutwitch(500, 500, self.internal_surface, self)
 
-        self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
-        self.fadeinout_start_time = 0
-        self.is_fading_out = False
-        self.location_after_change_x = 0
-        self.location_after_change_y = 0
-        self.room_to_change = None
         
         self.text_font = pygame.font.Font("Fonts/HelvetiPixel.ttf", 30)
 
@@ -78,6 +71,8 @@ class Farmbotany:
 
         self.current_room = self.farm
         self.room_list = [self.farm, self.my_room]
+        setup_surfaces(self.current_room.tile_size)
+
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, self.screen_height + 20, self.screen_width + 20)
         self.update_tilemap_terrain = True
 
@@ -118,6 +113,18 @@ class Farmbotany:
 
         # Now Shop is defined and can be used
         self.shop = Shop(960, 1020, self.floutwitch, self)
+
+        self.screen = pygame.display.set_mode((self.screen_height, self.screen_width), pygame.SRCALPHA, pygame.SCALED, vsync=1)
+
+        self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
+        self.fadeinout_start_time = 0
+        self.is_fading_out = False
+        self.location_after_change_x = 0
+        self.location_after_change_y = 0
+        self.room_to_change = None
+        
+        self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
+        pygame.mixer.music.play(-1)
 
     # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
@@ -536,7 +543,6 @@ class Farmbotany:
 
 farmbotany = Farmbotany()
 
-setup_surfaces(farmbotany.current_room.tile_size)
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame
