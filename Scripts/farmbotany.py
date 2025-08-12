@@ -37,8 +37,6 @@ class Farmbotany:
         self.running = True
         self.paused = False
 
-        self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
-        pygame.mixer.music.play(-1)
 
         self.internal_surface = pygame.Surface((self.screen_width, self.screen_height), pygame.SRCALPHA)
         self.scailing_surface = pygame.Surface((self.screen_height, self.screen_width), pygame.SRCALPHA)
@@ -112,18 +110,24 @@ class Farmbotany:
 
         # Switch to full window after loading
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        pygame.display.set_caption("Farmbotany")
+        # This isets the window's initial position.
+        os.environ["SDL_WINDOWPOS_X"] = "100"  # X position (pixels from left)
+        os.environ["SDL_WINDOWPOS_Y"] = "100"  # Y position (pixels from top)
         try:
             pygame.display.set_icon(icon)
         except pygame.error as e:
             print(f"Error setting icon: {e}")
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
+        pygame.display.set_caption("Farmbotany")
         self.fadeinout_start_time = 0
         self.is_fading_out = False
         self.location_after_change_x = 0
         self.location_after_change_y = 0
         self.room_to_change = None
+        
+        self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
+        pygame.mixer.music.play(-1)
 
     def _event_handling(self):
         running = True
