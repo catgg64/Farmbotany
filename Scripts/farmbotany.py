@@ -12,9 +12,12 @@ import worlds
 import fadeinout
 import spritemanager
 
-# Initialize Pygame
+# Remove the import of shop here
+# from shop import *
+
 pygame.init()
 pygame.font.init()
+
 
 class Farmbotany:
     def __init__(self):
@@ -32,6 +35,11 @@ class Farmbotany:
             pygame.display.set_icon(icon)
         except pygame.error as e:
             print(f"Error loading icon: {e}")
+        
+        try:
+            pygame.display.set_icon(icon)
+        except pygame.error as e:
+            print(f"Error setting icon: {e}")
 
         self.clock = pygame.time.Clock()
         self.running = True
@@ -111,12 +119,8 @@ class Farmbotany:
         # Switch to full window after loading
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         # This isets the window's initial position.
-        os.environ["SDL_WINDOWPOS_X"] = "100"  # X position (pixels from left)
-        os.environ["SDL_WINDOWPOS_Y"] = "100"  # Y position (pixels from top)
-        try:
-            pygame.display.set_icon(icon)
-        except pygame.error as e:
-            print(f"Error setting icon: {e}")
+        os.environ["SDL_WINDOWPOS_X"] = "200"  # X position (pixels from left)
+        os.environ["SDL_WINDOWPOS_Y"] = "200"  # Y position (pixels from top)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         pygame.display.set_caption("Farmbotany")
@@ -129,6 +133,7 @@ class Farmbotany:
         self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
         pygame.mixer.music.play(-1)
 
+    # Handles the events and stores them in the variables in the main function.
     def _event_handling(self):
         running = True
         mouse_just_clicked = False
@@ -167,21 +172,32 @@ class Farmbotany:
                     e_just_pressed = True
                 if event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
+                    #rooms.update_all_screens_acording_to_new_screen(self.room_list)
                     
+            #if event.type == pygame.VIDEORESIZE:
+            #    # Update window size
+            #    self.window_width, self.window_height = event.w, event.h
+            #    # Resize the display surface
+            #    self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+
         return running, mouse_just_clicked, page_up_pressed, page_down_pressed, mouse_realeased, right_just_clicked, mouse_wheel_up, mouse_wheel_down, space_just_pressed, e_just_pressed
 
+    # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
         my_special_slot = 0
         for event in pygame.event.get():
             if event.type == pygame.MOUSEWHEEL:
                 my_special_slot += event.y
+
         return my_special_slot
+
 
     def check_if_hoe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
         if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "5":
             if mouse_just_clicked or pygame.key.get_pressed()[pygame.K_c]:
                 return True
         return False
+    
     
     def check_if_pickaxe_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
         if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "6":
@@ -199,22 +215,34 @@ class Farmbotany:
         if not self.shop.shop_open:
             world_x = mouse_pos[0] + viewport.pos_x
             world_y = mouse_pos[1] + viewport.pos_y
-            offset_x = 0
-            offset_y = 0
+            # Use fixed tilemap offsets (adjust if tilemap has a non-zero origin)
+            offset_x = 0  # e.g., 100 if tilemap starts at x=100
+            offset_y = 0  # e.g., 200 if tilemap starts at y=200
+            #pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
+            #pos_x, pos_y = pos  # Unpack tuple
+            # Ensure integer indices
+            #pos_x = int(pos_x)
+            #pos_y = int(pos_y)
             pos_x = adjesent_tile[0]
             pos_y = adjesent_tile[1]
             mouse_pos = position_to_tile_value(world_x, world_y, tile_world_width, tile_world_length, tile_size, offset_x, offset_y)
-            mouse_pos_x, mouse_pos_y = mouse_pos
+            mouse_pos_x, mouse_pos_y = mouse_pos  # Unpack tuple
+            # Ensure integer indices
             mouse_pos_x = int(mouse_pos_x)
             mouse_pos_y = int(mouse_pos_y)
+            
+
 
             pos = pos_y * tile_world_width + pos_x
+            
             grow_time = 60
 
             special_slot_data = inventory[special_slot]
             if self.keys[pygame.K_c]:
                 if special_slot_data.id == "3":
                     if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
+                        #if self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                        #    print("is in the right distance")
                         if special_tiles_world[pos_x][pos_y] is None:
                             special_slot_data.quantity -= 1
                             special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
@@ -227,6 +255,7 @@ class Farmbotany:
                                 special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
                                 
             done = False
+
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
                     if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
@@ -239,12 +268,14 @@ class Farmbotany:
                         if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
                             self.floutwitch.start_collecting_animation()
-
+        
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
         surface.blit(text, (10, 10))
 
     def _makes_the_hoe_work(self, hoe_pos_x, hoe_pos_y, farmbotany, hoe_anim_frames, hoe_animation_speed):
+        # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
+
         if hoe_anim_frames == hoe_animation_speed * 6:
             if hoe_pos_x and hoe_pos_y:
                 world_x = hoe_pos_x + farmbotany.viewport.pos_x
@@ -261,6 +292,8 @@ class Farmbotany:
                             self.update_tilemap_terrain = True
     
     def _makes_the_pickaxe_work(self, pickaxe_pos_x, pickaxe_pos_y, farmbotany, pickaxe_anim_frames, pickaxe_animation_speed):
+        # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
+
         if pickaxe_anim_frames == pickaxe_animation_speed * 6:
             if pickaxe_pos_x and pickaxe_pos_y:
                 world_x = pickaxe_pos_x + farmbotany.viewport.pos_x
@@ -279,22 +312,24 @@ class Farmbotany:
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
             current_time = time.time() - start_time
-            if current_time > 0.5:
+            
+            if current_time > .5:
                 self.current_room = new_room
                 floutwitch.rect.x = x
                 floutwitch.rect.y = y
+
                 if current_time > 1:
                     self.paused = False
                     self.is_fading_out = False
 
     def _update_selected_hotbar_slot(self, if_not):
         if not if_not:
-            print("updated")
             if self.mouse_wheel_down or self.page_down_just_clicked:
                 if self.slot_selected < len(self.inventory) - 1:
                     self.slot_selected += 1
                 else:
                     self.slot_selected = 0
+
             if self.mouse_wheel_up or self.page_up_just_clicked:
                 if self.slot_selected > 0:
                     self.slot_selected -= 1
@@ -302,11 +337,13 @@ class Farmbotany:
                     self.slot_selected = 11
 
     def update(self):
-        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked, self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed, self.e_just_pressed = self._event_handling()
+        self.running, self.mouse_just_clicked, self.page_up_just_clicked, self.page_down_just_clicked,self.mouse_realeased, self.right_just_clicked, self.mouse_wheel_up, self.mouse_wheel_down, self.space_just_pressed, self.e_just_pressed = self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
         self.keys = pygame.key.get_pressed()
+        # Assigns the mouse position
         self.mouse_pos = pygame.mouse.get_pos()
+        # Check to see if the mouse is clicked.
         self.mouse_clicked = pygame.mouse.get_pressed()[0]
 
         self.solid_objects_list = []
@@ -315,7 +352,7 @@ class Farmbotany:
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
 
-        surface_to_window_ratio = (self.screen_width / self.screen.get_width(), self.screen_height / self.screen.get_height())
+        surface_to_window_ratio = (self.screen_height / pygame.display.get_window_size()[0], self.screen_width / pygame.display.get_window_size()[1])
 
         using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
 
@@ -333,12 +370,13 @@ class Farmbotany:
         self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
         
+        # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
-        viewport_window_size = (self.screen_width, self.screen_height)
+        viewport_window_size = (self.screen_height, self.screen_width)
         window_size = (self.screen_width, self.screen_height)
 
         if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > viewport_window_size[0] / 2:
@@ -360,86 +398,161 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
         if self.current_room == self.farm:
+            # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
-                              self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
-                              self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
+                                self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
+                                self.current_room.tile_slot_list, self.colliding_with_solid_object, self.solid_objects_list)
         self.floutwitch.move(self.keys, self)
         self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
         self.floutwitch.updates_the_pickaxe(self.internal_surface, self.viewport)
+        # Updates the mouse distance from the floutwitch.
         self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 
         if not self.shop.shop_open:
+
             self.floutwitch.hoe_action = self.floutwitch.hoe.in_animation
             self.floutwitch.hoe_tick = self.check_if_hoe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
             self.floutwitch.pickaxe_action = self.floutwitch.pickaxe.in_animation
             self.floutwitch.pickaxe_tick = self.check_if_pickaxe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
 
+
+
+            # This part is useful when debugging
+            #if self.right_just_clicked:
+            #    if self.current_room == self.farm:
+            #        self.current_room = self.my_room
+            #    elif self.current_room == self.my_room:
+            #        self.current_room = self.farm    
+                
+                #hoe_tile = self.current_room.tiles_world[position_to_tile_value(-1 * (self.floutwitch.rect.x - self.viewport.pos_x - 350), -1 * (self.floutwitch.rect.y - self.viewport.pos_y - 150), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y)]
+                #hoe_tile.id = "4"
+                #hoe_tile.sub_id = "2"
+
+            # This part updates the selected slot in the hotbar.
+            self._update_selected_hotbar_slot(using_tool)
+
         if self.current_room == self.farm:
+            
             pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
+
             if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
                 self.paused = True
+
                 self.fadeinout.fade()
+                
                 self.fadeinout_start_time = time.time()
                 self.is_fading_out = True
+
                 self.location_after_change_x = 225
-                self.location_after_change_y = self.my_room.tile_world_length * self.my_room.tile_size - 200
+                self.location_after_change_y = self.my_room.tile_world_length * self.current_room.tile_size - 200
                 self.room_to_change = self.my_room
 
         if self.current_room == self.my_room:
             pygame.draw.rect(self.internal_surface, (255, 255, 255), self.my_room_to_farm_passage_rect, 5)
+
             if self.floutwitch.rect.colliderect(self.my_room_to_farm_passage_rect) and not self.is_fading_out:
                 self.paused = True
+                
                 self.fadeinout.fade()
+                
                 self.fadeinout_start_time = time.time()
                 self.is_fading_out = True
+
+                
                 self.location_after_change_x = 225
                 self.location_after_change_y = 100
                 self.room_to_change = self.farm
         
+        
+        # Split sprites into those with y_sort=True and y_sort=False
         y_sort_sprites = [sprite for sprite in self.sprite_list if sprite.y_sort]
         no_sort_sprites = [sprite for sprite in self.sprite_list if not sprite.y_sort] + self.true_no_y_sort_sprite_list
+
+        # Sort only the y_sort=True sprites by top_left_y
         y_sort_sprites = sorted(y_sort_sprites, key=lambda sprite: sprite.y_sort_y)
+
+        # Combine the sorted and unsorted sprites
         self.sprite_list = no_sort_sprites + y_sort_sprites
         self.internal_surface.fill("cadetblue1")
         self.ui_surface.fill((0, 0, 0, 0))
-        self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, self.screen.get_width() + 20, self.screen.get_height() + 20)
+        self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
 
+        # Updates viewport position
         self.viewport.update(self.viewportx, self.viewporty)
 
+
+
+
+        # Lights up the selected slot.
         light_slot_by_number(self.slot_selected, self.slot_list)
-        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_width, self.screen_height))
+
+        # This is where most things are drawn.
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
+
+        #for neighbor_idx, neighbor in enumerate(get_neighbors(int((self.mouse_pos[0] + self.viewport.pos_x) // self.current_room.tile_size), int((self.mouse_pos[1] + self.viewport.pos_y)) // self.current_room.tile_size, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_world_length)):
+        #    self.internal_surface.blit(tiles[neighbor][0]["surface"], (neighbor_idx * 64, 0))
+
+
+
+        #for solid_brick in self.solid_objects_list:
+        #    solid_brick.update(self.internal_surface, solid_brick.rect.x, solid_brick.rect.y, self.viewport.pos_x, self.viewport.pos_y)
+
+        
+        # Can be used later when debugging.
+        #pygame.draw.cir#cle(self.internal_surface, (255, 255, 255), (pickaxe_pos_x, pickaxe_pos_y), 50, 5)
+        
+
+                
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
     
-        self.scailing_surface = pygame.transform.scale(self.internal_surface, (self.screen.get_width(), self.screen.get_height()))
+        
+        
+        
+
+        # Creates a viewport rectangle and then subsurfaces it.
+        #self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
+        
+        self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
+        #self.scailing_surface = self.internal_surface
+
         self.screen.blit(self.scailing_surface, (0, 0))
     
+        # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface)
         update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
+        #pygame.draw.circle(self.screen, (255, 255, 255), (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y), 4)
+
+        #self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
 
         self.screen.blit(self.ui_surface, (0, 0))
+
         self.fadeinout.update(self.screen)
 
+        # Makes the "just clicked" of the variables work.
         self.mouse_just_clicked = False
         self.right_just_clicked = False
         self.page_up_just_clicked = False
         self.page_down_just_clicked = False
+
         self.update_tilemap_terrain = False
         
-        pygame.display.update()
-        self.clock.tick(60)
+        pygame.display.update() # Udates the screen.
+        self.clock.tick(60) # The clock ticks. This is used for the framerate adjustments.
 
 farmbotany = Farmbotany()
 
 while farmbotany.running:
-    farmbotany.update()
+    farmbotany.update() # Runs this every frame
 
-pygame.display.quit()
-pygame.quit()
+pygame.display.quit() # Exits the display
+pygame.quit() # Exits pygame.
+# Bye-Bye (:
