@@ -12,7 +12,7 @@ class Hoe:
         self.in_animation = False
         self.just_exited_animation = False
         self.exited_animation = False
-        self.hoe_size = 80
+        self.hoe_size = 64
         self.frame_one = sprite_sheet.subsurface(pygame.Rect(768, 2976, 32, 32))
         self.frame_two = sprite_sheet.subsurface(pygame.Rect(800, 2976, 32, 32))
         self.frame_three = sprite_sheet.subsurface(pygame.Rect(832, 2976, 32, 32))
@@ -52,7 +52,8 @@ class Hoe:
 
 
     def update(self):
-        self.anim_frames += 1
+        if self.in_animation:
+            self.anim_frames += 1
 
     def reset_animation_frames(self):
         self.anim_frames = 0

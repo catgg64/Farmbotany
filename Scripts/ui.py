@@ -17,19 +17,19 @@ class FBButton:
         self.state: str = "none"
         self.pressed: bool = False
         self.text = text
-        self.key = key
         self.press_cooldown = 0
         keys = pygame.key.get_pressed()
         self.press_cooldown_time = 2
         self.last_mouse_key = False
         self.current_mouse_key = False
+
         self.focus = False
         self.up_neightboor = up_neighboor
         self.down_neightboor = down_neighboor
         self.left_neightboor = left_neighboor
         self.right_neightboor = right_neighboor
-        
-    def update(self, surface, color, hover_color, pressed_color, mouse_realeased):
+
+    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, mouse_pos, key=False, name='Carlos'):
         self.pressed = False
         
         keys = pygame.key.get_pressed()
@@ -41,13 +41,13 @@ class FBButton:
         elif self.state == "pressed":
             pygame.draw.rect(surface, pressed_color, self.rect)
         
-        mouse_pos = pygame.mouse.get_pos()
+        
         left_mouse_down = pygame.mouse.get_pressed()[0]
         
         text = self.text_font.render(str(self.text), True, (255, 255, 255))
         surface.blit(text, (self.pos_x + self.size_x / 2, self.pos_y + self.size_y / 2))
 
-        if self.keyboard == False or not self.key:
+        if not self.keyboard:
             if self.rect.collidepoint(mouse_pos):
                 self.state = "hover"
                 if mouse_realeased:
@@ -57,24 +57,24 @@ class FBButton:
         else:
             if self.focus:
                 self.state = "hover"
-                if keys[pygame.K_SPACE]:
+                if key:
                     self._get_pressed()
                 if keys[pygame.K_UP]:
-                    if self.up_neightboor:
+                    if self.up_neighboor:
                         self.focus = False
-                        self.up_neightboor.focus = True
+                        self.up_neighboor.focus = True
                 if keys[pygame.K_DOWN]:
-                    if self.down_neightboor:
+                    if self.down_neighboor:
                         self.focus = False
-                        self.down_neightboor.focus = True
+                        self.down_neighboor.focus = True
                 if keys[pygame.K_LEFT]:
-                    if self.left_neightboor:
+                    if self.left_neighboor:
                         self.focus = False
-                        self.left_neightboor.focus = True
+                        self.left_neighboor.focus = True
                 if keys[pygame.K_RIGHT]:
-                    if self.right_neightboor:
+                    if self.right_neighboor:
                         self.focus = False
-                        self.right_neightboor.focus = True
+                        self.right_neighboor.focus = True
             else:
                 self.state = "none"
 

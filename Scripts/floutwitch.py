@@ -41,6 +41,9 @@ class Floutwitch():
         self.pickaxe_tick = False
         self.pickaxe_action = False
         
+        self.adjesent_pos_x = 0
+        self.adjesent_pos_y = 0
+
         self.in_animation = False
         self.animation = ""
         self.anim_time = 0
@@ -108,7 +111,21 @@ class Floutwitch():
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)
         
-    def make_hoe_interaction(self, internal_surface, viewport, farmbotany):
+    def update_adjecent_pos(self):
+        if self.direction_faced[0]:
+            self.adjesent_pos_x = self.rect.x + 25
+            self.adjesent_pos_y = self.rect.y + -60
+        elif self.direction_faced[1]:
+            self.adjesent_pos_x = self.rect.x + 25
+            self.adjesent_pos_y = self.rect.y + 60
+        elif self.direction_faced[2]:
+            self.adjesent_pos_x = self.rect.x + -40
+            self.adjesent_pos_y = self.rect.y + 12
+        elif self.direction_faced[3]:
+            self.adjesent_pos_x = self.rect.x + 90
+            self.adjesent_pos_y = self.rect.y + 12
+        
+    def make_hoe_interaction(self, internal_surface, viewport, farmbotany, adjecent_pos_x, adjecent_pos_y):
 
         result_x = 0
         result_y = 0
@@ -178,55 +195,51 @@ class Floutwitch():
                     self.front_pos_x = self.image_rect.x + 80
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 150)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y
 
                 elif self.direction_faced[2]:
-                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_x = self.image_rect.x + -45
                     self.front_pos_y = self.image_rect.y + 0
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + -70)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
 
                 elif self.direction_faced[1]:
                     self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (240 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + 130)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 elif self.direction_faced[0]:
-                    self.front_pos_x = self.image_rect.x + 10
-                    self.front_pos_y = self.image_rect.y + (90 - 150)
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (100 - 150)
                     self.hoe.start_animation(self.front_pos_x, self.front_pos_y, self)
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + -10)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 self.hoe.make_animation(internal_surface, self, self.direction_faced)
 
             if self.hoe_action:
                 if self.direction_faced[3]:
-                    result_x = (self.image_rect.x + 150)
-                    result_y = (self.image_rect.y + 70)
-                
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                
 
                 elif self.direction_faced[2]:
-                    result_x = (self.image_rect.x + -70)
-                    result_y = (self.image_rect.y + 70)
-                    
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
 
                 elif self.direction_faced[1]:
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + 130)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                     
 
                 elif self.direction_faced[0]:
-                    result_x = (self.image_rect.x + 50)
-                    result_y = (self.image_rect.y + -10)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
                 
 
 
@@ -240,8 +253,7 @@ class Floutwitch():
 
 
         self.hoe.just_exited_animation = False
-        return result_x, result_y
-
+        
     def updates_the_hoe(self, internal_surface, viewport):
         self.hoe.update()
         if self.hoe.in_animation:
@@ -328,7 +340,7 @@ class Floutwitch():
                     
 
                 elif self.direction_faced[2]:
-                    self.front_pos_x = self.image_rect.x + (280 - 350)
+                    self.front_pos_x = self.image_rect.x + -45
                     self.front_pos_y = self.image_rect.y + 0
                     self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + -70)
@@ -344,7 +356,7 @@ class Floutwitch():
                     
 
                 elif self.direction_faced[0]:
-                    self.front_pos_x = self.image_rect.x + 10
+                    self.front_pos_x = self.image_rect.x + 20
                     self.front_pos_y = self.image_rect.y + (90 - 150)
                     self.pickaxe.start_animation(self.front_pos_x, self.front_pos_y, self)
                     result_x = (self.image_rect.x + 50)
@@ -406,46 +418,6 @@ class Floutwitch():
                 self.is_walking = False
 
             if self.can_move:
-                if keys[pygame.K_w]:
-                    self.rect.y -= self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.y += self.speed
-
-                    self.direction[0] = True
-                    self.direction_faced[0] = True
-                    self.direction_faced[1] = False
-                    self.direction_faced[2] = False
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[0] = False
-                if keys[pygame.K_s]:
-                    self.rect.y += self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.y -= self.speed
-
-                    self.direction[1] = True
-                    self.direction_faced[0] = False
-                    self.direction_faced[1] = True
-                    self.direction_faced[2] = False
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[1] = False
-                if keys[pygame.K_a]:
-                    self.rect.x -= self.speed
-                    for solid_object in self.solid_objects_list:
-                        if solid_object.colliderect(self.rect):
-                            self.rect.x += self.speed
-                    
-                    self.needs_reverse = False
-                    self.direction[2] = True
-                    self.direction_faced[0] = False
-                    self.direction_faced[1] = False
-                    self.direction_faced[2] = True
-                    self.direction_faced[3] = False
-                else:
-                    self.direction[2] = False
                 if keys[pygame.K_d]:
                     self.rect.x += self.speed
                     self.needs_reverse = True
@@ -460,6 +432,46 @@ class Floutwitch():
                     self.direction_faced[3] = True
                 else:
                     self.direction[3] = False
+                if keys[pygame.K_a]:
+                    self.rect.x -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.x += self.speed
+                    
+                    self.needs_reverse = False
+                    self.direction[2] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = True
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[2] = False
+                if keys[pygame.K_s]:
+                    self.rect.y += self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.y -= self.speed
+
+                    self.direction[1] = True
+                    self.direction_faced[0] = False
+                    self.direction_faced[1] = True
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[1] = False
+                if keys[pygame.K_w]:
+                    self.rect.y -= self.speed
+                    for solid_object in self.solid_objects_list:
+                        if solid_object.colliderect(self.rect):
+                            self.rect.y += self.speed
+
+                    self.direction[0] = True
+                    self.direction_faced[0] = True
+                    self.direction_faced[1] = False
+                    self.direction_faced[2] = False
+                    self.direction_faced[3] = False
+                else:
+                    self.direction[0] = False
                 if keys[pygame.K_v]:
                     self.is_key_v_pressed = True
                 else:
