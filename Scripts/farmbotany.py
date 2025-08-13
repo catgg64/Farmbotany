@@ -399,7 +399,7 @@ class Farmbotany:
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
         if self.current_room == self.farm:
             # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased)
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]))
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
@@ -437,8 +437,6 @@ class Farmbotany:
 
         if self.current_room == self.farm:
             
-            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.farm_to_my_room_passage_rect, 5)
-
             if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
                 self.paused = True
 
@@ -452,8 +450,6 @@ class Farmbotany:
                 self.room_to_change = self.my_room
 
         if self.current_room == self.my_room:
-            pygame.draw.rect(self.internal_surface, (255, 255, 255), self.my_room_to_farm_passage_rect, 5)
-
             if self.floutwitch.rect.colliderect(self.my_room_to_farm_passage_rect) and not self.is_fading_out:
                 self.paused = True
                 

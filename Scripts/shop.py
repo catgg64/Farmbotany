@@ -79,7 +79,7 @@ class Shop:
             print(f"Error loading shop image: {e}")
             raise
 
-    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased) -> None:
+    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased, mouse_pos) -> None:
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
         
@@ -88,7 +88,7 @@ class Shop:
         self.mouse_realeased = mouse_realeased
 
         # Check collision only if shop is not already open
-        if not self.shop_open and self.actual_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+        if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
             self._open_shop()
         #elif self.shop_open:
         #    self._close_shop()
