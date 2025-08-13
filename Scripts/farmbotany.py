@@ -116,11 +116,11 @@ class Farmbotany:
 
         self.shop = Shop(960, 1020, self.floutwitch, self)
 
-        # Switch to full window after loading
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         # This isets the window's initial position.
-        os.environ["SDL_WINDOWPOS_X"] = "200"  # X position (pixels from left)
-        os.environ["SDL_WINDOWPOS_Y"] = "200"  # Y position (pixels from top)
+        os.environ["SDL_WINDOWPOS_X"] = "254352345"  # X position (pixels from left)
+        os.environ["SDL_WINDOWPOS_Y"] = "243524352345"  # Y position (pixels from top)
+        # Switch to full window after loading
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SRCALPHA, vsync=1)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         pygame.display.set_caption("Farmbotany")
@@ -488,48 +488,24 @@ class Farmbotany:
 
         # This is where most things are drawn.
         spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
-
-        #for neighbor_idx, neighbor in enumerate(get_neighbors(int((self.mouse_pos[0] + self.viewport.pos_x) // self.current_room.tile_size), int((self.mouse_pos[1] + self.viewport.pos_y)) // self.current_room.tile_size, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_world_length)):
-        #    self.internal_surface.blit(tiles[neighbor][0]["surface"], (neighbor_idx * 64, 0))
-
-
-
-        #for solid_brick in self.solid_objects_list:
-        #    solid_brick.update(self.internal_surface, solid_brick.rect.x, solid_brick.rect.y, self.viewport.pos_x, self.viewport.pos_y)
-
-        
-        # Can be used later when debugging.
-        #pygame.draw.cir#cle(self.internal_surface, (255, 255, 255), (pickaxe_pos_x, pickaxe_pos_y), 50, 5)
-        
-
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
     
-        
-        
-        
-
-        # Creates a viewport rectangle and then subsurfaces it.
-        #self.viewport_rect = pygame.Rect(self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        #self.viewport_surface = self.internal_surface.subsurface(self.viewport_rect)
-        
         self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
         #self.scailing_surface = self.internal_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
     
         # Calculates the UI and some other things here so they appear in front of the everything else.
-        self.shop.update_shop_ui(self.ui_surface)
+        self.shop.update_shop_ui(self.ui_surface, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]))
         update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
         check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
         update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
-        #pygame.draw.circle(self.screen, (255, 255, 255), (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y), 4)
 
-        #self.scailing_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
-
-        self.screen.blit(self.ui_surface, (0, 0))
+        scaled_ui_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
+        self.screen.blit(scaled_ui_surface, (0, 0))
 
         self.fadeinout.update(self.screen)
 

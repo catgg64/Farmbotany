@@ -29,7 +29,7 @@ class FBButton:
         self.left_neighboor = left_neighboor
         self.right_neighboor = right_neighboor
         
-    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, key=False, name='Carlos'):
+    def update(self, surface, color, hover_color, pressed_color, mouse_realeased, mouse_pos, key=False, name='Carlos'):
         self.pressed = False
         
         keys = pygame.key.get_pressed()
@@ -41,7 +41,7 @@ class FBButton:
         elif self.state == "pressed":
             pygame.draw.rect(surface, pressed_color, self.rect)
         
-        mouse_pos = pygame.mouse.get_pos()
+        
         left_mouse_down = pygame.mouse.get_pressed()[0]
         
         text = self.text_font.render(str(self.text), True, (255, 255, 255))
