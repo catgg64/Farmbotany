@@ -11,7 +11,7 @@ SHOP_SCALED_SIZE = 250
 UI_WIDTH = 96
 UI_HEIGHT = 94
 UI_SCALED_WIDTH = 680 - 40
-UI_SCALED_HEIGHT = 720 - 40
+UI_SCALED_HEIGHT = 720 + 240
 SHOP_TILE_POS = (0, 2944)
 UI_TILE_POS = (2848, 16)
 BORDER_COLOR = (255, 255, 255)
@@ -34,7 +34,7 @@ class Shop:
         
         self.font = "Fonts/HelvetiPixel.ttf"
 
-        self.exit_button = ui.FBButton(150, 150, 100, 50, "Exit", self.font, keyboard=self.keyboard)
+        self.exit_button = ui.FBButton(100, 100, 100, 50, "Exit", self.font, keyboard=self.keyboard)
         
         self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, keyboard=self.keyboard)
         self.exit_buy_menu_button = ui.FBButton(150, 150, 100, 50, "Back", self.font, keyboard=self.keyboard)
