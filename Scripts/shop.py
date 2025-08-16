@@ -36,11 +36,11 @@ class Shop:
 
         self.exit_button = ui.FBButton(50, 50, 100, 50, "Exit", self.font, keyboard=self.keyboard)
         
-        self.buy_button = ui.FBButton(200, 250, 100, 50, "Buy", self.font, keyboard=self.keyboard)
+        self.buy_button = ui.FBButton(50, 600, 100, 50, "Buy", self.font, keyboard=self.keyboard)
         self.exit_buy_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
         
-        self.sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, keyboard=self.keyboard)
-        self.actual_sell_button = ui.FBButton(550, 250, 100, 50, "Sell", self.font, keyboard=self.keyboard)
+        self.sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
+        self.actual_sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
         self.exit_sell_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
