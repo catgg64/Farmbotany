@@ -41,3 +41,13 @@ Note 7 (10/08/2025):
 that phone was explosive bruh
 We finally reached the 100th commit! I passed it
 but still, i find this really cool.
+
+Note 8 (16/08/2025, 13:29):
+Sorry for being a little late on this one, but
+version 0.4 "realeased"! I allready started
+working on version 0.5, but so far it's just
+been bugfixes and optimizations, witch is SO 
+boring. I just want to get to the part when
+i am actually making the game.
+Also, i still don't have a computer (that is
+mine) ):

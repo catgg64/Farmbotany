@@ -1,5 +1,5 @@
 import pygame
-from globals import *
+from utils import *
 import spritemanager
 
 class Hoe:
