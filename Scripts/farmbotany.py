@@ -270,7 +270,7 @@ class Farmbotany:
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
                     if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and self.floutwitch.can_move:
-                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 2 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 2 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
                             self.floutwitch.start_collecting_animation()
         
@@ -358,8 +358,10 @@ class Farmbotany:
         self.true_no_y_sort_sprite_list = []
 
         surface_to_window_ratio = (self.screen_width / pygame.display.get_window_size()[0], self.screen_height / pygame.display.get_window_size()[1])
+        self.acurate_position = (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1])
 
         using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
+        
 
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
 
@@ -379,7 +381,7 @@ class Farmbotany:
         self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
         
         # Checks and collects the wheat if the mouse clicks on top of one.
-        self.check_for_wheat_harvest(self.current_room.special_tiles_world, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
+        self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.acurate_position, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
@@ -406,7 +408,7 @@ class Farmbotany:
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
         if self.current_room == self.farm:
             # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]))
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
@@ -493,7 +495,7 @@ class Farmbotany:
                 
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
-    
+        
         if self.window_changed_size:
             self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
         else:
@@ -502,10 +504,10 @@ class Farmbotany:
         self.screen.blit(self.scailing_surface, (0, 0))
     
         # Calculates the UI and some other things here so they appear in front of the everything else.
-        self.shop.update_shop_ui(self.ui_surface, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]))
+        self.shop.update_shop_ui(self.ui_surface, self.acurate_position)
         update_inventory(self.inventory, self.ui_surface, self.slot_list, 10, 10, 10, self.spacement, 20, 10)
-        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up)
-        update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], -30, 20)
+        check_for_clicked_slot_interaction(self.mouse_just_clicked, self.right_just_clicked, self.slot_list, self.inventory, self.clicked_slot_data, self.is_picking_up, self.acurate_position)
+        update_clicked_slot(self.clicked_slot_data_list, self.ui_surface, self.clicked_slot_list, 10, self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1], -30, 20)
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
 
 
@@ -513,6 +515,7 @@ class Farmbotany:
             self.scaled_ui_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
         else:
             self.scaled_ui_surface = self.ui_surface
+
 
         self.screen.blit(self.scaled_ui_surface, (0, 0))
 

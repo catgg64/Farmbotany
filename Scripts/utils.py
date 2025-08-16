@@ -4,13 +4,10 @@ def Nonefy(size):
     return list
 
 def swap_bool(boolean):
-    print(boolean)
     if boolean == True:
         boolean = False
-        print("true")
     else:
         boolean = True
-        print("false")
-    print(boolean)
+    
     return boolean
     

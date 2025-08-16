@@ -37,11 +37,11 @@ class Shop:
         self.exit_button = ui.FBButton(50, 50, 100, 50, "Exit", self.font, keyboard=self.keyboard)
         
         self.buy_button = ui.FBButton(50, 600, 100, 50, "Buy", self.font, keyboard=self.keyboard)
-        self.exit_buy_menu_button = ui.FBButton(200, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.exit_buy_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
         
         self.sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
         self.actual_sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
-        self.exit_sell_menu_button = ui.FBButton(50, 200, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.exit_sell_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
@@ -63,9 +63,9 @@ class Shop:
         self.actual_sell_button.left_neighboor = self.exit_sell_menu_button
 
         self.farmbotany = farmbotany
-        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
-                                                                                                    self.sell_slot_list, self.sell_slot_data_list, 
-                                                                                                    farmbotany.clicked_slot_data, farmbotany.is_picking_up)
+#        self.check_for_clicked_slot_interaction = inventorymanager.check_for_clicked_slot_interaction(farmbotany.mouse_just_clicked, farmbotany.right_just_clicked,
+#                                                                                                    self.sell_slot_list, self.sell_slot_data_list, 
+#                                                                                                    farmbotany.clicked_slot_data, farmbotany.is_picking_up, (farmbotany.mouse_pos[0] * farmbotany.acurate_position[0], farmbotany.mouse_pos[1] * farmbotany.acurate_position[1]))
         
 
     def _load_image(self) -> pygame.Surface:
@@ -118,7 +118,7 @@ class Shop:
             if self.shop_ui.status == "sell_menu":
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos, name="exit sell button")
                 inventorymanager.update_inventory(self.sell_slot_data_list, screen, self.sell_slot_list, 64, 400, 200, -30, 40, 10)
-                inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.farmbotany.right_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data, self.farmbotany.is_picking_up)
+                inventorymanager.check_for_clicked_slot_interaction(self.farmbotany.mouse_just_clicked, self.farmbotany.right_just_clicked, self.sell_slot_list, self.sell_slot_data_list, self.farmbotany.clicked_slot_data, self.farmbotany.is_picking_up, self.farmbotany.acurate_position)
                 self.actual_sell_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos, name="actual sell buton")
 
             if self.exit_button.state == "pressed" and self.shop_ui.status == "menu":
