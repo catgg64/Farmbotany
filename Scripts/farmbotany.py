@@ -374,6 +374,9 @@ class Farmbotany:
         pickaxe_pos_x, pickaxe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
         self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
+
+        # Updates the mouse distance from the floutwitch.
+        self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
         
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1]), self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
@@ -397,7 +400,6 @@ class Farmbotany:
         elif self.floutwitch.rect.y >= self.current_room.maxcornery:
             self.viewporty = self.current_room.maxcornery - viewport_window_size[1] / 2
 
-        self.floutwitch.actual_rect_update(self.viewport)
         
         append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
@@ -412,8 +414,6 @@ class Farmbotany:
         self.floutwitch.move(self.keys, self)
         self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
         self.floutwitch.updates_the_pickaxe(self.internal_surface, self.viewport)
-        # Updates the mouse distance from the floutwitch.
-        self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 

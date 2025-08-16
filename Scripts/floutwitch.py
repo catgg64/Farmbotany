@@ -63,8 +63,6 @@ class Floutwitch():
         self.solid_objects_list = solid_objects_list
         self.image_rect = self.image_right.get_rect(topleft=(self.rect.x - 25, self.rect.y - 50))
         
-        self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
-        self.actual_center_pos = [self.actual_rect.x + (50 / 2), self.actual_rect.y + (20 / 2)]
         
         if self.direction[1] and self.direction[2] and self.direction[3]:
             self.direction_faced[1] = True
@@ -485,6 +483,8 @@ class Floutwitch():
         )
 
         self.nearby_rect = pygame.Rect(self.rect.x - 64, self.rect.y - 64, 128, 128)
+        self.actual_floutwitch_position = (self.rect.x - viewport.pos_x, self.rect.y - viewport.pos_y)
+        self.actual_center_pos = [self.actual_rect.x + (50 / 2), self.actual_rect.y + (20 / 2)]
     
     def start_collecting_animation(self):
         self.in_animation = True

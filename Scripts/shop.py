@@ -37,11 +37,11 @@ class Shop:
         self.exit_button = ui.FBButton(50, 50, 100, 50, "Exit", self.font, keyboard=self.keyboard)
         
         self.buy_button = ui.FBButton(50, 600, 100, 50, "Buy", self.font, keyboard=self.keyboard)
-        self.exit_buy_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.exit_buy_menu_button = ui.FBButton(200, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
         
         self.sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
         self.actual_sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
-        self.exit_sell_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.exit_sell_menu_button = ui.FBButton(50, 200, 100, 50, "Back", self.font, keyboard=self.keyboard)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
@@ -166,7 +166,7 @@ class Shop:
         self.actual_sell_button.focus = True
 
     def _close_sell_menu(self):
-        self.shop_ui.status = "me0nu"
+        self.shop_ui.status = "menu"
         self.exit_sell_menu_button.status = "none"
         self.exit_sell_menu_button.pressed = False
         self.sell_button.focus = True
