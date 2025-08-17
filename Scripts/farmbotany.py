@@ -69,8 +69,8 @@ class Farmbotany:
         self.clicked_slot = Slot(self.clicked_slot_data.id, 1, self.clicked_slot_data.quantity, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], self.clicked_slot_list, 40)
 
         self.worlds = worlds.Worlds()
-        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, self.worlds.farm.tile_world_width * 64 - self.screen_width / 2, 0, self.worlds.farm.tile_world_heigt * 64 - self.screen_height / 2, 20, 20)
-        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, self.worlds.my_room_world.tile_world_width * 64 - self.screen_width / 2, 0, self.worlds.my_room_world.tile_world_heigt * 64 - self.screen_height / 2, 30, 30)
+        self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, self.worlds.farm.tile_world_width * 64, 0, self.worlds.farm.tile_world_heigt * 64, 20, 20)
+        self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, self.worlds.my_room_world.tile_world_width * 64, 0, self.worlds.my_room_world.tile_world_heigt * 64, 30, 30)
 
         self.current_room = self.farm
         self.room_list = [self.farm, self.my_room]
@@ -96,7 +96,7 @@ class Farmbotany:
         self.inventory[3].id = "2"
         self.inventory[2].id = "3"
         self.inventory[3].quantity = 3
-        self.inventory[2].quantity = 2192375601287
+        self.inventory[2].quantity = 15
 
         self.mouse_just_clicked = False
         self.mouse_realeased = False
@@ -386,21 +386,22 @@ class Farmbotany:
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
-        viewport_window_size = (self.screen_height, self.screen_width)
+        viewport_window_size = (self.screen_width, self.screen_height)
         window_size = (self.screen_width, self.screen_height)
+        viewport_adjusted_window_size = (self.floutwitch.rect.x + viewport_window_size[0] / 2, self.floutwitch.rect.y + viewport_window_size[1] / 2)
 
-        if self.floutwitch.rect.x > self.current_room.mincornerx and self.floutwitch.rect.x < self.current_room.maxcornerx and self.floutwitch.rect.x > viewport_window_size[0] / 2:
+        if self.floutwitch.rect.x > self.current_room.mincornerx and viewport_adjusted_window_size[0] < self.current_room.maxcornerx and self.floutwitch.rect.x > viewport_window_size[0] / 2:
             self.viewportx = self.floutwitch.rect.x - viewport_window_size[0] / 2
-        elif self.floutwitch.rect.x < self.current_room.maxcornerx:
+        elif viewport_adjusted_window_size[0] < self.current_room.maxcornerx:
             self.viewportx = 0
-        elif self.floutwitch.rect.x >= self.current_room.maxcornerx:
-            self.viewportx = self.current_room.maxcornerx - viewport_window_size[0] / 2
-        if self.floutwitch.rect.y > self.current_room.mincornery and self.floutwitch.rect.y < self.current_room.maxcornery and self.floutwitch.rect.y > viewport_window_size[1] / 2:
+        elif viewport_adjusted_window_size[0] >= self.current_room.maxcornerx:
+            self.viewportx = self.current_room.maxcornerx - viewport_window_size[0]
+        if self.floutwitch.rect.y > self.current_room.mincornery and viewport_adjusted_window_size[1] < self.current_room.maxcornery and self.floutwitch.rect.y > viewport_window_size[1] / 2:
             self.viewporty = self.floutwitch.rect.y - viewport_window_size[1] / 2
-        elif self.floutwitch.rect.y < self.current_room.maxcornery:
+        elif viewport_adjusted_window_size[1] < self.current_room.maxcornery:
             self.viewporty = 0
-        elif self.floutwitch.rect.y >= self.current_room.maxcornery:
-            self.viewporty = self.current_room.maxcornery - viewport_window_size[1] / 2
+        elif viewport_adjusted_window_size[1] >= self.current_room.maxcornery:
+            self.viewporty = self.current_room.maxcornery - viewport_window_size[1]
 
         
         append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list)
@@ -494,6 +495,7 @@ class Farmbotany:
         # This is where most things are drawn.
         spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
                 
+        #pygame.draw.rect(self.internal_surface, (255, 255, 255), pygame.Rect(self.current_room.mincornerx - self.viewport.pos_x, self.current_room.mincornery - self.viewport.pos_y, self.current_room.maxcornerx, self.current_room.maxcornery), 5)
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         

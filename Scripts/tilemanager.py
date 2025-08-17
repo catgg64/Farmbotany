@@ -249,7 +249,7 @@ class Crop(SpecialTile):
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
         self.time_passed_since_beguining = time.time() - self.start_time
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
-        if self.time_passed_since_beguining == self.plant_time:
+        if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
             self.can_collect = True
             self.texture = self.finished_texture
             self.image = pygame.image.load(self.texture)
