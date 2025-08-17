@@ -47,7 +47,7 @@ class Shop:
         self.sell_slot_list = []
         self.sell_slot = inventorymanager.Slot(self.sell_slot_data.id, 0, self.sell_slot_data.quantity, 400, 200, self.sell_slot_list, 64)
         self.product_slot_list = []
-        self.wheat_seed_slot = ProductSlot(400, 200, "3", 40, self.product_slot_list, 64, (255, 255, 255), 5, floutwitch, key=farmbotany.space_just_pressed, keyboard=self.keyboard)
+        self.wheat_seed_slot = ProductSlot(400, 200, "3", 30, self.product_slot_list, 64, (255, 255, 255), 5, floutwitch, key=farmbotany.space_just_pressed, keyboard=self.keyboard)
         
         self.mouse_realeased = False
 
@@ -79,7 +79,7 @@ class Shop:
             print(f"Error loading shop image: {e}")
             raise
 
-    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased, mouse_pos) -> None:
+    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased, mouse_pos, right_realeased) -> None:
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
         
@@ -88,7 +88,7 @@ class Shop:
         self.mouse_realeased = mouse_realeased
 
         # Check collision only if shop is not already open
-        if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0]:
+        if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and right_realeased:
             self._open_shop()
         #elif self.shop_open:
         #    self._close_shop()

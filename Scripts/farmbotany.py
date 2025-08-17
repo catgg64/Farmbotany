@@ -111,6 +111,7 @@ class Farmbotany:
         self.space_just_pressed = False
         self.e_just_pressed = False
         self.window_changed_size = False
+        self.right_released = False
 
         self.mouse_pos = 0
         self.slot_class_selected = 0
@@ -149,6 +150,7 @@ class Farmbotany:
         self.mouse_wheel_up = False
         self.mouse_wheel_down = False
         self.e_just_pressed = False
+        self.right_released = False
 
         space_just_pressed = False
         for event in pygame.event.get():
@@ -166,6 +168,8 @@ class Farmbotany:
             if event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     self.mouse_realeased = True
+                if event.button == 3:
+                    self.right_released = True
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_PAGEUP:
                     self.page_up_pressed = True
@@ -235,8 +239,6 @@ class Farmbotany:
             # Ensure integer indices
             mouse_pos_x = int(mouse_pos_x)
             mouse_pos_y = int(mouse_pos_y)
-            
-
 
             pos = pos_y * tile_world_width + pos_x
             
@@ -254,7 +256,7 @@ class Farmbotany:
             else:
                 if mouse_just_clicked:
                     if special_slot_data.id == "3":
-                        if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 2 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 2 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                        if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                             if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
                                 special_slot_data.quantity -= 1
                                 special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
@@ -270,7 +272,7 @@ class Farmbotany:
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
                     if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and self.floutwitch.can_move:
-                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 2 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 2 and self.floutwitch_to_mouse_distance[1] >= -1:
+                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
                             self.floutwitch.start_collecting_animation()
         
@@ -408,7 +410,7 @@ class Farmbotany:
                             self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
         if self.current_room == self.farm:
             # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position)
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,
