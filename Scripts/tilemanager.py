@@ -229,7 +229,7 @@ class Crop(SpecialTile):
         self.texture = texture
         self.finished_texture = finished_texture
         self.image = pygame.image.load(self.texture)
-        self.ysorty = -30
+        self.ysorty = -40
         super().__init__(self.texture, size, pos_x, pos_y, farmbotany, True, self.ysorty)
         self.start_time = time.time()
         self.plant_time = plant_time
@@ -249,7 +249,7 @@ class Crop(SpecialTile):
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
         self.time_passed_since_beguining = time.time() - self.start_time
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
-        if self.time_passed_since_beguining >= self.plant_time:
+        if self.time_passed_since_beguining == self.plant_time:
             self.can_collect = True
             self.texture = self.finished_texture
             self.image = pygame.image.load(self.texture)
@@ -345,12 +345,13 @@ def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, 
     #     pos = tile_value_to_position(index, width, tile_size)
     #     tile_slot_list[index].update(tile.id, tile.sub_id, internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue):
+def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue, max_pos_x, max_pos_y):
     for row_idx, row in enumerate(special_tiles_list):
         for column_idx, column in enumerate(row):
             if column is not None:
-                pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
-                column.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+                if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size - offset_x + tile_size > 0 and column_idx * tile_size - offset_y + tile_size > 0:
+                    pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
+                    column.update(internal_surface, pos[0], pos[1])
 
     
     # for index, tile in enumerate(special_tiles_list):

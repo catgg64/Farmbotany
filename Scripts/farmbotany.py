@@ -96,7 +96,7 @@ class Farmbotany:
         self.inventory[3].id = "2"
         self.inventory[2].id = "3"
         self.inventory[3].quantity = 3
-        self.inventory[2].quantity = 2
+        self.inventory[2].quantity = 2192375601287
 
         self.mouse_just_clicked = False
         self.mouse_realeased = False
@@ -242,14 +242,12 @@ class Farmbotany:
 
             pos = pos_y * tile_world_width + pos_x
             
-            grow_time = 60
+            grow_time = 1
 
             special_slot_data = inventory[special_slot]
             if self.keys[pygame.K_c]:
                 if special_slot_data.id == "3":
                     if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
-                        #if self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
-                        #    print("is in the right distance")
                         if special_tiles_world[pos_x][pos_y] is None:
                             special_slot_data.quantity -= 1
                             special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
@@ -380,7 +378,7 @@ class Farmbotany:
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
 
         # Updates the mouse distance from the floutwitch.
-        self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 0, 0, self.current_room.tile_size)
+        self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], self.acurate_position[0], self.acurate_position[1], 0, 0, self.current_room.tile_size)
         
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.acurate_position, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
@@ -407,7 +405,8 @@ class Farmbotany:
         
         append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
-                            self.current_room.tile_size, 0, 0, self.internal_surface, self.special_draw_queue)
+                            self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
+                            self.screen_width, self.screen_height)
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
