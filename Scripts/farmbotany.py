@@ -252,7 +252,7 @@ class Farmbotany:
                             special_slot_data.quantity -= 1
                             special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
             else:
-                if mouse_just_clicked:
+                if pygame.mouse.get_pressed()[0]:
                     if special_slot_data.id == "3":
                         if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                             if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
@@ -269,8 +269,8 @@ class Farmbotany:
                         done = True
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
-                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and self.floutwitch.can_move:
-                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(right_mouse_just_clicked) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and (self.floutwitch.can_move or self.floutwitch.animation == "collecting"):
+                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(pygame.mouse.get_pressed()[2]) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
                             self.floutwitch.start_collecting_animation()
         

@@ -241,6 +241,7 @@ class Crop(SpecialTile):
         self.distance_from_init_y = 0
         self.flipped = bool(random.getrandbits(1))
         self.image = pygame.transform.flip(self.image, self.flipped, False)
+        self.image = pygame.transform.scale(self.image, (self.size, self.size))
 
     def update(self, screen, pos_x, pos_y):
         super().update(screen, pos_x  + self.distance_from_init_x, pos_y + self.distance_from_init_y)
@@ -248,7 +249,6 @@ class Crop(SpecialTile):
         self.y = pos_y + self.distance_from_init_y
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
         self.time_passed_since_beguining = time.time() - self.start_time
-        self.image = pygame.transform.scale(self.image, (self.size, self.size))
         if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
             self.can_collect = True
             self.texture = self.finished_texture
