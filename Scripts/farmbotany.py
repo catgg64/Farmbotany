@@ -98,6 +98,11 @@ class Farmbotany:
         self.inventory[3].quantity = 3
         self.inventory[2].quantity = 15
 
+        self.start_collecting_tick = False
+        self.is_collecting = False
+        self.collecting_time = .25
+        self.collecting_animation_time = 0
+
         self.mouse_just_clicked = False
         self.mouse_realeased = False
         self.right_just_clicked = False
@@ -245,20 +250,23 @@ class Farmbotany:
             grow_time = 1
 
             special_slot_data = inventory[special_slot]
-            if self.keys[pygame.K_c]:
-                if special_slot_data.id == "3":
-                    if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
-                        if special_tiles_world[pos_x][pos_y] is None:
-                            special_slot_data.quantity -= 1
-                            special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
-            else:
-                if pygame.mouse.get_pressed()[0]:
+            if not self.is_collecting:
+                if self.keys[pygame.K_c]:
                     if special_slot_data.id == "3":
-                        if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
-                            if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
+                        if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
+                            if special_tiles_world[pos_x][pos_y] is None:
                                 special_slot_data.quantity -= 1
-                                special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
-                                
+                                special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                                self.start_collecting_tick = True
+                else:
+                    if pygame.mouse.get_pressed()[0]:
+                        if special_slot_data.id == "3":
+                            if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                                if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
+                                    special_slot_data.quantity -= 1
+                                    special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                                    self.start_collecting_tick = True
+            
             done = False
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
@@ -356,6 +364,15 @@ class Farmbotany:
         self.special_draw_queue = []
         self.sprite_list = []
         self.true_no_y_sort_sprite_list = []
+
+        if self.start_collecting_tick:
+            self.start_collecting_tick = False
+            self.is_collecting = True
+            self.collecting_animation_time = time.time()
+        
+        if time.time() - self.collecting_animation_time >= self.collecting_time:
+            self.is_collecting = False
+            self.collecting_animation_time = 0
 
         surface_to_window_ratio = (self.screen_width / pygame.display.get_window_size()[0], self.screen_height / pygame.display.get_window_size()[1])
         self.acurate_position = (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1])
@@ -494,7 +511,8 @@ class Farmbotany:
 
         # This is where most things are drawn.
         spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
-                
+
+        # Nicolas is a beautiful smart intelligent human being (Homo sapiens sapiens)    
         #pygame.draw.rect(self.internal_surface, (255, 255, 255), pygame.Rect(self.current_room.mincornerx - self.viewport.pos_x, self.current_room.mincornery - self.viewport.pos_y, self.current_room.maxcornerx, self.current_room.maxcornery), 5)
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)

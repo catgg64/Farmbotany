@@ -99,7 +99,7 @@ class Floutwitch():
                             self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2048, 2848, 32, 32)), (100, 100))
                         elif self.direction_faced[1]:
                             self.image = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2016, 2848, 32, 32)), (100, 100))
-                    if time.time() - self.anim_time >= 0.50:
+                    if time.time() - self.anim_time >= 1.00:
                         self.in_animation = False
                         self.animation = ""
                         self.can_move = True
