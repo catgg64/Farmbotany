@@ -277,7 +277,7 @@ class Farmbotany:
                         done = True
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
-                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and (self.floutwitch.can_move or self.floutwitch.animation == "collecting"):
+                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
                         if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(pygame.mouse.get_pressed()[2]) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                             special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
                             self.floutwitch.start_collecting_animation()
