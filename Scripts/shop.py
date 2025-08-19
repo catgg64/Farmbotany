@@ -34,14 +34,14 @@ class Shop:
         
         self.font = "Fonts/HelvetiPixel.ttf"
 
-        self.exit_button = ui.FBButton(50, 50, 100, 50, "Exit", self.font, keyboard=self.keyboard)
+        self.exit_button = ui.FBButton(50, 50, 100, 50, "Exit", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
         
-        self.buy_button = ui.FBButton(50, 600, 100, 50, "Buy", self.font, keyboard=self.keyboard)
-        self.exit_buy_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.buy_button = ui.FBButton(50, 600, 100, 50, "Buy", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
+        self.exit_buy_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
         
-        self.sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
-        self.actual_sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard)
-        self.exit_sell_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard)
+        self.sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
+        self.actual_sell_button = ui.FBButton(550, 600, 100, 50, "Sell", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
+        self.exit_sell_menu_button = ui.FBButton(50, 50, 100, 50, "Back", self.font, keyboard=self.keyboard, image="Sprites/tile_set.png", img_pos_x=2944, img_pos_y=64, img_size_x=32, img_size_y=32)
         self.sell_slot_data = inventorymanager.ItemData("1", 0)
         self.sell_slot_data_list = [self.sell_slot_data]
         self.sell_slot_list = []
