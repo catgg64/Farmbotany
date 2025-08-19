@@ -41,13 +41,23 @@ class FBButton:
         self.pressed = False
         
         keys = pygame.key.get_pressed()
+        paint_color = (255, 255, 255)
 
         if self.image:
             surface.blit(self.image, (self.pos_x, self.pos_y))
+            if self.state == "none":
+                paint_color = (100, 100, 100)
+            elif self.state == "hover-pressed":
+                paint_color = (255, 255, 255)
+            elif self.state == "hover":
+                paint_color = (150, 150, 150)
+            
         else:
             if self.state == "none":
+                paint_color = (100, 100, 100)
                 pygame.draw.rect(surface, color, self.rect, 0)
             elif self.state == "hover":
+                paint_color = (150, 150, 150)
                 pygame.draw.rect(surface, hover_color, self.rect, 0)
             elif self.state == "pressed":
                 pygame.draw.rect(surface, pressed_color, self.rect)
@@ -55,14 +65,16 @@ class FBButton:
         
         left_mouse_down = pygame.mouse.get_pressed()[0]
         
-        text = self.text_font.render(str(self.text), True, (255, 255, 255))
-        surface.blit(text, (self.pos_x + self.size_x / 2, self.pos_y + self.size_y / 2))
+        text = self.text_font.render(str(self.text), True, paint_color)
+        surface.blit(text, (self.pos_x + self.size_x / 2 - (len(str(self.text)) * 4), self.pos_y + self.size_y / 2 - 10))
 
         if not self.keyboard:
             if self.rect.collidepoint(mouse_pos):
                 self.state = "hover"
                 if mouse_realeased:
                     self._get_pressed()
+                if pygame.mouse.get_pressed()[0]:
+                    self.state = "hover-pressed"
             else:
                 self.state = "none"
         else:
