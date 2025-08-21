@@ -11,7 +11,6 @@ import rooms
 import worlds
 import fadeinout
 import spritemanager
-
 # Remove the import of shop here
 # from shop import *
 
@@ -68,6 +67,8 @@ class Farmbotany:
         self.clicked_slot_list = []
         self.clicked_slot = Slot(self.clicked_slot_data.id, 1, self.clicked_slot_data.quantity, pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], self.clicked_slot_list, 40)
 
+        self.frames = 0
+
         self.worlds = worlds.Worlds()
         self.farm = rooms.Room(self.worlds.farm.world, self.worlds.farm.sub_world, self.worlds.farm.special_tiles_world, 1, 0, self.worlds.farm.tile_world_width * 64, 0, self.worlds.farm.tile_world_heigt * 64, 20, 20)
         self.my_room = rooms.Room(self.worlds.my_room_world.my_room_world, self.worlds.my_room_world.my_room_sub_world, self.worlds.my_room_world.my_special_room_world, 2, 0, self.worlds.my_room_world.tile_world_width * 64, 0, self.worlds.my_room_world.tile_world_heigt * 64, 30, 30)
@@ -96,7 +97,7 @@ class Farmbotany:
         self.inventory[3].id = "2"
         self.inventory[2].id = "3"
         self.inventory[3].quantity = 3
-        self.inventory[2].quantity = 15
+        self.inventory[2].quantity = 32467346
 
         self.start_collecting_tick = False
         self.is_collecting = False
@@ -270,17 +271,21 @@ class Farmbotany:
             done = False
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
-                if isinstance(special_tiles_world[pos_x][pos_y], Crop) and self.floutwitch.can_move:
-                    if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
-                        special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
-                        self.floutwitch.start_collecting_animation()
-                        done = True
+                if self.keys[pygame.K_c]:
+                    if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
+                        if isinstance(special_tiles_world[pos_x][pos_y], Crop):
+                            if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
+                                special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
+                                self.floutwitch.start_collecting_animation()
+                                done = True
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
-                    if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop) and (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
-                        if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(pygame.mouse.get_pressed()[2]) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
-                            special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
-                            self.floutwitch.start_collecting_animation()
+                    if pygame.mouse.get_pressed()[2]:
+                        if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
+                            if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop):
+                                if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(pygame.mouse.get_pressed()[2]) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
+                                    special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
+                                    self.floutwitch.start_collecting_animation()
         
     def _render_gold(self, gold, font, surface):
         text = font.render(str(gold), True, (255, 255, 255))
@@ -353,6 +358,8 @@ class Farmbotany:
         self._event_handling()
         self.colliding_with_solid_object = self._check_for_solid_object_colision(self.solid_objects_list, self.floutwitch.rect)
 
+        self.frames += 1
+
         self.keys = pygame.key.get_pressed()
         # Assigns the mouse position
         self.mouse_pos = pygame.mouse.get_pos()
@@ -419,11 +426,12 @@ class Farmbotany:
             self.viewporty = 0
         elif viewport_adjusted_window_size[1] >= self.current_room.maxcornery:
             self.viewporty = self.current_room.maxcornery - viewport_window_size[1]
-
+        
         append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list, window_size, self.viewport.pos_x, self.viewport.pos_y)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             self.screen_width, self.screen_height)
+        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, window_size[0], window_size[1])
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
@@ -498,6 +506,7 @@ class Farmbotany:
 
         # Combine the sorted and unsorted sprites
         self.sprite_list = no_sort_sprites + y_sort_sprites
+        
         self.internal_surface.fill("cadetblue1")
         self.ui_surface.fill((0, 0, 0, 0))
         self.screen_rect = pygame.Rect(self.viewport.pos_x - 10, self.viewport.pos_y - 10, pygame.display.get_window_size()[0] + 20, pygame.display.get_window_size()[1] + 20)
@@ -556,6 +565,12 @@ farmbotany = Farmbotany()
 
 while farmbotany.running:
     farmbotany.update() # Runs this every frame
+#    import cProfile
+#    import pstats
+#
+#    cProfile.runctx('farmbotany.update()', globals(), locals(), 'profile_stats')
+#    p = pstats.Stats('profile_stats')
+#    p.sort_stats('cumulative').print_stats(10)  # Print top 10 time-consuming functions
 
 pygame.display.quit() # Exits the display
 pygame.quit() # Exits pygame.

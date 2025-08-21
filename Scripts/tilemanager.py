@@ -214,11 +214,15 @@ class SpecialTile:
         self.farmbotany = farmbotany
         self.ysort = ysort
         self.ysorty = ysorty
+        self.pos_x = pos_x
+        self.pos_y = pos_y
 
-    def update(self, screen, pos_x, pos_y):
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, pos_x, pos_y, pos_x + self.size, pos_y + self.size, self.ysort, (pos_y + self.size) + self.ysorty, (pos_y + self.size) + self.ysorty))
-        screen.blit(self.image, (pos_x, pos_y))
+    def update(self):
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size, self.pos_y * self.size, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size + self.size) + self.ysorty, (self.pos_y * self.size + self.size) + self.ysorty))
         
+    def value_update(self, pos_x, pos_y):
+        pass
+
     def is_colliding_with_rect(self, rect):
         if self.rect.colliderect(rect):
             return True
@@ -242,12 +246,15 @@ class Crop(SpecialTile):
         self.flipped = bool(random.getrandbits(1))
         self.image = pygame.transform.flip(self.image, self.flipped, False)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
-
-    def update(self, screen, pos_x, pos_y):
-        super().update(screen, pos_x  + self.distance_from_init_x, pos_y + self.distance_from_init_y)
-        self.x = pos_x + self.distance_from_init_x
-        self.y = pos_y + self.distance_from_init_y
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
+
+    def update(self):
+        super().update()
+        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x, self.pos_y, self.pos_x + self.size, self.pos_y + self.size, self.ysort, (self.pos_y + self.size) + self.ysorty, (self.pos_y + self.size) + self.ysorty))
+        
+    def value_update(self):
+        self.x = self.pos_x + self.distance_from_init_x
+        self.y = self.pos_y + self.distance_from_init_y
         self.time_passed_since_beguining = time.time() - self.start_time
         if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
             self.can_collect = True
@@ -257,6 +264,7 @@ class Crop(SpecialTile):
             self.distance_from_init_x = -10
             self.distance_from_init_y = -30
             self.ysorty = 10
+
 
     def check_for_harvest(self, mouse_realed):
         if mouse_realed and self.can_collect:
@@ -348,16 +356,23 @@ def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, 
 def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue, max_pos_x, max_pos_y):
     for row_idx, row in enumerate(special_tiles_list):
         for column_idx, column in enumerate(row):
-            if column is not None:
-                if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size - offset_x + tile_size > 0 and column_idx * tile_size - offset_y + tile_size > 0:
-                    pos = tile_value_to_position(row_idx, column_idx, width, tile_size)
-                    column.update(internal_surface, pos[0], pos[1])
+            if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
+                if column is not None:
+                    column.update()
 
     
     # for index, tile in enumerate(special_tiles_list):
     #     if tile is not None:
     #         pos = tile_value_to_position(index, width, tile_size)
     #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
+
+def update_special_tiles_value(special_tiles_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y):
+    if frame % 100 == 0:
+        for row_idx, row in enumerate(special_tiles_list):
+            for column_idx, column in enumerate(row):
+                if column is not None:
+                    if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
+                        column.value_update()
 
 def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size, no_ysort_sprite_list, window_size, offset_x, offset_y):
     for row_idx, row in enumerate(sub_world):
