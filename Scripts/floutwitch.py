@@ -23,6 +23,8 @@ class Floutwitch():
         self.substract_rect_up = pygame.Rect(2048, 2912, 32, 32)
         self.image_up = self.image_up.subsurface(self.substract_rect_up)
         self.image_up = pygame.transform.scale(self.image_up, (100, 100))
+        self.shadow = pygame.transform.scale(pygame.image.load("Sprites/tile_set.png").convert_alpha().subsurface(pygame.Rect(2976, 0, 32, 16)), (60, 30))
+        self.shadow.set_alpha(100)
         self.hoe = Hoe(self.rect.x, self.rect.y)
         self.pickaxe = pickaxe.PickAxe(self.rect.x, self.rect.y)
         self.can_move = True
@@ -104,7 +106,7 @@ class Floutwitch():
                         self.animation = ""
                         self.can_move = True
 
-
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.shadow, self.rect.x - 5, self.rect.y + 10, self.rect.x + 50, self.rect.y + 25, True))
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.rect.x + -25, self.rect.y + -50, self.rect.x + 50, self.rect.y + 25, True))
         
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, 50, 25)

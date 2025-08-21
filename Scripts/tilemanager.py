@@ -359,55 +359,57 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
     #         pos = tile_value_to_position(index, width, tile_size)
     #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size, no_ysort_sprite_list):
+def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size, no_ysort_sprite_list, window_size, offset_x, offset_y):
     for row_idx, row in enumerate(sub_world):
         for col_idx, col in enumerate(row):
             x = col_idx * tile_size
             y = row_idx * tile_size
-            if tiles[col][0]["ysort"]:
-                sprite_list.append(spritemanager.SpriteData(
-                    tiles[sub_world[y // tile_size][x // tile_size]][0]["surface"],
-                    x,
-                    y,
-                    x + tile_size,
-                    y + tile_size,
-                    True,
-                    x + tiles[col][0]["ysortx"],
-                    y + tiles[col][0]["ysorty"],
-                ))
-            else: 
-                no_ysort_sprite_list.append(spritemanager.SpriteData(
-                    tiles[sub_world[y // tile_size][x // tile_size]][0]["surface"],
-                    x,
-                    y,
-                    x + tile_size,
-                    y + tile_size,
-                    False,
-                ))
+            if (x + offset_x + 50) > 0 and (y + offset_y + 50) > 0 and (x - offset_x - 50) < window_size[0] and (y - offset_y - 50) < window_size[1]:
+                if tiles[col][0]["ysort"]:
+                    sprite_list.append(spritemanager.SpriteData(
+                        tiles[sub_world[y // tile_size][x // tile_size]][0]["surface"],
+                        x,
+                        y,
+                        x + tile_size,
+                        y + tile_size,
+                        True,
+                        x + tiles[col][0]["ysortx"],
+                        y + tiles[col][0]["ysorty"],
+                    ))
+                else: 
+                    no_ysort_sprite_list.append(spritemanager.SpriteData(
+                        tiles[sub_world[y // tile_size][x // tile_size]][0]["surface"],
+                        x,
+                        y,
+                        x + tile_size,
+                        y + tile_size,
+                        False,
+                    ))
     for row_idx, row in enumerate(world):
         for col_idx, col in enumerate(row):
             x = col_idx * tile_size
             y = row_idx * tile_size
-            if tiles[col][0]["ysort"]:
-                sprite_list.append(spritemanager.SpriteData(
-                    tiles[world[y // tile_size][x // tile_size]][0]["surface"],
-                    x,
-                    y,
-                    x + tile_size,
-                    y + tile_size,
-                    True,
-                    x + tiles[col][0]["ysortx"],
-                    y + tiles[col][0]["ysorty"],
-                ))
-            else: 
-                no_ysort_sprite_list.append(spritemanager.SpriteData(
-                    tiles[world[y // tile_size][x // tile_size]][0]["surface"],
-                    x,
-                    y,
-                    x + tile_size,
-                    y + tile_size,
-                    False,
-                ))
+            if (x + offset_x + 50) > 0 and (y + offset_y + 50) > 0 and (x - offset_x - 50) < window_size[0] and (y - offset_y - 50) < window_size[1]:
+                if tiles[col][0]["ysort"]:
+                    sprite_list.append(spritemanager.SpriteData(
+                        tiles[world[y // tile_size][x // tile_size]][0]["surface"],
+                        x,
+                        y,
+                        x + tile_size,
+                        y + tile_size,
+                        True,
+                        x + tiles[col][0]["ysortx"],
+                        y + tiles[col][0]["ysorty"],
+                    ))
+                else: 
+                    no_ysort_sprite_list.append(spritemanager.SpriteData(
+                        tiles[world[y // tile_size][x // tile_size]][0]["surface"],
+                        x,
+                        y,
+                        x + tile_size,
+                        y + tile_size,
+                        False,
+                    ))
 
 def check_collision_in_all_tiles(point, tile_slot_list):
     for tile in tile_slot_list:

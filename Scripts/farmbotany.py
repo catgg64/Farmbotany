@@ -420,8 +420,7 @@ class Farmbotany:
         elif viewport_adjusted_window_size[1] >= self.current_room.maxcornery:
             self.viewporty = self.current_room.maxcornery - viewport_window_size[1]
 
-        
-        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list)
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list, window_size, self.viewport.pos_x, self.viewport.pos_y)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             self.screen_width, self.screen_height)
