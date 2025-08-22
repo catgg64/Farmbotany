@@ -14,6 +14,9 @@ import spritemanager
 # Remove the import of shop here
 # from shop import *
 
+# This isets the window's initial position.
+os.environ["SDL_VIDEO_WINDOW_POS"] = "400, 100"  # Y position (pixels from top)
+
 pygame.init()
 pygame.font.init()
 
@@ -46,7 +49,6 @@ class Farmbotany:
 
 
         self.internal_surface = pygame.Surface((self.screen_width, self.screen_height), pygame.SRCALPHA)
-        self.scailing_surface = pygame.Surface((self.screen_height, self.screen_width), pygame.SRCALPHA)
         self.ui_surface = pygame.Surface((self.screen_width, self.screen_height), pygame.SRCALPHA)
 
         self.draw_queue = []
@@ -125,9 +127,6 @@ class Farmbotany:
 
         self.shop = Shop(960, 1020, self.floutwitch, self)
 
-        # This isets the window's initial position.
-        os.environ["SDL_WINDOWPOS_X"] = "254352345"  # X position (pixels from left)
-        os.environ["SDL_WINDOWPOS_Y"] = "243524352345"  # Y position (pixels from top)
         # Switch to full window after loading
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SRCALPHA, vsync=1)
 
@@ -332,6 +331,7 @@ class Farmbotany:
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
             current_time = time.time() - start_time
+            self.fadeinout.fade()        
             
             if current_time > .5:
                 self.current_room = new_room
@@ -434,7 +434,7 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
@@ -476,8 +476,6 @@ class Farmbotany:
             if self.floutwitch.rect.colliderect(self.farm_to_my_room_passage_rect) and not self.is_fading_out:
                 self.paused = True
 
-                self.fadeinout.fade()
-                
                 self.fadeinout_start_time = time.time()
                 self.is_fading_out = True
 
@@ -488,8 +486,6 @@ class Farmbotany:
         if self.current_room == self.my_room:
             if self.floutwitch.rect.colliderect(self.my_room_to_farm_passage_rect) and not self.is_fading_out:
                 self.paused = True
-                
-                self.fadeinout.fade()
                 
                 self.fadeinout_start_time = time.time()
                 self.is_fading_out = True
@@ -528,12 +524,7 @@ class Farmbotany:
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         
-        #if self.window_changed_size:
-        #    self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
-        #else:
-        self.scailing_surface = self.internal_surface
-
-        self.screen.blit(self.scailing_surface, (0, 0))
+        self.screen.blit(self.internal_surface, (0, 0))
     
         # Calculates the UI and some other things here so they appear in front of the everything else.
         self.shop.update_shop_ui(self.ui_surface, self.acurate_position)

@@ -367,8 +367,8 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
     #         pos = tile_value_to_position(index, width, tile_size)
     #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def update_special_tiles_value(special_tiles_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y):
-    if frame % 100 == 0:
+def update_special_tiles_value(special_tiles_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y, frame_gap):
+    if frame % frame_gap == 0:
         for row_idx, row in enumerate(special_tiles_list):
             for column_idx, column in enumerate(row):
                 if column is not None:
