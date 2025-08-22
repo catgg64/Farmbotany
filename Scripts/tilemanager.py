@@ -208,7 +208,7 @@ class SpecialTile:
     def __init__(self, texture, size, pos_x, pos_y, farmbotany, ysort=False, ysorty=0):
         self.texture = texture
         self.size = size
-        self.image = pygame.image.load(self.texture)
+        self.image = pygame.image.load(self.texture).convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
         self.rect = pygame.Rect(pos_x, pos_y, size, size)
         self.farmbotany = farmbotany
@@ -216,11 +216,13 @@ class SpecialTile:
         self.ysorty = ysorty
         self.pos_x = pos_x
         self.pos_y = pos_y
+        self.offset_x = 0
+        self.offset_y = 0
 
     def update(self):
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size, self.pos_y * self.size, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size + self.size) + self.ysorty, (self.pos_y * self.size + self.size) + self.ysorty))
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size + self.offset_x, self.pos_y * self.size + self.offset_y, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size + self.size) + self.ysorty, (self.pos_y * self.size + self.size) + self.ysorty))
         
-    def value_update(self, pos_x, pos_y):
+    def value_update(self):
         pass
 
     def is_colliding_with_rect(self, rect):
@@ -232,7 +234,7 @@ class Crop(SpecialTile):
     def __init__(self, size, plant_time, pos_x, pos_y, farmbotany, texture, finished_texture, item_id):
         self.texture = texture
         self.finished_texture = finished_texture
-        self.image = pygame.image.load(self.texture)
+        self.image = pygame.image.load(self.texture).convert_alpha()
         self.ysorty = -40
         super().__init__(self.texture, size, pos_x, pos_y, farmbotany, True, self.ysorty)
         self.start_time = time.time()
@@ -247,10 +249,8 @@ class Crop(SpecialTile):
         self.image = pygame.transform.flip(self.image, self.flipped, False)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
-
-    def update(self):
-        super().update()
-        #self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x, self.pos_y, self.pos_x + self.size, self.pos_y + self.size, self.ysort, (self.pos_y + self.size) + self.ysorty, (self.pos_y + self.size) + self.ysorty))
+        self.offset_x = self.distance_from_init_x
+        self.offset_y = self.distance_from_init_y
         
     def value_update(self):
         self.x = self.pos_x + self.distance_from_init_x
@@ -259,11 +259,13 @@ class Crop(SpecialTile):
         if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
             self.can_collect = True
             self.texture = self.finished_texture
-            self.image = pygame.image.load(self.texture)
+            self.image = pygame.image.load(self.texture).convert_alpha()
             self.image = pygame.transform.scale(self.image, (self.size + 20, self.size + 20))
             self.distance_from_init_x = -10
             self.distance_from_init_y = -30
             self.ysorty = 10
+            self.offset_x = self.distance_from_init_x
+            self.offset_y = self.distance_from_init_y
 
 
     def check_for_harvest(self, mouse_realed):
@@ -356,8 +358,8 @@ def update_tile_map(tile_list, sub_tile_list, tile_slot_list, width, tile_size, 
 def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_y, internal_surface, draw_queue, max_pos_x, max_pos_y):
     for row_idx, row in enumerate(special_tiles_list):
         for column_idx, column in enumerate(row):
-            if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
-                if column is not None:
+            if column is not None:
+                if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
                     column.update()
 
     

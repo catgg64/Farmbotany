@@ -557,7 +557,7 @@ class Farmbotany:
         self.page_down_just_clicked = False
 
         self.update_tilemap_terrain = False
-        
+
         pygame.display.update() # Udates the screen.
         self.clock.tick(60) # The clock ticks. This is used for the framerate adjustments.
 
