@@ -220,7 +220,7 @@ class SpecialTile:
         self.offset_y = 0
 
     def update(self):
-        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size + self.offset_x, self.pos_y * self.size + self.offset_y, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size + self.size) + self.ysorty, (self.pos_y * self.size + self.size) + self.ysorty))
+        self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size + self.offset_x, self.pos_y * self.size + self.offset_y, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size) + self.ysorty, (self.pos_y * self.size) + self.ysorty))
         
     def value_update(self):
         pass
@@ -235,7 +235,7 @@ class Crop(SpecialTile):
         self.texture = texture
         self.finished_texture = finished_texture
         self.image = pygame.image.load(self.texture).convert_alpha()
-        self.ysorty = -40
+        self.ysorty = 24
         super().__init__(self.texture, size, pos_x, pos_y, farmbotany, True, self.ysorty)
         self.start_time = time.time()
         self.plant_time = plant_time
@@ -263,10 +263,9 @@ class Crop(SpecialTile):
             self.image = pygame.transform.scale(self.image, (self.size + 20, self.size + 20))
             self.distance_from_init_x = -10
             self.distance_from_init_y = -30
-            self.ysorty = 10
             self.offset_x = self.distance_from_init_x
             self.offset_y = self.distance_from_init_y
-
+            self.ysorty = 54
 
     def check_for_harvest(self, mouse_realed):
         if mouse_realed and self.can_collect:

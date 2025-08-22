@@ -47,7 +47,7 @@ class Slot:
             
             if item_data["stackable"]:
                 text = text_font.render(str(item.quantity), True, (255, 255, 255))
-                screen.blit(text, (self.rect.x + 60, self.rect.y + 60))
+                screen.blit(text, (self.rect.x + 45, self.rect.y + 45))
             
             self.rect_color = (255, 255, 255)
 

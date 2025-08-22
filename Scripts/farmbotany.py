@@ -97,7 +97,7 @@ class Farmbotany:
         self.inventory[3].id = "2"
         self.inventory[2].id = "3"
         self.inventory[3].quantity = 3
-        self.inventory[2].quantity = 32467346
+        self.inventory[2].quantity = 15
 
         self.start_collecting_tick = False
         self.is_collecting = False
@@ -190,6 +190,8 @@ class Farmbotany:
                 if event.key == pygame.K_F11:
                     pygame.display.toggle_fullscreen()
                     self.window_changed_size = swap_bool(self.window_changed_size)
+                    self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
+                    self.ui_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
                     
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
@@ -248,7 +250,7 @@ class Farmbotany:
 
             pos = pos_y * tile_world_width + pos_x
             
-            grow_time = 1
+            grow_time = 60
 
             special_slot_data = inventory[special_slot]
             if not self.is_collecting:
@@ -381,7 +383,8 @@ class Farmbotany:
             self.is_collecting = False
             self.collecting_animation_time = 0
 
-        surface_to_window_ratio = (self.screen_width / pygame.display.get_window_size()[0], self.screen_height / pygame.display.get_window_size()[1])
+        #surface_to_window_ratio = (self.screen_width / pygame.display.get_window_size()[0], self.screen_height / pygame.display.get_window_size()[1])
+        surface_to_window_ratio = (1, 1)
         self.acurate_position = (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1])
 
         using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
@@ -410,8 +413,8 @@ class Farmbotany:
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
-        viewport_window_size = (self.screen_width, self.screen_height)
-        window_size = (self.screen_width, self.screen_height)
+        viewport_window_size = (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        window_size = (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         viewport_adjusted_window_size = (self.floutwitch.rect.x + viewport_window_size[0] / 2, self.floutwitch.rect.y + viewport_window_size[1] / 2)
 
         if self.floutwitch.rect.x > self.current_room.mincornerx and viewport_adjusted_window_size[0] < self.current_room.maxcornerx and self.floutwitch.rect.x > viewport_window_size[0] / 2:
@@ -427,11 +430,11 @@ class Farmbotany:
         elif viewport_adjusted_window_size[1] >= self.current_room.maxcornery:
             self.viewporty = self.current_room.maxcornery - viewport_window_size[1]
         
-        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list, window_size, self.viewport.pos_x, self.viewport.pos_y)
+        append_tilemap_to_sprite_data(self.current_room.tile_slot_list, self.sprite_list, self.current_room.world, self.current_room.sub_world, self.current_room.tile_world_width, self.current_room.tile_size, self.sprite_list, pygame.display.get_window_size(), self.viewport.pos_x, self.viewport.pos_y)
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
-                            self.screen_width, self.screen_height)
-        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, window_size[0], window_size[1])
+                            pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
@@ -518,17 +521,17 @@ class Farmbotany:
         light_slot_by_number(self.slot_selected, self.slot_list)
 
         # This is where most things are drawn.
-        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (self.screen_height, self.screen_width))
+        spritemanager.update_sprite_list(self.internal_surface, self.sprite_list, self.viewport.pos_x, self.viewport.pos_y, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
 
         # Nicolas is a beautiful smart intelligent human being (Homo sapiens sapiens)    
         #pygame.draw.rect(self.internal_surface, (255, 255, 255), pygame.Rect(self.current_room.mincornerx - self.viewport.pos_x, self.current_room.mincornery - self.viewport.pos_y, self.current_room.maxcornerx, self.current_room.maxcornery), 5)
 
         self._switch_room(self.fadeinout_start_time, self.room_to_change, self.is_fading_out, self.floutwitch, self.location_after_change_x, self.location_after_change_y)
         
-        if self.window_changed_size:
-            self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
-        else:
-            self.scailing_surface = self.internal_surface
+        #if self.window_changed_size:
+        #    self.scailing_surface = pygame.transform.scale(self.internal_surface, (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1]))
+        #else:
+        self.scailing_surface = self.internal_surface
 
         self.screen.blit(self.scailing_surface, (0, 0))
     
@@ -540,10 +543,10 @@ class Farmbotany:
         self._render_gold(self.floutwitch.gold, self.text_font, self.ui_surface)
 
 
-        if self.window_changed_size:
-            self.scaled_ui_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
-        else:
-            self.scaled_ui_surface = self.ui_surface
+        #if self.window_changed_size:
+        #    self.scaled_ui_surface = pygame.transform.scale(self.ui_surface, pygame.display.get_window_size())
+        #else:
+        self.scaled_ui_surface = self.ui_surface
 
 
         self.screen.blit(self.scaled_ui_surface, (0, 0))
