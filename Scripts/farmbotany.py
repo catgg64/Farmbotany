@@ -249,7 +249,7 @@ class Farmbotany:
 
             pos = pos_y * tile_world_width + pos_x
             
-            grow_time = 60
+            grow_time = 10
 
             special_slot_data = inventory[special_slot]
             if not self.is_collecting:
@@ -341,7 +341,8 @@ class Farmbotany:
                 if current_time > 1:
                     self.paused = False
                     self.is_fading_out = False
-
+                    update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
+    
     def _update_selected_hotbar_slot(self, if_not):
         if not if_not:
             if self.mouse_wheel_down or self.page_down_just_clicked:
@@ -437,7 +438,7 @@ class Farmbotany:
         update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
         if self.current_room == self.farm:
             # Updates the shop.
-            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released)
+            self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released, self.mouse_just_clicked)
 
         self.floutwitch.update(self.internal_surface, self.viewport, self.current_room.tiles_world,
                                 self.current_room.tile_world_width, self.current_room.tile_world_length, self.mouse_pos,

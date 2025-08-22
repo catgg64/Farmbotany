@@ -79,13 +79,14 @@ class Shop:
             print(f"Error loading shop image: {e}")
             raise
 
-    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased, mouse_pos, right_realeased) -> None:
+    def update(self, surface: pygame.Surface, screen: pygame.Surface, mouse_realeased, mouse_pos, right_realeased, mouse_pressed) -> None:
         """Updates the "Actual" version of the rect."""
         self.actual_rect = pygame.Rect(self.rect.x - self.farmbotany.viewport.pos_x, self.rect.y - self.farmbotany.viewport.pos_y, SHOP_SCALED_SIZE, SHOP_SCALED_SIZE)
         
         
         """Updates the check of the mouse realsed"""
         self.mouse_realeased = mouse_realeased
+        self.mouse_pressed = mouse_pressed
 
         # Check collision only if shop is not already open
         if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and right_realeased:
@@ -113,7 +114,7 @@ class Shop:
                 self.exit_buy_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos)
 
                 for product_slot in self.product_slot_list:
-                    product_slot.update(screen, self.mouse_realeased, self.inventory, self.floutwitch, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos)
+                    product_slot.update(screen, self.mouse_pressed, self.inventory, self.floutwitch, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos)
 
             if self.shop_ui.status == "sell_menu":
                 self.exit_sell_menu_button.update(screen, (255, 154, 46), (200, 105, 1), (161, 83, 0), self.mouse_realeased, key=self.farmbotany.space_just_pressed, mouse_pos=mouse_pos, name="exit sell button")
@@ -231,19 +232,24 @@ class ProductSlot:
         self.left_neighboor = left_neighboor
         self.right_neighboor = right_neighboor
         
+        self.time_pressed = 0
 
         self.color = color
         self.width = width
 
         self.slot_size = slot_size
 
-    def update(self, surface, mouse_realeased, inventory, floutwitch, key, mouse_pos):
+    def update(self, surface, mouse_pressed, inventory, floutwitch, key, mouse_pos):
         draw_color = (255, 255, 255)
         keys = pygame.key.get_pressed()
 
         if not self.keyboard:
+            if pygame.mouse.get_pressed()[0]:
+                self.time_pressed += 1
+            else:
+                self.time_pressed = 0
             if floutwitch.gold >= self.price:
-                if mouse_realeased and self.rect.collidepoint(mouse_pos):
+                if (mouse_pressed or self.time_pressed > 20) and self.rect.collidepoint(mouse_pos):
                     inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
                     floutwitch.gold -= self.price
         else:
