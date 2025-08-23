@@ -94,10 +94,12 @@ class Farmbotany:
         self.inventory[0].quantity = 1
         self.inventory[1].id = "6"
         self.inventory[1].quantity = 1
-        self.inventory[3].id = "2"
-        self.inventory[2].id = "3"
-        self.inventory[3].quantity = 3
-        self.inventory[2].quantity = 15
+        self.inventory[2].id = "7"
+        self.inventory[2].quantity = 1
+        self.inventory[4].id = "2"
+        self.inventory[3].id = "3"
+        self.inventory[4].quantity = 3
+        self.inventory[3].quantity = 15
 
         self.start_collecting_tick = False
         self.is_collecting = False
