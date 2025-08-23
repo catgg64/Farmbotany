@@ -11,11 +11,9 @@ import rooms
 import worlds
 import fadeinout
 import spritemanager
-# Remove the import of shop here
-# from shop import *
 
 # This isets the window's initial position.
-os.environ["SDL_VIDEO_WINDOW_POS"] = "400, 100"  # Y position (pixels from top)
+os.environ["SDL_VIDEO_WINDOW_POS"] = "400, 30"
 
 pygame.init()
 pygame.font.init()
