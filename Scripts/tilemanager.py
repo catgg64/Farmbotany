@@ -81,6 +81,22 @@ tiles = {
     "72": [{"name": "Shop dirt 2x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2896, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 3 - 35}],
     "73": [{"name": "Shop dirt 3x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2912, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 2 - 35}],
     "74": [{"name": "Shop dirt 4x4", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 48, "rect_y": 2928, "size_x": 16, "size_y": 16, "terrain": False, "collision": False, "ysort": True, "ysortx": 64 * 1, "ysorty": 64 * 1 - 35}],
+    "75": [{"name": "Hoed Ground with Water", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 96, "rect_y": 48 + 32, "size_x": 16, "size_y": 16}],
+    "76": [{"name": "Hoed Ground with Water top: true, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 48 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "77": [{"name": "Hoed Ground with Water top: true, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 64 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "78": [{"name": "Hoed Ground with Water top: true, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 64 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "79": [{"name": "Hoed Ground with Water top: true, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 48 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "80": [{"name": "Hoed Ground with Water top: true, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 64 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "81": [{"name": "Hoed Ground with Water top: true, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 48 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "82": [{"name": "Hoed Ground with Water top: true, right: false, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 64 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "83": [{"name": "Hoed Ground with Water top: true, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 48 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "84": [{"name": "Hoed Ground with Water top: false, right: true, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 240, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "85": [{"name": "Hoed Ground with Water top: false, right: true, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 176, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "86": [{"name": "Hoed Ground with Water top: false, right: true, left: false, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 288, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "87": [{"name": "Hoed Ground with Water top: false, right: true, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 160, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "88": [{"name": "Hoed Ground with Water top: false, right: false, left: true, bottom: false", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 320, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "89": [{"name": "Hoed Ground with Water top: false, right: false, left: true, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 192, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
+    "90": [{"name": "Hoed Ground with Water top: false, right: false, left: false, bottom: true", "texture": "Sprites/tile_set.png", "requires_rect": True, "rect_x": 128, "rect_y": 32 + 48, "size_x": 16, "size_y": 16, "child": "75"}],
 }
 
 def setup_surfaces(tile_exspansion):
@@ -533,6 +549,52 @@ def update_tilemap_terrain(world):
                     new_world[row_idx][column_idx] = "37"
                 else:  # top: false, left: false, right: false, bottom: false
                     new_world[row_idx][column_idx] = "2"  # Default Hoed Ground
+            
+            if tiles[world[row_idx][column_idx]][0]["child"] == "75":  # Check for Hoed Ground with Water
+                init_neighbors = get_neighbors(column_idx, row_idx, world)
+                # Select top, left, right, bottom neighbors (indices 1, 3, 4, 6)
+                nb = [
+                    init_neighbors[1] == "75" or init_neighbors[1] in [str(i) for i in range(76, 91)],  # Top
+                    init_neighbors[3] == "75" or init_neighbors[3] in [str(i) for i in range(76, 91)],  # Left
+                    init_neighbors[4] == "75" or init_neighbors[4] in [str(i) for i in range(76, 91)],  # Right
+                    init_neighbors[6] == "75" or init_neighbors[6] in [str(i) for i in range(76, 91)]   # Bottom
+                ]
+                # Convert None to False (for boundary tiles)
+                nb = [n if n is not None else False for n in nb]
+                
+                # Assign tile ID based on neighbor configuration
+                if nb[0] and nb[1] and nb[2] and nb[3]:    # top: true, left: true, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "76"
+                elif nb[0] and nb[1] and nb[2] and not nb[3]:  # top: true, left: true, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "77"
+                elif nb[0] and not nb[1] and nb[2] and not nb[3]:  # top: true, left: false, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "78"
+                elif nb[0] and not nb[1] and nb[2] and nb[3]:  # top: true, left: false, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "79"
+                elif nb[0] and nb[1] and not nb[2] and not nb[3]:  # top: true, left: true, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "80"
+                elif nb[0] and nb[1] and not nb[2] and nb[3]:  # top: true, left: true, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "81"
+                elif nb[0] and not nb[1] and not nb[2] and not nb[3]:  # top: true, left: false, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "82"
+                elif nb[0] and not nb[1] and not nb[2] and nb[3]:  # top: true, left: false, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "83"
+                elif not nb[0] and nb[1] and nb[2] and not nb[3]:  # top: false, left: true, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "84"
+                elif not nb[0] and nb[1] and nb[2] and nb[3]:  # top: false, left: true, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "85"
+                elif not nb[0] and not nb[1] and nb[2] and not nb[3]:  # top: false, left: false, right: true, bottom: false
+                    new_world[row_idx][column_idx] = "86"
+                elif not nb[0] and not nb[1] and nb[2] and nb[3]:  # top: false, left: false, right: true, bottom: true
+                    new_world[row_idx][column_idx] = "87"
+                elif not nb[0] and nb[1] and not nb[2] and not nb[3]:  # top: false, left: true, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "88"
+                elif not nb[0] and nb[1] and not nb[2] and nb[3]:  # top: false, left: true, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "89"
+                elif not nb[0] and not nb[1] and not nb[2] and nb[3]:  # top: false, left: false, right: false, bottom: true
+                    new_world[row_idx][column_idx] = "90"
+                else:  # top: false, left: false, right: false, bottom: false
+                    new_world[row_idx][column_idx] = "75"  # Default Hoed Ground
 
     # Update the world with the new tile IDs
     for row_idx in range(height):

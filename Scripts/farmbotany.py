@@ -305,7 +305,7 @@ class Farmbotany:
                     if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length:
                         tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                         if tile_index < len(farmbotany.current_room.tiles_world):
-                            farmbotany.current_room.world[tile_y][tile_x] = "2"
+                            farmbotany.current_room.world[tile_y][tile_x] = "75"
                             self.update_tilemap_terrain = True
     
     def _makes_the_pickaxe_work(self, pickaxe_pos_x, pickaxe_pos_y, farmbotany, pickaxe_anim_frames, pickaxe_animation_speed):
@@ -322,7 +322,7 @@ class Farmbotany:
                 if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
                     farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
                 else:
-                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
+                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "75":
                         farmbotany.current_room.world[tile_y][tile_x] = "3"
                         self.update_tilemap_terrain = True
 
