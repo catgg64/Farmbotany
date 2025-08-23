@@ -253,7 +253,7 @@ class Farmbotany:
             if not self.is_collecting:
                 if self.keys[pygame.K_c]:
                     if special_slot_data.id == "3":
-                        if tiles[self.current_room.world[pos_y][pos_x]][0]["child"] == "2":
+                        if tiles[self.current_room.world[pos_y][pos_x]][0]["plantable"]:
                             if special_tiles_world[pos_x][pos_y] is None:
                                 special_slot_data.quantity -= 1
                                 special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
@@ -261,7 +261,7 @@ class Farmbotany:
                 else:
                     if pygame.mouse.get_pressed()[0]:
                         if special_slot_data.id == "3":
-                            if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["child"] == "2" and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
+                            if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["plantable"] and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                                 if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
                                     special_slot_data.quantity -= 1
                                     special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
@@ -319,12 +319,12 @@ class Farmbotany:
                 tile_x = int(round(tile_x))
                 tile_y = int(round(tile_y))
 
-                if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
-                    farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
-                else:
-                    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "75":
-                        farmbotany.current_room.world[tile_y][tile_x] = "3"
-                        self.update_tilemap_terrain = True
+                #if isinstance(farmbotany.current_room.special_tiles_world[tile_x][tile_y], Crop):
+                #    farmbotany.current_room.special_tiles_world[tile_x][tile_y].erase(farmbotany.current_room.special_tiles_world, tile_x, tile_y)
+                #else:
+                #    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "75":
+                farmbotany.current_room.world[tile_y][tile_x] = "3"
+                self.update_tilemap_terrain = True
 
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
