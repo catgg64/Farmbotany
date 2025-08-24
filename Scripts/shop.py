@@ -240,7 +240,7 @@ class ProductSlot:
         self.slot_size = slot_size
 
     def update(self, surface, mouse_pressed, inventory, floutwitch, key, mouse_pos):
-        draw_color = (255, 255, 255)
+        draw_color = (200, 200, 200)
         keys = pygame.key.get_pressed()
 
         if not self.keyboard:
@@ -250,6 +250,7 @@ class ProductSlot:
                 self.time_pressed = 0
             if floutwitch.gold >= self.price:
                 if (mouse_pressed or self.time_pressed > 20) and self.rect.collidepoint(mouse_pos):
+                    draw_color = (255, 255, 255)
                     inventorymanager.add_item_to_inventory(inventory, inventorymanager.ItemData(self.item, 1))
                     floutwitch.gold -= self.price
         else:
