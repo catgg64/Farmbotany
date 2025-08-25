@@ -89,7 +89,7 @@ class Shop:
         self.mouse_pressed = mouse_pressed
 
         # Check collision only if shop is not already open
-        if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and right_realeased:
+        if not self.shop_open and self.actual_rect.collidepoint(mouse_pos) and right_realeased and self.floutwitch.can_move:
             self._open_shop()
         #elif self.shop_open:
         #    self._close_shop()
