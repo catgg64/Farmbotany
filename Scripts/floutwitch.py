@@ -5,6 +5,7 @@ from tilemanager import *
 from hoe import *
 import spritemanager
 import pickaxe
+import watercan
 
 class Floutwitch():
     def __init__(self, pos_x, pos_y, internal_surface, farmbotany):
@@ -27,6 +28,7 @@ class Floutwitch():
         self.shadow.set_alpha(100)
         self.hoe = Hoe(self.rect.x, self.rect.y)
         self.pickaxe = pickaxe.PickAxe(self.rect.x, self.rect.y)
+        self.watercan = watercan.WaterCan(self.rect.x, self.rect.y)
         self.can_move = True
         self.front_pos_x = 0
         self.front_pos_y = 0
@@ -42,6 +44,8 @@ class Floutwitch():
         self.farmbotany = farmbotany
         self.pickaxe_tick = False
         self.pickaxe_action = False
+        self.watercan_tick = False
+        self.watercan_action = False
         
         self.adjesent_pos_x = 0
         self.adjesent_pos_y = 0
@@ -409,7 +413,147 @@ class Floutwitch():
 
         if not self.pickaxe.in_animation:
             self.in_close_animation = False
+    
+    def make_watercan_interaction(self, internal_surface, viewport, farmbotany, adjecent_pos_x, adjecent_pos_y):
 
+        result_x = 0
+        result_y = 0
+        
+        if not farmbotany.paused:
+
+            # if self.watercan_action:
+
+            #     is_done = False
+
+            #     distance_from_cursor_x, distance_from_cursor_y = (self.mouse_pos[0] - self.rect.x - self.viewport.pos_x,
+            #                                                                          self.mouse_pos[1] - self.rect.y - self.viewport.pos_y)
+
+            #     if distance_from_cursor_x < 108 and distance_from_cursor_x > -32 and distance_from_cursor_y < 153 and distance_from_cursor_y > -32:
+            #         pos = position_to_tile_value(self.mouse_pos[0], self.mouse_pos[1], self.tile_map_width,
+            #                                      self.tile_map_lengh, 64, viewport.pos_x, viewport.pos_y)
+            #         grid_pos = tile_value_to_position(pos, self.tile_map_width, 64)
+            #         actual_pos = (grid_pos[0] - self.actual_floutwitch_position[0], grid_pos[1] - self.actual_floutwitch_position[1])
+            #         print(actual_pos)
+            #         pos = round(pos)
+            #         self.tile_map[pos].id = "2"
+            #         is_done = True
+            #         print(actual_pos)
+
+            #         self.facing_direction = [False, False, False, False]
+
+            #         if actual_pos[0] < 0:
+            #             self.facing_direction[2] = True
+            #         elif actual_pos[0] > 60:
+            #             self.facing_direction[3] = True
+            #         elif actual_pos[1] < 0:
+            #             self.facing_direction[0] = True
+            #         elif actual_pos[1] > 0:
+            #             self.facing_direction[1] = True
+                        
+            #         if actual_pos[0] > 60 and not self.watercan.in_animation and not self.watercan.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 80
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[0] < 0 and not self.watercan.in_animation and not self.watercan.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + (280 - 350)
+            #             self.front_pos_y = (self.rect.y) + 0
+            #             self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] > 0 and not self.watercan.in_animation and not self.watercan.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (90 - 350)
+            #             self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+
+            #         elif actual_pos[1] < 0 and not self.watercan.in_animation and not self.watercan.just_exited_animation:
+            #             self.front_pos_x = (self.rect.x) + 10
+            #             self.front_pos_y = (self.rect.y) + (240 - 350)
+            #             self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+            #             self.in_close_animation = True
+
+            #         self.watercan.make_animation(internal_surface, self, self.facing_direction)
+
+            if self.watercan_tick and not self.watercan.in_animation:
+                if self.direction_faced[3]:
+                    self.front_pos_x = self.image_rect.x + 80
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y
+
+                elif self.direction_faced[2]:
+                    self.front_pos_x = self.image_rect.x + -45
+                    self.front_pos_y = self.image_rect.y + 0
+                    self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
+
+                elif self.direction_faced[1]:
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (240 - 150)
+                    self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
+                    
+
+                elif self.direction_faced[0]:
+                    self.front_pos_x = self.image_rect.x + 20
+                    self.front_pos_y = self.image_rect.y + (100 - 150)
+                    self.watercan.start_animation(self.front_pos_x, self.front_pos_y, self)
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
+                    
+
+                self.watercan.make_animation(internal_surface, self, self.direction_faced)
+
+            if self.watercan_action:
+                if self.direction_faced[3]:
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                
+
+                elif self.direction_faced[2]:
+                    result_x = adjecent_pos_x
+                    result_y = adjecent_pos_y                    
+
+                elif self.direction_faced[1]:
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
+                    
+
+                elif self.direction_faced[0]:
+                    result_x = adjecent_pos_x                    
+                    result_y = adjecent_pos_y
+                
+
+
+
+
+
+
+        elif not self.watercan.in_animation:
+            result_x = 0
+            result_y = 0
+
+
+        self.watercan.just_exited_animation = False
+
+    def updates_the_watercan(self, internal_surface, viewport):
+        self.watercan.update()
+        if self.watercan.in_animation:
+            self.watercan.make_animation(internal_surface, self, self.direction_faced)
+
+        if self.in_close_animation:
+            self.watercan.make_animation(internal_surface, self, self.facing_direction_faced)
+
+        if not self.watercan.in_animation:
+            self.in_close_animation = False
+    
     def move(self, keys, farmbotany):
         if not farmbotany.paused:
             if keys[pygame.K_w] or keys[pygame.K_s] or keys[pygame.K_a] or keys[pygame.K_d]:

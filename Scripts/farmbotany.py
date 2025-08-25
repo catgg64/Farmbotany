@@ -221,6 +221,12 @@ class Farmbotany:
                 return True
         return False
     
+    def check_if_watercan_needs_to_be_used(self, clicked_slot_data, slot_list, point, mouse_just_clicked):
+        if check_point_collision_with_all_slots(slot_list, point) is None and clicked_slot_data.id == "7":
+            if mouse_just_clicked or pygame.key.get_pressed()[pygame.K_c]:
+                return True
+        return False
+    
     def _check_for_solid_object_colision(self, solid_objects_list, rect):
         for solid_object in solid_objects_list:
             if solid_object.colliderect(rect):
@@ -307,7 +313,7 @@ class Farmbotany:
                     if 0 <= tile_x < farmbotany.current_room.tile_world_width and 0 <= tile_y < farmbotany.current_room.tile_world_length:
                         tile_index = tile_y * farmbotany.current_room.tile_world_width + tile_x
                         if tile_index < len(farmbotany.current_room.tiles_world):
-                            farmbotany.current_room.world[tile_y][tile_x] = "75"
+                            farmbotany.current_room.world[tile_y][tile_x] = "2"
                             self.update_tilemap_terrain = True
     
     def _makes_the_pickaxe_work(self, pickaxe_pos_x, pickaxe_pos_y, farmbotany, pickaxe_anim_frames, pickaxe_animation_speed):
@@ -327,6 +333,23 @@ class Farmbotany:
                 #    if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "75":
                 farmbotany.current_room.world[tile_y][tile_x] = "3"
                 self.update_tilemap_terrain = True
+
+    def _makes_the_watercan_work(self, watercan_pos_x, watercan_pos_y, farmbotany, watercan_anim_frames, watercan_animation_speed):
+        # Note: i feel quite bad for just copying this things, really wish i would make them myself ):
+
+        if watercan_anim_frames == watercan_animation_speed * 6:
+            if watercan_pos_x and watercan_pos_y:
+                print("portuguese")
+                world_x = watercan_pos_x + farmbotany.viewport.pos_x
+                world_y = watercan_pos_y + farmbotany.viewport.pos_y
+                tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
+                tile_x = int(round(tile_x))
+                tile_y = int(round(tile_y))
+                print(tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"])
+                if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
+                    print("is done")
+                    farmbotany.current_room.world[tile_y][tile_x] = "75"
+                    self.update_tilemap_terrain = True
 
     def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
@@ -388,7 +411,7 @@ class Farmbotany:
         surface_to_window_ratio = (1, 1)
         self.acurate_position = (self.mouse_pos[0] * surface_to_window_ratio[0], self.mouse_pos[1] * surface_to_window_ratio[1])
 
-        using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation
+        using_tool = self.floutwitch.hoe.in_animation or self.floutwitch.pickaxe.in_animation or self.floutwitch.in_animation
         
 
         append_all_rect_to_solid_object_list(self.current_room.sub_world, self.current_room.tile_size, self.solid_objects_list)
@@ -404,6 +427,11 @@ class Farmbotany:
         pickaxe_pos_x, pickaxe_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
         self.floutwitch.make_pickaxe_interaction(self.internal_surface, self.viewport, self)
         self._makes_the_pickaxe_work(pickaxe_pos_x, pickaxe_pos_y, self, self.floutwitch.pickaxe.anim_frames, self.floutwitch.pickaxe.animation_speed)
+        
+        watercan_pos_x, watercan_pos_y = (self.floutwitch.adjesent_pos_x, self.floutwitch.adjesent_pos_y)
+        self.floutwitch.make_watercan_interaction(self.internal_surface, self.viewport, self, watercan_pos_x, watercan_pos_y)
+        self._makes_the_watercan_work(watercan_pos_x, watercan_pos_y, self, self.floutwitch.watercan.anim_frames, self.floutwitch.watercan.animation_speed)
+        
 
         # Updates the mouse distance from the floutwitch.
         self.floutwitch_to_mouse_distance = distance_in_tiles(self.floutwitch.actual_center_pos[0], self.floutwitch.actual_center_pos[1], self.acurate_position[0], self.acurate_position[1], 0, 0, self.current_room.tile_size)
@@ -446,6 +474,7 @@ class Farmbotany:
         self.floutwitch.move(self.keys, self)
         self.floutwitch.updates_the_hoe(self.internal_surface, self.viewport)
         self.floutwitch.updates_the_pickaxe(self.internal_surface, self.viewport)
+        self.floutwitch.updates_the_watercan(self.internal_surface, self.viewport)
 
         self.slot_class_selected = self.inventory[self.slot_selected]
 
@@ -455,7 +484,9 @@ class Farmbotany:
             self.floutwitch.hoe_tick = self.check_if_hoe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
             self.floutwitch.pickaxe_action = self.floutwitch.pickaxe.in_animation
             self.floutwitch.pickaxe_tick = self.check_if_pickaxe_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
-
+            self.floutwitch.watercan_action = self.floutwitch.watercan.in_animation
+            self.floutwitch.watercan_tick = self.check_if_watercan_needs_to_be_used(self.slot_class_selected, self.slot_list, self.mouse_pos, self.mouse_just_clicked)
+            
 
 
             # This part is useful when debugging
