@@ -462,7 +462,7 @@ def update_watered_ground_status(room_list, frame, frame_gap, update_check):
                 if room.world_water_status[column_idx][row_idx] and not tiles[room.world[column_idx][row_idx]][0]["child"] == "75":
                     room.world_water_status[column_idx][row_idx] = None
 
-    if frame % frame_gap:
+    if frame % frame_gap == frame_gap // 4:
         update = False
     
         for room in room_list:

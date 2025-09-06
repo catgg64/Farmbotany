@@ -431,7 +431,7 @@ class Farmbotany:
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.acurate_position, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
-        if update_watered_ground_status(self.room_list, self.frames, 2000, self.update_tilemap_terrain):
+        if update_watered_ground_status(self.room_list, self.frames, 20000, self.update_tilemap_terrain):
             self.update_tilemap_terrain = True
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
@@ -457,7 +457,7 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
+        update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 1000)
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released, self.mouse_just_clicked)
