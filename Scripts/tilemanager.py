@@ -396,7 +396,7 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
 
 def update_special_tiles_value(room_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y, frame_gap):
     if frame % frame_gap == 0:
-        for room in room_list:
+        for room in room_list:   
             for row_idx, row in enumerate(room.special_tiles_world):
                 for column_idx, column in enumerate(row):
                     if column is not None:

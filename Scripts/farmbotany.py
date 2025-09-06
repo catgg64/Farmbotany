@@ -343,7 +343,7 @@ class Farmbotany:
                     farmbotany.current_room.world_water_status[tile_y][tile_x] = farmbotany.frames
                     self.update_tilemap_terrain = True
 
-    def _switch_room(self, start_time, new_rioom, is_fading_out, floutwitch, x, y):
+    def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
             current_time = time.time() - start_time
             self.fadeinout.fade()        
@@ -457,7 +457,7 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 1000)
+        update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 50)
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released, self.mouse_just_clicked)
