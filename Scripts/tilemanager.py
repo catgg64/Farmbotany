@@ -251,7 +251,7 @@ class SpecialTile:
         return False
 
 class Crop(SpecialTile):
-    def __init__(self, size, plant_time, pos_x, pos_y, farmbotany, texture, finished_texture, item_id):
+    def __init__(self, size, plant_time, pos_x, pos_y, farmbotany, texture, finished_texture, item_id, world):
         self.texture = texture
         self.finished_texture = finished_texture
         self.image = pygame.image.load(self.texture).convert_alpha()
@@ -262,6 +262,7 @@ class Crop(SpecialTile):
         self.can_collect = False
         self.time_passed_since_beguining = 0
         self.time_passed_since_beguining = time.time() - self.start_time
+        self.plant_state = 0
         self.item = item_id
         self.distance_from_init_x = 0
         self.distance_from_init_y = 0
@@ -271,12 +272,18 @@ class Crop(SpecialTile):
         self.rect = self.image.get_rect(topleft = (pos_x + self.distance_from_init_x, pos_y + self.distance_from_init_y))
         self.offset_x = self.distance_from_init_x
         self.offset_y = self.distance_from_init_y
+        self.world = world
+
         
     def value_update(self):
         self.x = self.pos_x + self.distance_from_init_x
         self.y = self.pos_y + self.distance_from_init_y
         self.time_passed_since_beguining = time.time() - self.start_time
-        if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
+        #print(tiles[self.world[int(self.pos_y)][int(self.pos_x)]][0]["child"])
+        if tiles[self.world[int(self.pos_y)][int(self.pos_x)]][0]["child"] == "75":
+            self.plant_state += 1
+        #if self.time_passed_since_beguining >= self.plant_time and self.can_collect == False:
+        if self.plant_state >= 60 and self.can_collect == False:
             self.can_collect = True
             self.texture = self.finished_texture
             self.image = pygame.image.load(self.texture).convert_alpha()
@@ -387,12 +394,13 @@ def update_special_tiles(special_tiles_list, width, tile_size, offset_x, offset_
     #         pos = tile_value_to_position(index, width, tile_size)
     #         tile.update(internal_surface, offset_x + pos[0], offset_y + pos[1])
 
-def update_special_tiles_value(special_tiles_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y, frame_gap):
+def update_special_tiles_value(room_list, tile_size, frame, offset_x, offset_y, max_pos_x, max_pos_y, frame_gap):
     if frame % frame_gap == 0:
-        for row_idx, row in enumerate(special_tiles_list):
-            for column_idx, column in enumerate(row):
-                if column is not None:
-                    if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
+        for room in room_list:
+            for row_idx, row in enumerate(room.special_tiles_world):
+                for column_idx, column in enumerate(row):
+                    if column is not None:
+                        #if row_idx * tile_size - offset_x < max_pos_x and column_idx * tile_size - offset_y < max_pos_y and row_idx * tile_size + offset_x + tile_size > 0 and column_idx * tile_size + offset_y + tile_size > 0:
                         column.value_update()
 
 def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world, width, tile_size, no_ysort_sprite_list, window_size, offset_x, offset_y):
@@ -446,6 +454,20 @@ def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world,
                         y + tile_size,
                         False,
                     ))
+
+def update_watered_ground_status(room_list, frame, frame_gap, update_check):
+    if frame % frame_gap == 0:
+        update = False
+    
+        for room in room_list:
+            for row_idx, row in enumerate(room.world):
+                for column_idx, column in enumerate(row):
+                    if tiles[room.world[column_idx][row_idx]][0]["child"] == "75":
+                        room.world[column_idx][row_idx] = "2"
+                        update = True
+
+        return update
+
 
 def check_collision_in_all_tiles(point, tile_slot_list):
     for tile in tile_slot_list:

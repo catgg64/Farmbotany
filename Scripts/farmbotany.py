@@ -128,7 +128,7 @@ class Farmbotany:
         self.shop = Shop(960, 1020, self.floutwitch, self)
 
         # Switch to full window after loading
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SRCALPHA, vsync=1)
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.SRCALPHA, pygame.RESIZABLE, vsync=1)
 
         self.fadeinout = fadeinout.FadeInOut(self.screen, self.screen_width, self.screen_height)
         pygame.display.set_caption("Farmbotany")
@@ -186,11 +186,11 @@ class Farmbotany:
                     self.space_just_pressed = True
                 if event.key == pygame.K_e:
                     self.e_just_pressed = True
-            #if event.type == pygame.VIDEORESIZE:
-            #    # Update window size
-            #    self.window_width, self.window_height = event.w, event.h
-            #    # Resize the display surface
-            #    self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+            if event.type == pygame.VIDEORESIZE:
+                # Update window size
+                self.window_width, self.window_height = event.w, event.h
+                # Resize the display surface
+                self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
         
     # Checks specifically for special slots (no longer being used. Ignore this.)
     def check_for_special_slot_interaction(self):
@@ -258,7 +258,7 @@ class Farmbotany:
                         if tiles[self.current_room.world[pos_y][pos_x]][0]["plantable"]:
                             if special_tiles_world[pos_x][pos_y] is None:
                                 special_slot_data.quantity -= 1
-                                special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                                special_tiles_world[pos_x][pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1), self.current_room.world)
                                 self.start_collecting_tick = True
                 else:
                     if pygame.mouse.get_pressed()[0]:
@@ -266,7 +266,7 @@ class Farmbotany:
                             if tiles[self.current_room.world[mouse_pos_y][mouse_pos_x]][0]["plantable"] and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1 and self.floutwitch.can_move:
                                 if special_tiles_world[mouse_pos_x][mouse_pos_y] is None:
                                     special_slot_data.quantity -= 1
-                                    special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1))
+                                    special_tiles_world[mouse_pos_x][mouse_pos_y] = Crop(tile_size, grow_time, mouse_pos[0], mouse_pos[1], self, "Sprites/wheat_growing.png", "Sprites/wheat.png", ItemData("4", 1), self.current_room.world)
                                     self.start_collecting_tick = True
             
             done = False
@@ -431,6 +431,8 @@ class Farmbotany:
         # Checks and collects the wheat if the mouse clicks on top of one.
         self.check_for_wheat_harvest(self.current_room.special_tiles_world, self.acurate_position, self.current_room.tile_world_width, self.current_room.tile_world_length, self.current_room.tile_slot_list, self.current_room.tile_size, self.inventory, self.mouse_just_clicked, self.slot_selected, self.viewport, self.right_just_clicked, adjesent_tile)
 
+        if update_watered_ground_status(self.room_list, self.frames, 2000, self.update_tilemap_terrain):
+            self.update_tilemap_terrain = True
         if self.update_tilemap_terrain:
             update_tilemap_terrain(self.current_room.world)
 
@@ -455,7 +457,7 @@ class Farmbotany:
         update_special_tiles(self.current_room.special_tiles_world, self.current_room.tile_world_width, 
                             self.current_room.tile_size, self.viewport.pos_x, self.viewport.pos_y, self.internal_surface, self.special_draw_queue,
                             pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
-        update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
+        update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
         if self.current_room == self.farm:
             # Updates the shop.
             self.shop.update(self.internal_surface, self.screen, self.mouse_realeased, self.acurate_position, self.right_released, self.mouse_just_clicked)
