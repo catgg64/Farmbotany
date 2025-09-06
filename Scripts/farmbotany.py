@@ -138,7 +138,7 @@ class Farmbotany:
         self.location_after_change_y = 0
         self.room_to_change = None
         
-        self.music = pygame.mixer.music.load("Sounds/Music/wallpaper.mp3")    
+        self.music = pygame.mixer.music.load("Sounds/Music/Wallpaper.mp3")    
         pygame.mixer.music.play(-1)
         
         self.scailing_surface = self.internal_surface
@@ -186,12 +186,6 @@ class Farmbotany:
                     self.space_just_pressed = True
                 if event.key == pygame.K_e:
                     self.e_just_pressed = True
-                if event.key == pygame.K_F11:
-                    pygame.display.toggle_fullscreen()
-                    self.window_changed_size = swap_bool(self.window_changed_size)
-                    self.internal_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
-                    self.ui_surface = pygame.Surface(pygame.display.get_window_size(), pygame.SRCALPHA)
-                    
             #if event.type == pygame.VIDEORESIZE:
             #    # Update window size
             #    self.window_width, self.window_height = event.w, event.h
@@ -279,7 +273,7 @@ class Farmbotany:
 
             if pos_x < tile_world_width and pos_y < tile_world_length:
                 if self.keys[pygame.K_c]:
-                    if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
+                    if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and time.time() - self.floutwitch.anim_time > 0.50)):
                         if isinstance(special_tiles_world[pos_x][pos_y], Crop):
                             if special_tiles_world[pos_x][pos_y].check_for_harvest(self.keys[pygame.K_c]):
                                 special_tiles_world[pos_x][pos_y].collect(special_tiles_world, inventory, pos_x, pos_y)
@@ -288,7 +282,7 @@ class Farmbotany:
             if not done:
                 if mouse_pos_x < tile_world_width and mouse_pos_y < tile_world_length:
                     if pygame.mouse.get_pressed()[2]:
-                        if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and self.floutwitch.anim_time > 0.25)):
+                        if (self.floutwitch.can_move or (self.floutwitch.animation == "collecting" and time.time() - self.floutwitch.anim_time > 0.50)):
                             if isinstance(special_tiles_world[mouse_pos_x][mouse_pos_y], Crop):
                                 if special_tiles_world[mouse_pos_x][mouse_pos_y].check_for_harvest(pygame.mouse.get_pressed()[2]) and self.floutwitch_to_mouse_distance[0] <= 1 and self.floutwitch_to_mouse_distance[0] >= -1 and self.floutwitch_to_mouse_distance[1] <= 1 and self.floutwitch_to_mouse_distance[1] >= -1:
                                     special_tiles_world[mouse_pos_x][mouse_pos_y].collect(special_tiles_world, inventory, mouse_pos_x, mouse_pos_y)
@@ -339,7 +333,6 @@ class Farmbotany:
 
         if watercan_anim_frames == watercan_animation_speed * 6:
             if watercan_pos_x and watercan_pos_y:
-                print("portuguese")
                 world_x = watercan_pos_x + farmbotany.viewport.pos_x
                 world_y = watercan_pos_y + farmbotany.viewport.pos_y
                 tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
@@ -347,11 +340,10 @@ class Farmbotany:
                 tile_y = int(round(tile_y))
                 print(tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"])
                 if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
-                    print("is done")
                     farmbotany.current_room.world[tile_y][tile_x] = "75"
                     self.update_tilemap_terrain = True
 
-    def _switch_room(self, start_time, new_room, is_fading_out, floutwitch, x, y):
+    def _switch_room(self, start_time, new_rioom, is_fading_out, floutwitch, x, y):
         if self.is_fading_out:
             current_time = time.time() - start_time
             self.fadeinout.fade()        
