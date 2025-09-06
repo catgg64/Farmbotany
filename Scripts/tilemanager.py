@@ -456,13 +456,19 @@ def append_tilemap_to_sprite_data(tile_slot_list, sprite_list, world, sub_world,
                     ))
 
 def update_watered_ground_status(room_list, frame, frame_gap, update_check):
-    if frame % frame_gap == 0:
+    for room in room_list:
+        for row_idx, row in enumerate(room.world):
+            for column_idx, column in enumerate(row):
+                if room.world_water_status[column_idx][row_idx] and not tiles[room.world[column_idx][row_idx]][0]["child"] == "75":
+                    room.world_water_status[column_idx][row_idx] = None
+
+    if frame % frame_gap:
         update = False
     
         for room in room_list:
             for row_idx, row in enumerate(room.world):
                 for column_idx, column in enumerate(row):
-                    if tiles[room.world[column_idx][row_idx]][0]["child"] == "75":
+                    if tiles[room.world[column_idx][row_idx]][0]["child"] == "75" and frame - room.world_water_status[column_idx][row_idx] > frame_gap:
                         room.world[column_idx][row_idx] = "2"
                         update = True
 

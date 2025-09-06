@@ -6,6 +6,11 @@ class Room:
         self.world = world
         self.sub_world = sub_world
         self.special_tiles_world = special_tiles_world
+        self.world_water_status = []
+        for row in range(length):
+            tile_list = [None for _ in range(width)]
+            self.world_water_status.append(tile_list)
+        
         self.room_id = room_id
 
         self.mincornerx = mincornerx

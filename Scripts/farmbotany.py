@@ -338,9 +338,9 @@ class Farmbotany:
                 tile_x, tile_y = position_to_tile_value(world_x, world_y, farmbotany.current_room.tile_world_width, farmbotany.current_room.tile_world_length, farmbotany.current_room.tile_size, farmbotany.viewport.pos_x, farmbotany.viewport.pos_y)
                 tile_x = int(round(tile_x))
                 tile_y = int(round(tile_y))
-                print(tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"])
                 if tiles[farmbotany.current_room.world[tile_y][tile_x]][0]["child"] == "2":
                     farmbotany.current_room.world[tile_y][tile_x] = "75"
+                    farmbotany.current_room.world_water_status[tile_y][tile_x] = farmbotany.frames
                     self.update_tilemap_terrain = True
 
     def _switch_room(self, start_time, new_rioom, is_fading_out, floutwitch, x, y):
