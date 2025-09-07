@@ -356,7 +356,7 @@ class Farmbotany:
                 if current_time > 1:
                     self.paused = False
                     self.is_fading_out = False
-                    update_special_tiles_value(self.current_room.special_tiles_world, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
+                    update_special_tiles_value(self.room_list, self.current_room.tile_size, self.frames, self.viewport.pos_x, self.viewport.pos_y, pygame.display.get_window_size()[0], pygame.display.get_window_size()[1], 10)
     
     def _update_selected_hotbar_slot(self, if_not):
         if not if_not:
