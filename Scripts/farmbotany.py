@@ -23,7 +23,7 @@ class Farmbotany:
     def __init__(self):
         from shop import Shop
 
-        self.screen_width = 680
+        self.screen_width = 860
         self.screen_height = 720
         # Create a minimal, invisible window for loading
         self.screen = pygame.display.set_mode((1, 1), pygame.NOFRAME)
@@ -100,6 +100,8 @@ class Farmbotany:
         self.inventory[3].id = "3"
         self.inventory[4].quantity = 3
         self.inventory[3].quantity = 15
+        self.inventory[6].id = "8"
+        self.inventory[6].quantity = 2
 
         self.start_collecting_tick = False
         self.is_collecting = False

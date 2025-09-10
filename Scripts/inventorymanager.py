@@ -7,7 +7,8 @@ items = {
     "4": [{"name": "wheat", "texture": "Sprites/wheat.png", "stackable": True, "can_be_sold": True, "value": 50}],
     "5": [{"name": "hoe", "texture": "Sprites/hoe.png", "stackable": False, "can_be_sold": False, "value": 0}],
     "6": [{"name": "pickaxe", "texture": "Sprites/pickaxe.png", "stackable": False, "can_be_sold": False, "value": 0}],
-    "7": [{"name": "water can", "texture": "Sprites/watercan.png", "stackable": False, "can_be_sold": False, "value": 0}]
+    "7": [{"name": "water can", "texture": "Sprites/watercan.png", "stackable": False, "can_be_sold": False, "value": 0}],
+    "8": [{"name": "potato", "texture": "Sprites/potato.png", "stackable": True, "can_be_sold": False, "value": 10}],
 }
 
 pygame.font.init()
