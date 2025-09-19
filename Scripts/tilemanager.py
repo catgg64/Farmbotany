@@ -241,7 +241,7 @@ class SpecialTile:
 
     def update(self):
         self.farmbotany.sprite_list.append(spritemanager.SpriteData(self.image, self.pos_x * self.size + self.offset_x, self.pos_y * self.size + self.offset_y, self.pos_x + self.size, self.pos_y * self.size + self.size, self.ysort, (self.pos_y * self.size) + self.ysorty, (self.pos_y * self.size) + self.ysorty))
-        
+
     def value_update(self):
         pass
 
@@ -250,7 +250,7 @@ class SpecialTile:
             return True
         return False
 
-class Crop(SpecialTile):
+class WheatCrop(SpecialTile):
     def __init__(self, size, plant_time, pos_x, pos_y, farmbotany, texture, finished_texture, item_id, world):
         self.texture = texture
         self.finished_texture = finished_texture
@@ -483,7 +483,7 @@ def check_collision_in_all_tiles(point, tile_slot_list):
 
 def check_for_harvest_in_all_crops(special_items_list, point):
     for index, tile in enumerate(special_items_list):
-        if isinstance(tile, Crop):
+        if isinstance(tile, WheatCrop):
             return tile.check_for_harvest(point)
     return None
 
