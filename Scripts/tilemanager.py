@@ -298,9 +298,7 @@ class WheatCrop(SpecialTile):
         if mouse_realed and self.can_collect:
             return True
         return False
-    
-    def collect(self, special_tiles_world, inventory, x, y):
-        special_tiles_world[x][y] = None
+
         inventorymanager.add_item_to_inventory(inventory, self.item)
     
     def erase(self, special_tiles_world, x, y):
